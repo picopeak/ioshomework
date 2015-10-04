@@ -85,10 +85,11 @@ class ViewController: UIViewController {
             self.id = id
             self.tv = tv
             self.wv = [false, false, false, false]
-            tableData.append(String(id))
+            // tableData.append(String(id))
         }
         
-        var tableData = ["数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．",
+        var tableData = [
+            "数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．",
             "语文",
             "英语"]
         var tableDataHeights : [CGFloat] = [0.0, 0.0, 0.0, 0.0]
@@ -115,6 +116,7 @@ class ViewController: UIViewController {
                 hw_webview.loadHTMLString(htmlString, baseURL: nil)
                 hw_webview.delegate = self
                 hw_webview.tag = indexPath.row
+                hw_webview.scrollView.scrollEnabled = false
                 cell.addSubview(hw_webview)
                 wv[indexPath.row] = true
             }
@@ -140,13 +142,25 @@ class ViewController: UIViewController {
         
         // Get the height of a webview. This is a very tricky implementation, but it works!
         func getWebviewHeight(webView: UIWebView) -> CGFloat {
+            webView.scrollView.scrollEnabled = false
+            
             var frame :CGRect = webView.frame
+            // Your desired width here.
+            // frame.size.width = 200;
             frame.size.height = 1
             webView.frame = frame
+            
+            /* Solution 1 : */
+            /*
             let fittingSize :CGSize = webView.sizeThatFits(CGSizeZero);
             frame.size = fittingSize;
-            webView.frame = frame;
+            */
             
+            /* Solution 2 : */
+            frame.size.height = webView.scrollView.contentSize.height;
+            
+            // Set the scrollView contentHeight back to the frame itself.
+            webView.frame = frame;
             return webView.frame.height
         }
     }
