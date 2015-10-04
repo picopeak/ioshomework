@@ -79,13 +79,16 @@ class ViewController: UIViewController {
     class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
+        var wv: [Bool]
+        
         init(id: Int, tv: UITableView) {
             self.id = id
             self.tv = tv
+            self.wv = [false, false, false, false]
             tableData.append(String(id))
         }
         
-        var tableData = ["<html><head><title>数学</title></head><body>数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．</body></html>",
+        var tableData = ["数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．",
             "语文",
             "英语"]
         var tableDataHeights : [CGFloat] = [0.0, 0.0, 0.0, 0.0]
@@ -103,14 +106,18 @@ class ViewController: UIViewController {
             cell.layoutMargins = UIEdgeInsetsZero;
             
             /* Create a web view */
-            let htmlString = tableData[indexPath.row]
-            let htmlHeight = tableDataHeights[indexPath.row]
-            let frame: CGRect = CGRectMake(0, 0, cell.frame.size.width, htmlHeight)
-            let wv :UIWebView = UIWebView(frame: frame)
-            wv.loadHTMLString(htmlString, baseURL: nil)
-            wv.delegate = self
-            wv.tag = indexPath.row
-            cell.addSubview(wv)
+            if (!wv[indexPath.row]) {
+                print("create webView", id, indexPath.row)
+                let htmlString = tableData[indexPath.row]
+                let htmlHeight = tableDataHeights[indexPath.row]
+                let frame: CGRect = CGRectMake(0, 0, cell.frame.size.width, htmlHeight)
+                let hw_webview :UIWebView = UIWebView(frame: frame)
+                hw_webview.loadHTMLString(htmlString, baseURL: nil)
+                hw_webview.delegate = self
+                hw_webview.tag = indexPath.row
+                cell.addSubview(hw_webview)
+                wv[indexPath.row] = true
+            }
             
             return cell
         }
@@ -126,8 +133,21 @@ class ViewController: UIViewController {
                 return
             }
             
-            tableDataHeights[webView.tag] = 200 // webView.scrollView.contentSize.height
+            tableDataHeights[webView.tag] = getWebviewHeight(webView)
+            print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
             tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
+        }
+        
+        // Get the height of a webview. This is a very tricky implementation, but it works!
+        func getWebviewHeight(webView: UIWebView) -> CGFloat {
+            var frame :CGRect = webView.frame
+            frame.size.height = 1
+            webView.frame = frame
+            let fittingSize :CGSize = webView.sizeThatFits(CGSizeZero);
+            frame.size = fittingSize;
+            webView.frame = frame;
+            
+            return webView.frame.height
         }
     }
 }
