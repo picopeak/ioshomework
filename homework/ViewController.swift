@@ -51,15 +51,19 @@ class ViewController: UIViewController {
             frame.size = self.scrollView.frame.size
             
             // Create table view
-            subView.append(UITableView(frame: frame))
-            datasource.append(MyData(id: index))
-            subView[index].dataSource = datasource[index]
-            subView[index].separatorInset = UIEdgeInsetsZero
-            subView[index].layoutMargins = UIEdgeInsetsZero
-            subView[index].tableFooterView = UIView()
-            subView[index].registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+            let tv :UITableView = UITableView(frame: frame)
+            let hw :MyData = MyData(id: index)
+            tv.dataSource = hw
+            tv.rowHeight = UITableViewAutomaticDimension
+            tv.separatorInset = UIEdgeInsetsZero
+            tv.layoutMargins = UIEdgeInsetsZero
+            tv.tableFooterView = UIView()
+            tv.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+            self.scrollView.addSubview(tv)
             
-            self.scrollView.addSubview(subView[index])
+            // Record table views and data sources
+            subView.append(tv)
+            datasource.append(hw)
         }
         
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * CGFloat(3), self.scrollView.frame.size.height)
