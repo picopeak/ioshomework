@@ -52,8 +52,9 @@ class ViewController: UIViewController {
             
             // Create table view
             let tv :UITableView = UITableView(frame: frame)
-            let hw :MyData = MyData(id: index)
+            let hw :MyData = MyData(id: index, tv: tv)
             tv.dataSource = hw
+            tv.delegate = hw
             tv.rowHeight = UITableViewAutomaticDimension
             tv.separatorInset = UIEdgeInsetsZero
             tv.layoutMargins = UIEdgeInsetsZero
@@ -75,16 +76,20 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class MyData: NSObject, UITableViewDataSource {
-        var id: Int;
-        init(id: Int) {
+    class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
+        var id: Int
+        var tv: UITableView
+        init(id: Int, tv: UITableView) {
             self.id = id
+            self.tv = tv
             tableData.append(String(id))
         }
         
         var tableData = ["<html><head><title>数学</title></head><body>数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．</body></html>",
             "语文",
             "英语"]
+        var tableDataHeights : [CGFloat] = [0.0, 0.0, 0.0, 0.0]
+        
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
         {
             return self.tableData.count
@@ -98,13 +103,31 @@ class ViewController: UIViewController {
             cell.layoutMargins = UIEdgeInsetsZero;
             
             /* Create a web view */
-            var frame: CGRect = CGRectMake(0, 0, 0, 0)
-            frame.size = cell.frame.size
+            let htmlString = tableData[indexPath.row]
+            let htmlHeight = tableDataHeights[indexPath.row]
+            let frame: CGRect = CGRectMake(0, 0, cell.frame.size.width, htmlHeight)
             let wv :UIWebView = UIWebView(frame: frame)
+            wv.loadHTMLString(htmlString, baseURL: nil)
+            wv.delegate = self
+            wv.tag = indexPath.row
             cell.addSubview(wv)
-            wv.loadHTMLString(tableData[indexPath.row], baseURL: nil)
             
             return cell
+        }
+        
+        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+            return tableDataHeights[indexPath.row]
+        }
+        
+        func webViewDidFinishLoad(webView: UIWebView) {
+            if (tableDataHeights[webView.tag] != 0.0)
+            {
+                // we already know height, no need to reload cell
+                return
+            }
+            
+            tableDataHeights[webView.tag] = 200 // webView.scrollView.contentSize.height
+            tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         }
     }
 }
