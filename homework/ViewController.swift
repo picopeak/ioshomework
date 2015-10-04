@@ -29,7 +29,6 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var DateLabel: UILabel!
-    var frame: CGRect = CGRectMake(0, 0, 0, 0)
     var subView:[UITableView] = []
     var datasource:[MyData] = []
 
@@ -47,6 +46,7 @@ class ViewController: UIViewController {
         DateLabel.text = getToday()
 
         for index in 0 ..< 3 {
+            var frame: CGRect = CGRectMake(0, 0, 0, 0)
             frame.origin.x = self.scrollView.frame.size.width * CGFloat(index)
             frame.size = self.scrollView.frame.size
             
@@ -91,10 +91,16 @@ class ViewController: UIViewController {
         func tableView(tableView: UITableView,
             cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
         {
-            let cell:UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("cell")
-            cell.textLabel?.text = self.tableData[indexPath.row]
+            let cell :UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("cell")
             cell.separatorInset = UIEdgeInsetsZero;
             cell.layoutMargins = UIEdgeInsetsZero;
+            
+            /* Create a web view */
+            var frame: CGRect = CGRectMake(0, 0, 0, 0)
+            frame.size = cell.frame.size
+            let wv :UIWebView = UIWebView(frame: frame)
+            cell.addSubview(wv)
+            wv.loadHTMLString(tableData[indexPath.row], baseURL: nil)
             
             return cell
         }
