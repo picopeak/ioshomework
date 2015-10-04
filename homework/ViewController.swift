@@ -82,7 +82,9 @@ class ViewController: UIViewController {
             tableData.append(String(id))
         }
         
-        var tableData = ["数学","语文","英语"]
+        var tableData = ["<html><head><title>数学</title></head><body>数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．</body></html>",
+            "语文",
+            "英语"]
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
         {
             return self.tableData.count
