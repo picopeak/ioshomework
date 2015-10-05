@@ -46,11 +46,13 @@ class ViewController: UIViewController {
         DateLabel.text = getToday()
 
         let screenWidth = UIScreen.mainScreen().bounds.width
+        let screenHeight = UIScreen.mainScreen().bounds.height
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
-            frame.origin.x = screenWidth * CGFloat(index)
-            frame.size.height = self.scrollView.frame.size.height
+            let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
+            frame.size.height = screenHeight - loc.y
             frame.size.width = screenWidth
+            frame.origin.x = screenWidth * CGFloat(index)
             
             // Create table view
             let tv :UITableView = UITableView(frame: frame)
