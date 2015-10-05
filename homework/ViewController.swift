@@ -69,13 +69,15 @@ class ViewController: UIViewController {
         
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = self.scrollView.frame.size.width
+        
+        getHomeWork()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
@@ -169,4 +171,69 @@ class ViewController: UIViewController {
             return webView.frame.height
         }
     }
+    
+    /*
+    <input type="hidden" name="__EVENTTARGET" value="" />
+    <input type="hidden" name="__EVENTARGUMENT" value="" />
+    <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU+O2k8Nz47PjtsPHQ8O2w8aTwxPjs+O2w8dDw7bDxpPDE ... " />
+    */
+    
+    func getOldViewState() -> String {
+        let url = NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")
+        
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+            if (data != nil) {
+                let s = NSString(data: data!, encoding: enc)
+                // let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"[^\"]*\""
+                let viewstate = s!.rangeOfString("title", options: .RegularExpressionSearch)
+            
+                // println(NSString(data: data, encoding: enc))
+                print(viewstate)
+                // println(s)
+            }
+        }
+        
+        task.resume()
+        return ""
+    }
+    
+    func getHomeWork() -> String {
+        /*
+        let url = NSURL(string: "http://www.fushanedu.cn/jxq/jxq.aspx")
+        
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+        println(NSString(data: data, encoding: enc))
+        }
+        
+        task.resume()
+        */
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!)
+        request.HTTPMethod = "POST"
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let viewstate = getOldViewState()
+        let username = "login:tbxUserName=20130825&"
+        let password = "login:tbxPassword=5119642&"
+        let btnx="login:btnlogin.x=27&"
+        let btny="login:btnlogin.y=12&"
+        let postString = viewstate + username + password + btnx + btny
+        request.HTTPBody = postString.dataUsingEncoding(enc)
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(error)")
+                return
+            }
+            
+            print("response = \(response)")
+            let responseString = NSString(data: data!, encoding: enc)
+            print("responseString = \(responseString)")
+        }
+        task.resume()
+        return ""
+    }
+
 }
