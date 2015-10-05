@@ -45,6 +45,8 @@ class ViewController: UIViewController {
         
         DateLabel.text = getToday()
 
+        print("scrollView width", self.scrollView.frame.size.width)
+            
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             frame.origin.x = self.scrollView.frame.size.width * CGFloat(index)
@@ -113,7 +115,7 @@ class ViewController: UIViewController {
                 print("create webView", id, indexPath.row)
                 let htmlString = tableData[indexPath.row]
                 let htmlHeight = tableDataHeights[indexPath.row]
-                let frame: CGRect = CGRectMake(0, 0, cell.frame.size.width, htmlHeight)
+                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
                 let hw_webview :UIWebView = UIWebView(frame: frame)
                 hw_webview.loadHTMLString(htmlString, baseURL: nil)
                 hw_webview.delegate = self
@@ -125,6 +127,7 @@ class ViewController: UIViewController {
                 wv[indexPath.row] = true
             }
             
+            cell.sizeToFit()
             return cell
         }
         
