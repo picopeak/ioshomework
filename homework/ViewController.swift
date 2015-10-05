@@ -85,14 +85,14 @@ class ViewController: UIViewController {
             self.id = id
             self.tv = tv
             self.wv = [false, false, false, false]
-            // tableData.append(String(id))
+            tableData.append(String(id))
         }
         
         var tableData = [
             "数学（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．",
-            "语文",
-            "英语"]
-        var tableDataHeights : [CGFloat] = [0.0, 0.0, 0.0, 0.0]
+            "语文 是口头语言和书面语言，也是或语言和文学的简称。相对来说，口头语言较随意，直接易懂；而书面语言讲究准确和语法。此解释概念较狭窄，因为语文中的文章不但有文艺文（文学、曲艺等），还有很多实用文（应用文）。通俗的说，语言就是说话艺术．",
+            "英语 属于印欧语系中日耳曼语族下的西日耳曼语支，是由古代从德国、荷兰及丹麦等斯堪的纳维亚半岛周边移民至不列颠群岛的盎格鲁、撒克逊和朱特部落的日耳曼人所说的语言演变而来，并通过英国的殖民活动传播到了世界各地。由于在历史上曾和多种民族语言接触，它的词汇从一元变为多元，语法从“多屈折”变为“少屈折”，语音也发生了规律性的变化．"]
+        var tableDataHeights : [CGFloat] = [40.0, 40.0, 40.0, 40.0]
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
         {
@@ -117,6 +117,8 @@ class ViewController: UIViewController {
                 hw_webview.delegate = self
                 hw_webview.tag = indexPath.row
                 hw_webview.scrollView.scrollEnabled = false
+                // hw_webview.scalesPageToFit = true
+                hw_webview.allowsInlineMediaPlayback = true
                 cell.addSubview(hw_webview)
                 wv[indexPath.row] = true
             }
@@ -124,12 +126,13 @@ class ViewController: UIViewController {
             return cell
         }
         
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+        {
             return tableDataHeights[indexPath.row]
         }
         
         func webViewDidFinishLoad(webView: UIWebView) {
-            if (tableDataHeights[webView.tag] != 0.0)
+            if (tableDataHeights[webView.tag] != 40.0)
             {
                 // we already know height, no need to reload cell
                 return
@@ -137,7 +140,9 @@ class ViewController: UIViewController {
             
             tableDataHeights[webView.tag] = getWebviewHeight(webView)
             print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
-            tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
+            
+            tv.reloadData()
+            // tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         }
         
         // Get the height of a webview. This is a very tricky implementation, but it works!
