@@ -45,12 +45,12 @@ class ViewController: UIViewController {
         
         DateLabel.text = getToday()
 
-        print("scrollView width", self.scrollView.frame.size.width)
-            
+        let screenWidth = UIScreen.mainScreen().bounds.width
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
-            frame.origin.x = self.scrollView.frame.size.width * CGFloat(index)
-            frame.size = self.scrollView.frame.size
+            frame.origin.x = screenWidth * CGFloat(index)
+            frame.size.height = self.scrollView.frame.size.height
+            frame.size.width = screenWidth
             
             // Create table view
             let tv :UITableView = UITableView(frame: frame)
@@ -69,8 +69,8 @@ class ViewController: UIViewController {
             datasource.append(hw)
         }
         
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * CGFloat(3), self.scrollView.frame.size.height)
-        self.scrollView.contentOffset.x = self.scrollView.frame.size.width
+        self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
+        self.scrollView.contentOffset.x = screenWidth
         
         getHomeWork()
     }
@@ -127,7 +127,7 @@ class ViewController: UIViewController {
                 wv[indexPath.row] = true
             }
             
-            cell.sizeToFit()
+            // cell.sizeToFit()
             return cell
         }
         
