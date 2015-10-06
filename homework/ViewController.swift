@@ -33,19 +33,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     var datasource:[MyData] = []
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
+    var currentDate :NSDate = NSDate()
 
-    func getToday() -> String {
-        let td: NSDate = NSDate()
+    func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
         dateformatter.dateFormat = "YYYY-MM-dd"
         
-        return dateformatter.stringFromDate(td) + " (" + String(td.dayofWeek()) + ")"
+        return dateformatter.stringFromDate(d) + " (" + String(d.dayofWeek()) + ")"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DateLabel.text = getToday()
+        DateLabel.text = getDateStr(currentDate)
 
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
@@ -86,6 +86,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
         print("page =", page)
         if (page != 1) {
+            if (page == 0) {
+                currentDate = currentDate.dateByAddingTimeInterval(-86400.0)
+            } else if (page == 2) {
+                currentDate = currentDate.dateByAddingTimeInterval(86400.0)
+            }
+            DateLabel.text = getDateStr(currentDate)
             self.scrollView.contentOffset.x = screenWidth
         }
     }
