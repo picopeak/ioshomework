@@ -191,6 +191,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    /* Main function to get homework */
     func login_and_gethw() {
         getOldViewState() { (vs, error) in
             if (error != nil) {
@@ -203,7 +204,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 }
                 // TODO: Check Hello Message here!
                 print("login is ready")
-                /* TODO: Get homework */
+                self.getHomework({ (homework, error) -> Void in
+                    if (error != nil) {
+                        return
+                    }
+                    print(homework!)
+                    /* TODO: Extract homework and update view */
+                })
             }
         }
     }
@@ -275,5 +282,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         task.resume()
         /* No code should be after here. */
+    }
+    
+    func getHomework(completion: (homework: String?, error: NSError?) -> Void) {
+        completion(homework: "No Homework yet!", error: nil)
     }
 }
