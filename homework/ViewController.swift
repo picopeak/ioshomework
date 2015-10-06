@@ -203,13 +203,22 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
             if (data != nil) {
+                var vs :String = ""
                 let s = NSString(data: data!, encoding: enc)
-                // let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"[^\"]*\""
-                let viewstate = s!.rangeOfString("title", options: .RegularExpressionSearch)
-            
-                // println(NSString(data: data, encoding: enc))
-                print(viewstate)
-                // println(s)
+                let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"([^\"]*)\""
+                let viewstate_range = s!.rangeOfString(viewstate_regex, options: .RegularExpressionSearch)
+                
+                let re = try! NSRegularExpression(pattern: viewstate_regex, options: [.CaseInsensitive])
+                let matches = re.matchesInString(s as! String, options: [], range: viewstate_range)
+                print("number of matches: \(matches.count)")
+                for match in matches as [NSTextCheckingResult] {
+                    // range at index 0: full match
+                    // range at index 1: first capture group
+                    vs = s!.substringWithRange(match.rangeAtIndex(1))
+                    break
+                }
+
+                print("viewstate:", vs)
             }
         }
         
@@ -247,9 +256,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 return
             }
             
-            print("response = \(response)")
+            // print("response = \(response)")
             let responseString = NSString(data: data!, encoding: enc)
-            print("responseString = \(responseString)")
+            // print("responseString = \(responseString)")
         }
         task.resume()
         return ""
