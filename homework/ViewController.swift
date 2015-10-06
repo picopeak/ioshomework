@@ -74,7 +74,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = screenWidth
         
-        getHomeWork()
+        login_and_gethw()
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,7 +128,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             /* Create a web view */
             if (!wv[indexPath.row]) {
-                print("create webView", id, indexPath.row)
+                // print("create webView", id, indexPath.row)
                 let htmlString = tableData[indexPath.row]
                 let htmlHeight = tableDataHeights[indexPath.row]
                 let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
@@ -160,7 +160,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             }
             
             tableDataHeights[webView.tag] = getWebviewHeight(webView)
-            print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
+            // print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
             
             tv.reloadData()
             // tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
@@ -191,19 +191,35 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    /*
-    <input type="hidden" name="__EVENTTARGET" value="" />
-    <input type="hidden" name="__EVENTARGUMENT" value="" />
-    <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU+O2k8Nz47PjtsPHQ8O2w8aTwxPjs+O2w8dDw7bDxpPDE ... " />
-    */
-    
-    func getOldViewState() -> String {
+    func login_and_gethw() {
+        getOldViewState() { (vs, error) in
+            if (error != nil) {
+                return
+            }
+            print("viewstate is ready")
+            self.login(vs!) { (hellomsg, error) in
+                if (error != nil) {
+                    return
+                }
+                // TODO: Check Hello Message here!
+                print("login is ready")
+                /* TODO: Get homework */
+            }
+        }
+    }
+
+    func getOldViewState(completion: (vs: String?, error: NSError?) -> Void) {
+        /* The example of view state string is as below,
+        <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU+O2k8Nz47PjtsPHQ8O2w8aTwxPjs+O2w8dDw7bDxpPDE ... " />
+        */
+        
         let url = NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")
+        var vs :String = ""
         
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithURL(url!) {(data, response, error) in
             if (data != nil) {
-                var vs :String = ""
                 let s = NSString(data: data!, encoding: enc)
                 let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"([^\"]*)\""
                 let viewstate_range = s!.rangeOfString(viewstate_regex, options: .RegularExpressionSearch)
@@ -218,37 +234,31 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     break
                 }
 
-                print("viewstate:", vs)
+                // print("viewstate:", vs)
+                completion(vs: vs, error: nil)
             }
         }
         
         task.resume()
-        return ""
+        /* No code should be after here. */
     }
     
-    func getHomeWork() -> String {
-        /*
-        let url = NSURL(string: "http://www.fushanedu.cn/jxq/jxq.aspx")
-        
+    func login(vs: String, completion: (hellomsg: String?, error: NSError?) -> Void) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval:60.0)
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
-        println(NSString(data: data, encoding: enc))
-        }
-        
-        task.resume()
-        */
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!)
-        request.HTTPMethod = "POST"
-        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-        let viewstate = getOldViewState()
+        let viewstate = vs
         let username = "login:tbxUserName=20130825&"
         let password = "login:tbxPassword=5119642&"
         let btnx="login:btnlogin.x=27&"
-        let btny="login:btnlogin.y=12&"
-        let postString = viewstate + username + password + btnx + btny
+        let btny="login:btnlogin.y=12"
+        let postString = viewstate + "&" + username + password + btnx + btny
+        // print("post string is", postString)
+
         request.HTTPBody = postString.dataUsingEncoding(enc)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+
+        request.HTTPMethod = "POST"
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) {
             data, response, error in
             
             if error != nil {
@@ -257,11 +267,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             }
             
             // print("response = \(response)")
-            let responseString = NSString(data: data!, encoding: enc)
-            // print("responseString = \(responseString)")
+            let rawdata = NSString(data: data!, encoding: enc)
+            let hellomsg = rawdata as! String
+            // print("rawdata = \(rawdata)")
+            
+            completion(hellomsg: hellomsg, error: nil)
         }
         task.resume()
-        return ""
+        /* No code should be after here. */
     }
-
 }
