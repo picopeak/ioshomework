@@ -47,6 +47,9 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wV6-Y3-uSM">
                                 <rect key="frame" x="0.0" y="57" width="600" height="543"/>
                                 <animations/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="X9K-WV-0C3"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <animations/>

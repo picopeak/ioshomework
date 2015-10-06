@@ -25,12 +25,14 @@ extension NSDate {
     }
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var DateLabel: UILabel!
     var subView:[UITableView] = []
     var datasource:[MyData] = []
+    let screenWidth = UIScreen.mainScreen().bounds.width
+    let screenHeight = UIScreen.mainScreen().bounds.height
 
     func getToday() -> String {
         let td: NSDate = NSDate()
@@ -45,8 +47,6 @@ class ViewController: UIViewController {
         
         DateLabel.text = getToday()
 
-        let screenWidth = UIScreen.mainScreen().bounds.width
-        let screenHeight = UIScreen.mainScreen().bounds.height
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
@@ -82,6 +82,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
+        print("page =", page)
+        if (page != 1) {
+            self.scrollView.contentOffset.x = screenWidth
+        }
+    }
+    
     class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
