@@ -202,6 +202,36 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 if (error != nil) {
                     return
                 }
+                if (hellomsg == "") {
+                    /* try again */
+                    print("try to login again")
+                    self.getOldViewState() { (vs, error) in
+                        if (error != nil) {
+                            return
+                        }
+                        print("viewstate is ready")
+                        self.login(vs!) { (hellomsg, error) in
+                            if (error != nil) {
+                                return
+                            }
+                            if (hellomsg == "") {
+                                return
+                            }
+                            
+                            // TODO: Check Hello Message here!
+                            print("login is ready")
+                            self.getHomework({ (homework, error) -> Void in
+                                if (error != nil) {
+                                    return
+                                }
+                                print(homework!)
+                                /* TODO: Extract homework and update view */
+                            })
+                        }
+                    }
+                    
+                    return
+                }
                 // TODO: Check Hello Message here!
                 print("login is ready")
                 self.getHomework({ (homework, error) -> Void in
@@ -226,6 +256,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         request.HTTPBody = postString.dataUsingEncoding(enc)
         request.HTTPMethod = "GET"
         let session = NSURLSession.sharedSession()
+        print("Trying to get view state ...")
         let task = session.dataTaskWithRequest(request) {(data, response, error) in
             if (error != nil) {
                 print("viewstate error=\(error)")
@@ -242,7 +273,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 
                 let re = try! NSRegularExpression(pattern: viewstate_regex, options: [.CaseInsensitive])
                 let matches = re.matchesInString(s as! String, options: [], range: viewstate_range)
-                print("number of matches: \(matches.count)")
+                // print("number of matches: \(matches.count)")
                 for match in matches as [NSTextCheckingResult] {
                     // range at index 0: full match
                     // range at index 1: first capture group
@@ -271,7 +302,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let btny="&login%3Abtnlogin.y=12"
         let postString = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE＝" + viewstate + "&__VIEWSTATEGENERATOR=AC07AF0C" + username + password + btnx + btny
 
-        // print("post string is", postString)
+        print("post string is", postString)
 
         let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -280,6 +311,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         request.HTTPMethod = "POST"
 
         let session = NSURLSession.sharedSession()
+        print("Trying to login ...")
         let task = session.dataTaskWithRequest(request) {
             data, response, error in
             
@@ -298,10 +330,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             if (hellomsg.rangeOfString("您好") == nil) {
                 // print("rawdata = \(rawdata)")
                 print("login failed!")
-               return
+                completion(hellomsg: "", error: nil)
+            } else {
+                completion(hellomsg: hellomsg, error: nil)
             }
-            
-            completion(hellomsg: hellomsg, error: nil)
         }
         task.resume()
         /* No code should be after here. */
