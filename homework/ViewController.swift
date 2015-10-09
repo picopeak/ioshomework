@@ -249,11 +249,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* The example of view state string is as below,
            <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU... " /> */
         var vs = ""
-        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
-        let postString = ""
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postString.dataUsingEncoding(enc)
         request.HTTPMethod = "GET"
         let session = NSURLSession.sharedSession()
         print("Trying to get view state ...")
@@ -267,7 +264,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("Response code:", res.statusCode)
 
             if (data != nil) {
-                let s = NSString(data: data!, encoding: enc)
+                let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+                let s = NSString(data: data!, encoding: dec)
                 let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"([^\"]*)\""
                 let viewstate_range = s!.rangeOfString(viewstate_regex, options: .RegularExpressionSearch)
                 
@@ -291,23 +289,29 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func login(vs: String, completion: (hellomsg: String?, error: NSError?) -> Void) {
-        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         /* %2B + , %2F / , %3D = , %3A : */
-        let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+=").invertedSet
+        let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-        let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        let username = "&login%3AtbxUserName=20130825"
-        let password = "&login%3AtbxPassword=5119642"
-        let btnx="&login%3Abtnlogin.x=27"
-        let btny="&login%3Abtnlogin.y=12"
-        let postString = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE＝" + viewstate + "&__VIEWSTATEGENERATOR=AC07AF0C" + username + password + btnx + btny
-
+        // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        let viewstate = vs
+        let username = "&login:tbxUserName=20130825"
+        let password = "&login:tbxPassword=5119642"
+        let btnx="&login:btnlogin.x=27"
+        let btny="&login:btnlogin.y=12"
+        var postString = "__VIEWSTATE=" + viewstate + username + password + btnx + btny
+        postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
         print("post string is", postString)
 
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        // let enc :NSStringEncoding = NSUTF8StringEncoding
         let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
+        let postStringLen = "\(paramsLength)"
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postString.dataUsingEncoding(enc)
-        // request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.addValue(postStringLen, forHTTPHeaderField: "Content-Length")
+
+        let encoded_postString :NSData = postString.dataUsingEncoding(enc)!
+        request.HTTPBody = encoded_postString
         request.HTTPMethod = "POST"
 
         let session = NSURLSession.sharedSession()
@@ -324,7 +328,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("Response code:", res.statusCode)
             
             // print("response = \(response)")
-            let rawdata = NSString(data: data!, encoding: enc)
+            let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+            let rawdata = NSString(data: data!, encoding: dec)
             let hellomsg = rawdata as! String
             
             if (hellomsg.rangeOfString("您好") == nil) {
@@ -332,6 +337,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 print("login failed!")
                 completion(hellomsg: "", error: nil)
             } else {
+                print("login passed!")
                 completion(hellomsg: hellomsg, error: nil)
             }
         }
