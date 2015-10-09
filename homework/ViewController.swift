@@ -219,7 +219,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                             }
                             
                             // TODO: Check Hello Message here!
-                            print("login is ready")
                             self.getHomework({ (homework, error) -> Void in
                                 if (error != nil) {
                                     return
@@ -300,7 +299,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let btny="&login:btnlogin.y=12"
         var postString = "__VIEWSTATE=" + viewstate + username + password + btnx + btny
         postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        print("post string is", postString)
+        // print("post string is", postString)
 
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         // let enc :NSStringEncoding = NSUTF8StringEncoding
@@ -346,6 +345,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func getHomework(completion: (homework: String?, error: NSError?) -> Void) {
-        completion(homework: "No Homework yet!", error: nil)
+        
+        // TODO: Add code to download homework from network and Analyze homework
+        completion(homework: "TODO: Analyze homework!", error: nil)
     }
 }
