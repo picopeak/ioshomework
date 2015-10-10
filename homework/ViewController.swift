@@ -234,15 +234,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                 if (error != nil) {
                                     return
                                 }
-                                // print(homework!)
-                                /* TODO: Extract homework and update view */
+                                
+                                self.parseHomework(homework!)
                             })
                         }
                     }
                     
                     return
                 }
-                // TODO: Check Hello Message here!
+                // Usually we will encounter this situation with less chances!
                 print("login is ready")
                 self.getHomework({ (homework, error) -> Void in
                     if (error != nil) {
@@ -251,13 +251,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     if (hellomsg == "") {
                         return
                     }
-                    // print(homework!)
-                    /* TODO: Extract homework and update view */
+                    self.parseHomework(homework!)
                 })
             }
         }
     }
 
+    func parseHomework(homework :String) -> [String] {
+        return []
+    }
+    
     func getOldViewState(completion: (vs: String?, error: NSError?) -> Void) {
         /* The example of view state string is as below,
            <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU... " /> */
