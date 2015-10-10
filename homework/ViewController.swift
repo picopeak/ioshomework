@@ -9,10 +9,18 @@
 import UIKit
 
 extension NSDate {
-    func dayofWeek() -> String {
+    func daysSinces2000() -> Int {
+        let interval = self.timeIntervalSinceReferenceDate
+        let days = Int(interval / 86400)
+        return days + 366
+    }
+    func days() -> Int {
         let interval = self.timeIntervalSince1970
         let days = Int(interval / 86400)
-        switch ((days - 3) % 7) {
+        return days
+    }
+    func dayofWeek() -> String {
+        switch ((days() - 3) % 7) {
         case 0: return "日"
         case 1: return "一"
         case 2: return "二"
@@ -34,6 +42,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
     var currentDate :NSDate = NSDate()
+    var viewState :String = ""
 
     func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
@@ -198,7 +207,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 return
             }
             print("viewstate is ready")
-            self.login(vs!) { (hellomsg, error) in
+            self.viewState = vs!
+            self.login() { (hellomsg, error) in
                 if (error != nil) {
                     return
                 }
@@ -210,7 +220,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                             return
                         }
                         print("viewstate is ready")
-                        self.login(vs!) { (hellomsg, error) in
+                        self.viewState = vs!
+                        self.login() { (hellomsg, error) in
                             if (error != nil) {
                                 return
                             }
@@ -223,7 +234,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                 if (error != nil) {
                                     return
                                 }
-                                print(homework!)
+                                // print(homework!)
                                 /* TODO: Extract homework and update view */
                             })
                         }
@@ -237,7 +248,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     if (error != nil) {
                         return
                     }
-                    print(homework!)
+                    if (hellomsg == "") {
+                        return
+                    }
+                    // print(homework!)
                     /* TODO: Extract homework and update view */
                 })
             }
@@ -287,17 +301,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* No code should be after here. */
     }
     
-    func login(vs: String, completion: (hellomsg: String?, error: NSError?) -> Void) {
+    func login(completion: (hellomsg: String?, error: NSError?) -> Void) {
         /* %2B + , %2F / , %3D = , %3A : */
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        let viewstate = vs
         let username = "&login:tbxUserName=20130825"
         let password = "&login:tbxPassword=5119642"
         let btnx="&login:btnlogin.x=27"
         let btny="&login:btnlogin.y=12"
-        var postString = "__VIEWSTATE=" + viewstate + username + password + btnx + btny
+        var postString = "__VIEWSTATE=" + viewState + username + password + btnx + btny
         postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
         // print("post string is", postString)
 
@@ -331,7 +344,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let rawdata = NSString(data: data!, encoding: dec)
             let hellomsg = rawdata as! String
             
-            if (hellomsg.rangeOfString("您好") == nil) {
+            if (hellomsg.rangeOfString("您好！欢迎使用") == nil) {
                 // print("rawdata = \(rawdata)")
                 print("login failed!")
                 completion(hellomsg: "", error: nil)
@@ -345,8 +358,53 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func getHomework(completion: (homework: String?, error: NSError?) -> Void) {
+        let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
+        var postString = "__EVENTTARGET=MyCalendar"
+            + "&__EVENTARGUMENT=" + String(currentDate.daysSinces2000())
+            + "&__VIEWSTATE=" + viewState
+            + "&SchoolName=7"
+            + "&GradeName=304"
+            + "&ClassName=1990"
+        postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        // print("post string is", postString)
         
-        // TODO: Add code to download homework from network and Analyze homework
-        completion(homework: "TODO: Analyze homework!", error: nil)
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
+        let postStringLen = "\(paramsLength)"
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.addValue(postStringLen, forHTTPHeaderField: "Content-Length")
+        let encoded_postString :NSData = postString.dataUsingEncoding(enc)!
+        request.HTTPBody = encoded_postString
+        request.HTTPMethod = "POST"
+        
+        let session = NSURLSession.sharedSession()
+        print("Trying to get homework data ...")
+        let task = session.dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if (error != nil) {
+                print("post error=\(error)")
+                return
+            }
+            
+            let res = response as! NSHTTPURLResponse!
+            print("Response code:", res.statusCode)
+            
+            let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+            let rawdata = NSString(data: data!, encoding: dec)
+            let homework = rawdata as! String
+            
+            if (homework.rangeOfString("您当前查看的是") == nil) {
+                // print("rawdata = \(rawdata)")
+                print("failed to obtain homework!")
+                completion(homework: "", error: nil)
+            } else {
+                print("homework obtained!")
+                completion(homework: homework, error: nil)
+            }
+        }
+        task.resume()
+        /* No code should be after here. */
     }
 }
