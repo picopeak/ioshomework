@@ -37,6 +37,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var DateLabel: UILabel!
+    @IBOutlet weak var left: UILabel!
+    @IBOutlet weak var right: UILabel!
     var subView:[UITableView] = []
     var datasource:[MyData] = []
     let screenWidth = UIScreen.mainScreen().bounds.width
@@ -55,7 +57,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         DateLabel.text = getDateStr(currentDate)
-
+        DateLabel.backgroundColor = UIColor.purpleColor()
+        DateLabel.textColor = UIColor.whiteColor()
+        left.backgroundColor = UIColor.purpleColor()
+        left.textColor = UIColor.whiteColor()
+        right.backgroundColor = UIColor.purpleColor()
+        right.textColor = UIColor.whiteColor()
+        
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;&lt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MN4-Rm-HPj">
-                                <rect key="frame" x="0.0" y="58" width="42" height="21"/>
+                                <rect key="frame" x="0.0" y="57" width="42" height="21"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="3mi-GQ-76n"/>
@@ -29,31 +29,32 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQc-IR-O9e">
-                                <rect key="frame" x="558" y="58" width="42" height="21"/>
+                                <rect key="frame" x="558" y="57" width="42" height="21"/>
                                 <animations/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="eJv-rJ-Wiu"/>
                                     <constraint firstAttribute="width" constant="42" id="fW6-en-QiH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUX-MY-fJC">
+                                <rect key="frame" x="42" y="57.5" width="516" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wV6-Y3-uSM">
-                                <rect key="frame" x="0.0" y="87" width="600" height="513"/>
+                                <rect key="frame" x="0.0" y="86" width="600" height="513.5"/>
                                 <animations/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="X9K-WV-0C3"/>
                                 </connections>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="福外作业" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c77-Sn-qvf">
-                                <rect key="frame" x="0.0" y="28" width="600" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUX-MY-fJC">
-                                <rect key="frame" x="50" y="58" width="500" height="21"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -64,25 +65,27 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="top" id="0dt-CQ-slR"/>
-                            <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="fUX-MY-fJC" secondAttribute="bottom" constant="8" id="6df-pj-jFh"/>
+                            <constraint firstItem="fUX-MY-fJC" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="2Tj-RQ-FNb"/>
+                            <constraint firstItem="fUX-MY-fJC" firstAttribute="leading" secondItem="MN4-Rm-HPj" secondAttribute="trailing" id="43p-y3-K1f"/>
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="AyV-Yo-aSJ"/>
-                            <constraint firstItem="fUX-MY-fJC" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="JRg-5H-HZF" userLabel="Date Label.top = 福外作业.bottom + 8"/>
                             <constraint firstAttribute="trailing" secondItem="wV6-Y3-uSM" secondAttribute="trailing" id="KNG-pQ-QDe"/>
+                            <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="fUX-MY-fJC" secondAttribute="bottom" constant="8" id="KS6-87-urU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oQc-IR-O9e" secondAttribute="trailing" constant="-20" id="O0i-bK-DOI" userLabel="trailing = &gt;&gt;.trailing"/>
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="O5k-LM-xCf"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="Osn-TY-zlu" userLabel="&lt;&lt;.top = 福外作业.bottom"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-20" id="OyR-Zr-3xi"/>
-                            <constraint firstItem="fUX-MY-fJC" firstAttribute="leading" secondItem="MN4-Rm-HPj" secondAttribute="trailing" constant="8" id="eKx-z8-ctd"/>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="bottom" secondItem="MN4-Rm-HPj" secondAttribute="bottom" id="gce-cb-lDS"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wV6-Y3-uSM" secondAttribute="bottom" id="iQV-d4-Zyg"/>
-                            <constraint firstItem="oQc-IR-O9e" firstAttribute="leading" secondItem="fUX-MY-fJC" secondAttribute="trailing" constant="8" id="iuc-kv-Zq2"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="bottom" constant="8" symbolic="YES" id="lK7-we-kI9"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="pV4-Mw-NIP" userLabel="&lt;&lt;.leading = leading"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="q1C-g0-xIE"/>
+                            <constraint firstItem="oQc-IR-O9e" firstAttribute="leading" secondItem="fUX-MY-fJC" secondAttribute="trailing" id="sqa-8M-WSR"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="DateLabel" destination="fUX-MY-fJC" id="IQr-KU-yw4"/>
+                        <outlet property="left" destination="MN4-Rm-HPj" id="6El-BQ-GdX"/>
+                        <outlet property="right" destination="oQc-IR-O9e" id="meD-rw-nl6"/>
                         <outlet property="scrollView" destination="wV6-Y3-uSM" id="RSV-Xa-ORp"/>
                     </connections>
                 </viewController>
