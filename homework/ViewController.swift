@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kanna
 
 extension NSDate {
     func daysSinces2000() -> Int {
@@ -31,6 +32,9 @@ extension NSDate {
         default: return ""
         }
     }
+    func yesterday() -> NSDate {
+        return NSDate(timeIntervalSince1970: self.timeIntervalSince1970 - 86400)
+    }
 }
 
 class ViewController: UIViewController, UIScrollViewDelegate {
@@ -44,6 +48,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
     var currentDate :NSDate = NSDate()
+    let calendar = NSCalendar.currentCalendar()
     var viewState :String = ""
 
     func getDateStr(d :NSDate) -> String {
@@ -126,9 +131,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         
         var tableData = [
-            "数学 <a href=\"http://www.w3school.com.cn\">W3School</a>（汉语拼音：shù xué；希腊语：μαθηματικ；英语：Mathematics），源自于古希腊语的μθημα（máthēma），其有学习、学问、科学之意．古希腊学者视其为哲学之起点，“学问的基础”．另外，还有个较狭隘且技术性的意义——“数学研究”．即使在其语源内，其形容词意义凡与学习有关的，亦会被用来指数学的．数学起源于人类早期的生产活动，古巴比伦人从远古时代开始已经积累了一定的数学知识，并能应用实际问题．从数学本身看，他们的数学知识也只是观察和经验所得，没有综合结论和证明，但也要充分肯定他们对数学所做出的贡献．",
-            "语文 是口头语言和书面语言，也是或语言和文学的简称。相对来说，口头语言较随意，直接易懂；而书面语言讲究准确和语法。此解释概念较狭窄，因为语文中的文章不但有文艺文（文学、曲艺等），还有很多实用文（应用文）。通俗的说，语言就是说话艺术．",
-            "英语 属于印欧语系中日耳曼语族下的西日耳曼语支，是由古代从德国、荷兰及丹麦等斯堪的纳维亚半岛周边移民至不列颠群岛的盎格鲁、撒克逊和朱特部落的日耳曼人所说的语言演变而来，并通过英国的殖民活动传播到了世界各地。由于在历史上曾和多种民族语言接触，它的词汇从一元变为多元，语法从“多屈折”变为“少屈折”，语音也发生了规律性的变化．"]
+            "数学",
+            "语文",
+            "英语"]
         var tableDataHeights : [CGFloat] = [40.0, 40.0, 40.0, 40.0]
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -210,24 +215,24 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     /* Main function to get homework */
     func login_and_gethw() {
-        getOldViewState() { (vs, error) in
+        getOldViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 return
             }
-            print("viewstate is ready")
+            print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
                 if (error != nil) {
                     return
                 }
-                if (hellomsg == "") {
+                if (true /* hellomsg == "" */) {
                     /* try again */
                     print("try to login again")
-                    self.getOldViewState() { (vs, error) in
+                    self.getOldViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                         if (error != nil) {
                             return
                         }
-                        print("viewstate is ready")
+                        print("viewstate is ready 2")
                         self.viewState = vs!
                         self.login() { (hellomsg, error) in
                             if (error != nil) {
@@ -237,43 +242,89 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                 return
                             }
                             
-                            // TODO: Check Hello Message here!
-                            self.getHomework({ (homework, error) -> Void in
+                            self.getOldViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                                 if (error != nil) {
                                     return
                                 }
+                                print("get new viewstate")
+                                self.viewState = vs!
+                                self.getHomework(self.currentDate, completion: { (vs, homework, error) -> Void in
+                                    if (error != nil) {
+                                        return
+                                    }
                                 
-                                self.parseHomework(homework!)
-                            })
+                                    var hw :[String] = [ "" ]
+                                    hw = self.parseHomework(homework!)
+                                    if (hw[0] == "") {
+                                        // This is probably a workaround, because the fushan network is unstable, and some times
+                                        // the normal read can return empty although there are some homeworks. So we will try it
+                                        // again by reading homework yesterday.
+                                        
+                                        // Try yesterday first
+                                        print("try yesterday")
+
+                                        self.viewState = vs
+                                        self.getHomework(self.currentDate.yesterday(), completion: { (vs, homework, error) -> Void in
+                                            if (error != nil) {
+                                                return
+                                            }
+                                            print("try current date again")
+                                            // Try currentDate again
+                                            self.viewState = vs
+                                            self.getHomework(self.currentDate, completion: { (vs, homework, error) -> Void in
+                                                if (error != nil) {
+                                                    return
+                                                }
+                                                
+                                                var hw :[String] = [ "" ]
+                                                hw = self.parseHomework(homework!)
+                                                if (hw[0] == "") {
+                                                    return
+                                                } else {
+                                                    /* TODO: update to table view */
+                                                }
+                                            })
+                                        })
+                                    } else {
+                                        /* TODO: update to table view */
+                                    }
+                                })
+                            }
                         }
                     }
                     
                     return
                 }
-                // Usually we will encounter this situation with less chances!
-                print("login is ready")
-                self.getHomework({ (homework, error) -> Void in
-                    if (error != nil) {
-                        return
-                    }
-                    if (hellomsg == "") {
-                        return
-                    }
-                    self.parseHomework(homework!)
-                })
+                // Usually we will never encounter this situation!
             }
         }
     }
 
-    func parseHomework(homework :String) -> [String] {
-        return []
+    func getViewState(data :NSData) -> String {
+        var vs :String = ""
+        let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let s = NSString(data: data, encoding: dec)
+        let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"([^\"]*)\""
+        let viewstate_range = s!.rangeOfString(viewstate_regex, options: .RegularExpressionSearch)
+        
+        let re = try! NSRegularExpression(pattern: viewstate_regex, options: [.CaseInsensitive])
+        let matches = re.matchesInString(s as! String, options: [], range: viewstate_range)
+        // print("number of matches: \(matches.count)")
+        for match in matches as [NSTextCheckingResult] {
+            // range at index 0: full match
+            // range at index 1: first capture group
+            vs = s!.substringWithRange(match.rangeAtIndex(1))
+            break
+        }
+        
+        return vs;
     }
     
-    func getOldViewState(completion: (vs: String?, error: NSError?) -> Void) {
+    func getOldViewState(url: String, completion: (vs: String?, error: NSError?) -> Void) {
         /* The example of view state string is as below,
            <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU... " /> */
         var vs = ""
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let request = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.HTTPMethod = "GET"
         let session = NSURLSession.sharedSession()
@@ -288,21 +339,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("Response code:", res.statusCode)
 
             if (data != nil) {
-                let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-                let s = NSString(data: data!, encoding: dec)
-                let viewstate_regex = "<input[^<]*name=\"__VIEWSTATE\" value=\"([^\"]*)\""
-                let viewstate_range = s!.rangeOfString(viewstate_regex, options: .RegularExpressionSearch)
-                
-                let re = try! NSRegularExpression(pattern: viewstate_regex, options: [.CaseInsensitive])
-                let matches = re.matchesInString(s as! String, options: [], range: viewstate_range)
-                // print("number of matches: \(matches.count)")
-                for match in matches as [NSTextCheckingResult] {
-                    // range at index 0: full match
-                    // range at index 1: first capture group
-                    vs = s!.substringWithRange(match.rangeAtIndex(1))
-                    break
-                }
-
+                vs = self.getViewState(data!)
                 // print("viewstate:", vs)
                 completion(vs: vs, error: nil)
             }
@@ -368,10 +405,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* No code should be after here. */
     }
     
-    func getHomework(completion: (homework: String?, error: NSError?) -> Void) {
+    func getHomework(toDate: NSDate, completion: (vs: String, homework: String?, error: NSError?) -> Void) {
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         var postString = "__EVENTTARGET=MyCalendar"
-            + "&__EVENTARGUMENT=" + String(currentDate.daysSinces2000())
+            + "&__EVENTARGUMENT=" + String(toDate.daysSinces2000())
             + "&__VIEWSTATE=" + viewState
             + "&SchoolName=7"
             + "&GradeName=304"
@@ -405,17 +442,35 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let rawdata = NSString(data: data!, encoding: dec)
             let homework = rawdata as! String
+            let new_vs = self.getViewState(data!)
             
             if (homework.rangeOfString("您当前查看的是") == nil) {
-                // print("rawdata = \(rawdata)")
                 print("failed to obtain homework!")
-                completion(homework: "", error: nil)
+                completion(vs: new_vs, homework: "", error: nil)
             } else {
+                // print("rawdata = \(rawdata)")
                 print("homework obtained!")
-                completion(homework: homework, error: nil)
+                completion(vs: new_vs, homework: homework, error: nil)
             }
         }
         task.resume()
         /* No code should be after here. */
+    }
+
+    func parseHomework(homework :String) -> [String] {
+        var hw :[String] = [ "", "", "", "", "", "", "", "", "", ""]
+        let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        if let doc = Kanna.HTML(html: homework, encoding: dec) {
+            // Search for nodes by XPath
+            var i = 0
+            // let hw_name :[String] = [ "数学作业", "英语作业", "语文作业", "音乐作业", "体育作业", "美术作业", "自然作业", "信息作业", "劳技作业", "国际理解作业" ]
+            let hw_index = doc.xpath("//b[contains(text(),'作业')]")
+            for b in hw_index {
+                let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
+                hw[i++] = b.text! + hw_content.text!
+            }
+        }
+        print(hw)
+        return hw
     }
 }
