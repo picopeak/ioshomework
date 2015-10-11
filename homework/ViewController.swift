@@ -121,20 +121,25 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
-        var wv: [Bool]
+        var wv: [Bool] = []
+        var tableData :[String] = [ ]
+        var tableDataHeights : [CGFloat] = [ ]
         
         init(id: Int, tv: UITableView) {
             self.id = id
             self.tv = tv
-            self.wv = [false, false, false, false]
-            tableData.append(String(id))
+            // tableData.append(String(id))
+            tableData.append("没有作业")
+            tableDataHeights.append(1.0)
+            self.wv.append(false)
         }
         
-        var tableData = [
-            "数学",
-            "语文",
-            "英语"]
-        var tableDataHeights : [CGFloat] = [40.0, 40.0, 40.0, 40.0]
+        func updateData(data :[String]) {
+            tableData = data
+            tableDataHeights[0] = 1.0
+            wv[0] = false
+            // tv.reloadData()
+        }
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
         {
@@ -175,7 +180,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         
         func webViewDidFinishLoad(webView: UIWebView) {
-            if (tableDataHeights[webView.tag] != 40.0)
+            if (tableDataHeights[webView.tag] != 1.0)
             {
                 // we already know height, no need to reload cell
                 return
@@ -281,11 +286,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                                 if (hw[0] == "") {
                                                     return
                                                 } else {
+                                                    self.datasource[1].updateData(hw)
                                                     /* TODO: update to table view */
                                                 }
                                             })
                                         })
                                     } else {
+                                        self.datasource[1].updateData(hw)
                                         /* TODO: update to table view */
                                     }
                                 })
@@ -458,17 +465,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func parseHomework(homework :String) -> [String] {
-        var hw :[String] = [ "", "", "", "", "", "", "", "", "", ""]
+        var hw :[String] = [ ]
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         if let doc = Kanna.HTML(html: homework, encoding: dec) {
             // Search for nodes by XPath
-            var i = 0
             // let hw_name :[String] = [ "数学作业", "英语作业", "语文作业", "音乐作业", "体育作业", "美术作业", "自然作业", "信息作业", "劳技作业", "国际理解作业" ]
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
-                hw[i++] = b.text! + hw_content.text!
+                hw.append(b.text! + hw_content.text!)
             }
+            hw.append("测试今日作业")
         }
         print(hw)
         return hw
