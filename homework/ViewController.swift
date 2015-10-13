@@ -50,6 +50,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     var currentDate :NSDate = NSDate()
     let calendar = NSCalendar.currentCalendar()
     var viewState :String = ""
+    // This is a map from DateLabel string to homework.
+    var homework = [String:[String]]()
 
     func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
@@ -256,13 +258,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                 }
                                 print("get new viewstate")
                                 self.viewState = vs!
-                                self.getHomework(self.currentDate, completion: { (vs, homework, error) -> Void in
+                                self.getHomework(self.currentDate, completion: { (vs, date, homework, error) -> Void in
                                     if (error != nil) {
                                         return
                                     }
                                 
                                     var hw :[String] = [ "" ]
-                                    hw = self.parseHomework(homework!)
+                                    hw = self.parseHomework(date, homework: homework!)
                                     if (hw[0] == "") {
                                         // This is probably a workaround, because the fushan network is unstable, and some times
                                         // the normal read can return empty although there are some homeworks. So we will try it
@@ -272,20 +274,20 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                         print("try yesterday")
 
                                         self.viewState = vs
-                                        self.getHomework(self.currentDate.yesterday(), completion: { (vs, homework, error) -> Void in
+                                        self.getHomework(self.currentDate.yesterday(), completion: { (vs, date, homework, error) -> Void in
                                             if (error != nil) {
                                                 return
                                             }
                                             print("try current date again")
                                             // Try currentDate again
                                             self.viewState = vs
-                                            self.getHomework(self.currentDate, completion: { (vs, homework, error) -> Void in
+                                            self.getHomework(self.currentDate, completion: { (vs, date, homework, error) -> Void in
                                                 if (error != nil) {
                                                     return
                                                 }
                                                 
                                                 var hw :[String] = [ "" ]
-                                                hw = self.parseHomework(homework!)
+                                                hw = self.parseHomework(date, homework: homework!)
                                                 if (hw[0] == "") {
                                                     return
                                                 } else {
@@ -415,7 +417,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* No code should be after here. */
     }
     
-    func getHomework(toDate: NSDate, completion: (vs: String, homework: String?, error: NSError?) -> Void) {
+    func getHomework(toDate: NSDate, completion: (vs: String, date: String, homework: String?, error: NSError?) -> Void) {
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         var postString = "__EVENTTARGET=MyCalendar"
             + "&__EVENTARGUMENT=" + String(toDate.daysSinces2000())
@@ -456,18 +458,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             if (homework.rangeOfString("您当前查看的是") == nil) {
                 print("failed to obtain homework!")
-                completion(vs: new_vs, homework: "", error: nil)
+                completion(vs: new_vs, date: self.getDateStr(toDate), homework: "", error: nil)
             } else {
                 // print("rawdata = \(rawdata)")
                 print("homework obtained!")
-                completion(vs: new_vs, homework: homework, error: nil)
+                completion(vs: new_vs, date: self.getDateStr(toDate), homework: homework, error: nil)
             }
         }
         task.resume()
         /* No code should be after here. */
     }
 
-    func parseHomework(homework :String) -> [String] {
+    func parseHomework(date: String, homework :String) -> [String] {
         var hw :[String] = [ ]
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         if let doc = Kanna.HTML(html: homework, encoding: dec) {
@@ -479,6 +481,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 hw.append(b.text! + hw_content.text!)
             }
             hw.append("测试今日作业")
+            
+            self.homework[date] = hw
+            print(self.homework)
         }
         print(hw)
         return hw
