@@ -101,6 +101,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = screenWidth
         
+        loadHomeworkData()
         login_and_gethw()
     }
     
@@ -146,7 +147,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             tableData = data
             tableDataHeights[0] = 1.0
             wv[0] = false
-            // tv.reloadData()
+            tv.reloadData()
         }
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -225,10 +226,37 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             return webView.frame.height
         }
     }
+    
+    /* Read homework data from database, and store into homework array */
+    func loadHomeworkData() {
+        /* TODO: read database. */
+        
+        /* Fake some data */
+        homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13"]
+        homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12"]
+        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14"]
+        
+        let currentDateHW = homework[self.getDateStr(self.currentDate)]
+        if (currentDateHW != nil) {
+            self.datasource[1].updateData(currentDateHW!)
+        }
+        let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
+        if (yesterdayHW != nil) {
+            self.datasource[0].updateData(yesterdayHW!)
+        }
+        let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
+        if (tomorrowHW != nil) {
+            self.datasource[2].updateData(tomorrowHW!)
+        }
+    }
    
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
+        if (homework[self.getDateStr(toDate)]! != []) {
+            return
+        }
+        
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
             if (error != nil) {
                 return
