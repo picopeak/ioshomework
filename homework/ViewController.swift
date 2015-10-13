@@ -129,6 +129,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         var id: Int
         var tv: UITableView
         var wv: [Bool] = []
+        var webview :[UIWebView] = []
         var tableData :[String] = [ ]
         var tableDataHeights : [CGFloat] = [ ]
         
@@ -150,9 +151,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         
         func updateData(data :[String]) {
-            tableData = data
-            tableDataHeights[0] = 1.0
-            wv[0] = false
+            /* Reset all */
+            for i in 0...9 {
+                tableData[i] = ""
+                tableDataHeights[i] = 1.0
+            }
+            let l = data.count - 1
+            for i in 0...l {
+                tableData[i] = data[i]
+            }
             tv.reloadData()
         }
         
@@ -182,7 +189,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 // hw_webview.scalesPageToFit = true
                 hw_webview.allowsInlineMediaPlayback = true
                 cell.addSubview(hw_webview)
+                webview.append(hw_webview)
                 wv[indexPath.row] = true
+            } else {
+                webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
             }
             
             // cell.sizeToFit()
