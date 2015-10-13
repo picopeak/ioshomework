@@ -35,6 +35,9 @@ extension NSDate {
     func yesterday() -> NSDate {
         return NSDate(timeIntervalSince1970: self.timeIntervalSince1970 - 86400)
     }
+    func tomorrow() -> NSDate {
+        return NSDate(timeIntervalSince1970: self.timeIntervalSince1970 + 86400)
+    }
 }
 
 class ViewController: UIViewController, UIScrollViewDelegate {
@@ -44,7 +47,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var left: UILabel!
     @IBOutlet weak var right: UILabel!
     var subView:[UITableView] = []
-    var datasource:[MyData] = []
+    var datasource:[HomeWorkData] = []
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
     var currentDate :NSDate = NSDate()
@@ -80,7 +83,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             // Create table view
             let tv :UITableView = UITableView(frame: frame)
-            let hw :MyData = MyData(id: index, tv: tv)
+            let hw :HomeWorkData = HomeWorkData(id: index, tv: tv)
             tv.dataSource = hw
             tv.delegate = hw
             tv.rowHeight = UITableViewAutomaticDimension
@@ -120,7 +123,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    class MyData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
+    class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
         var wv: [Bool] = []
@@ -222,10 +225,58 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             return webView.frame.height
         }
     }
+   
+    /* Assume login is successful and download homework content for current date.
+       And then inform all tableviews by updating data sources. */
+    func gethw(toDate :NSDate, id: Int) {
+        self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
+            if (error != nil) {
+                return
+            }
+            
+            var hw :[String] = [ "" ]
+            hw = self.parseHomework(date, homework: homework!)
+            if (hw[0] == "") {
+                // This is probably a workaround, because the fushan network is unstable, and some times
+                // the normal read can return empty although there are some homeworks. So we will try it
+                // again by reading homework yesterday.
+                
+                // Try yesterday first
+                print("try yesterday")
+                
+                self.viewState = vs
+                self.downloadHomework(toDate.yesterday(), completion: { (vs, date, homework, error) -> Void in
+                    if (error != nil) {
+                        return
+                    }
+                    print("try current date again")
+                    // Try currentDate again
+                    self.viewState = vs
+                    self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
+                        if (error != nil) {
+                            return
+                        }
+                        
+                        var hw :[String] = [ "" ]
+                        hw = self.parseHomework(date, homework: homework!)
+                        if (hw[0] == "") {
+                            return
+                        } else {
+                            self.datasource[id].updateData(hw)
+                            /* TODO: update to table view */
+                        }
+                    })
+                })
+            } else {
+                self.datasource[id].updateData(hw)
+                /* TODO: update to table view */
+            }
+        })
+    }
     
     /* Main function to get homework */
     func login_and_gethw() {
-        getOldViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 return
             }
@@ -238,7 +289,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 if (true /* hellomsg == "" */) {
                     /* try again */
                     print("try to login again")
-                    self.getOldViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                    self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                         if (error != nil) {
                             return
                         }
@@ -252,55 +303,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                 return
                             }
                             
-                            self.getOldViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                            self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                                 if (error != nil) {
                                     return
                                 }
                                 print("get new viewstate")
                                 self.viewState = vs!
-                                self.getHomework(self.currentDate, completion: { (vs, date, homework, error) -> Void in
-                                    if (error != nil) {
-                                        return
-                                    }
-                                
-                                    var hw :[String] = [ "" ]
-                                    hw = self.parseHomework(date, homework: homework!)
-                                    if (hw[0] == "") {
-                                        // This is probably a workaround, because the fushan network is unstable, and some times
-                                        // the normal read can return empty although there are some homeworks. So we will try it
-                                        // again by reading homework yesterday.
-                                        
-                                        // Try yesterday first
-                                        print("try yesterday")
-
-                                        self.viewState = vs
-                                        self.getHomework(self.currentDate.yesterday(), completion: { (vs, date, homework, error) -> Void in
-                                            if (error != nil) {
-                                                return
-                                            }
-                                            print("try current date again")
-                                            // Try currentDate again
-                                            self.viewState = vs
-                                            self.getHomework(self.currentDate, completion: { (vs, date, homework, error) -> Void in
-                                                if (error != nil) {
-                                                    return
-                                                }
-                                                
-                                                var hw :[String] = [ "" ]
-                                                hw = self.parseHomework(date, homework: homework!)
-                                                if (hw[0] == "") {
-                                                    return
-                                                } else {
-                                                    self.datasource[1].updateData(hw)
-                                                    /* TODO: update to table view */
-                                                }
-                                            })
-                                        })
-                                    } else {
-                                        self.datasource[1].updateData(hw)
-                                        /* TODO: update to table view */
-                                    }
-                                })
+                                self.gethw(self.currentDate, id: 1)
+                                self.gethw(self.currentDate.yesterday(), id: 0)
+                                self.gethw(self.currentDate.tomorrow(), id: 2)
                             }
                         }
                     }
@@ -312,7 +323,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func getViewState(data :NSData) -> String {
+    func extractViewState(data :NSData) -> String {
         var vs :String = ""
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         let s = NSString(data: data, encoding: dec)
@@ -332,7 +343,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         return vs;
     }
     
-    func getOldViewState(url: String, completion: (vs: String?, error: NSError?) -> Void) {
+    func obtainViewState(url: String, completion: (vs: String?, error: NSError?) -> Void) {
         /* The example of view state string is as below,
            <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU... " /> */
         var vs = ""
@@ -351,7 +362,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("Response code:", res.statusCode)
 
             if (data != nil) {
-                vs = self.getViewState(data!)
+                vs = self.extractViewState(data!)
                 // print("viewstate:", vs)
                 completion(vs: vs, error: nil)
             }
@@ -417,7 +428,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* No code should be after here. */
     }
     
-    func getHomework(toDate: NSDate, completion: (vs: String, date: String, homework: String?, error: NSError?) -> Void) {
+    func downloadHomework(toDate: NSDate, completion: (vs: String, date: String, homework: String?, error: NSError?) -> Void) {
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         var postString = "__EVENTTARGET=MyCalendar"
             + "&__EVENTARGUMENT=" + String(toDate.daysSinces2000())
@@ -454,7 +465,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let rawdata = NSString(data: data!, encoding: dec)
             let homework = rawdata as! String
-            let new_vs = self.getViewState(data!)
+            let new_vs = self.extractViewState(data!)
             
             if (homework.rangeOfString("您当前查看的是") == nil) {
                 print("failed to obtain homework!")
