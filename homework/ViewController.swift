@@ -128,8 +128,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         init(id: Int, tv: UITableView) {
             self.id = id
             self.tv = tv
-            // tableData.append(String(id))
             tableData.append("没有作业")
+            tableDataHeights.append(1.0)
+            self.wv.append(false)
+
+            tableData.append(String(id))
             tableDataHeights.append(1.0)
             self.wv.append(false)
         }
@@ -160,10 +163,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 let htmlHeight = tableDataHeights[indexPath.row]
                 let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
                 let hw_webview :UIWebView = UIWebView(frame: frame)
-                hw_webview.loadHTMLString(htmlString, baseURL: nil)
                 hw_webview.delegate = self
                 hw_webview.tag = indexPath.row
                 hw_webview.scrollView.scrollEnabled = false
+                hw_webview.loadHTMLString(htmlString, baseURL: nil)
                 // hw_webview.scalesPageToFit = true
                 hw_webview.allowsInlineMediaPlayback = true
                 cell.addSubview(hw_webview)
