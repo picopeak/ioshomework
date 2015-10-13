@@ -138,10 +138,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             tableData.append("没有作业")
             tableDataHeights.append(1.0)
             self.wv.append(false)
+            for _ in 1...9 {
+                tableData.append("")
+                tableDataHeights.append(1.0)
+                self.wv.append(false)
+            }
 
-            tableData.append(String(id))
-            tableDataHeights.append(1.0)
-            self.wv.append(false)
+            // tableData.append(String(id))
+            // tableDataHeights.append(1.0)
+            // self.wv.append(false)
         }
         
         func updateData(data :[String]) {
@@ -233,9 +238,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         /* TODO: read database. */
         
         /* Fake some data */
-        homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13"]
-        homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12"]
-        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14"]
+        homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13", "x", "y", "z"]
+        homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12", "m", "n"]
+        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"]
         
         updateTableView()
     }
