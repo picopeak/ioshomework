@@ -120,6 +120,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 currentDate = currentDate.dateByAddingTimeInterval(86400.0)
             }
             DateLabel.text = getDateStr(currentDate)
+            updateTableView()
             self.scrollView.contentOffset.x = screenWidth
         }
     }
@@ -236,17 +237,27 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12"]
         homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14"]
         
+        updateTableView()
+    }
+    
+    func updateTableView() {
         let currentDateHW = homework[self.getDateStr(self.currentDate)]
         if (currentDateHW != nil) {
             self.datasource[1].updateData(currentDateHW!)
+        } else {
+            self.datasource[1].updateData(["没有作业数据!"])
         }
         let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
         if (yesterdayHW != nil) {
             self.datasource[0].updateData(yesterdayHW!)
+        } else {
+            self.datasource[0].updateData(["没有作业数据!"])
         }
         let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
         if (tomorrowHW != nil) {
             self.datasource[2].updateData(tomorrowHW!)
+        } else {
+            self.datasource[2].updateData(["没有作业数据!"])
         }
     }
    

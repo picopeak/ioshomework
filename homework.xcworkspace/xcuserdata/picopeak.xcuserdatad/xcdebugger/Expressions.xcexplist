@@ -16,5 +16,16 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "ViewController.HomeWorkData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableDataHeights">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
