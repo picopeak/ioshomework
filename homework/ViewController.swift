@@ -212,6 +212,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             }
             
             tableDataHeights[webView.tag] = getWebviewHeight(webView)
+            if (tableData[webView.tag] == "") {
+                tableDataHeights[webView.tag] = 0.0
+            }
             // print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
             
             tv.reloadData()
