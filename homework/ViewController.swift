@@ -120,8 +120,26 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 currentDate = currentDate.dateByAddingTimeInterval(86400.0)
             }
             DateLabel.text = getDateStr(currentDate)
-            updateTableView()
+            let currentDateHW = homework[self.getDateStr(self.currentDate)]
+            if (currentDateHW != nil) {
+                self.datasource[1].updateData(currentDateHW!)
+            } else {
+                self.datasource[1].updateData(["没有作业数据!"])
+            }
+            // updateTableView()
             self.scrollView.contentOffset.x = screenWidth
+            let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
+            if (yesterdayHW != nil) {
+                self.datasource[0].updateData(yesterdayHW!)
+            } else {
+                self.datasource[0].updateData(["没有作业数据!"])
+            }
+            let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
+            if (tomorrowHW != nil) {
+                self.datasource[2].updateData(tomorrowHW!)
+            } else {
+                self.datasource[2].updateData(["没有作业数据!"])
+            }
         }
     }
     
@@ -157,8 +175,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 tableDataHeights[i] = 1.0
             }
             let l = data.count - 1
-            for i in 0...l {
-                tableData[i] = data[i]
+            if (l >= 0) {
+                for i in 0...l {
+                    tableData[i] = data[i]
+                }
             }
             tv.reloadData()
         }
@@ -177,7 +197,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             /* Create a web view */
             if (!wv[indexPath.row]) {
-                // print("create webView", id, indexPath.row)
+                print("create webView", id, indexPath.row)
                 let htmlString = tableData[indexPath.row]
                 let htmlHeight = tableDataHeights[indexPath.row]
                 let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
@@ -192,6 +212,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 webview.append(hw_webview)
                 wv[indexPath.row] = true
             } else {
+                print("webView load html string", id, indexPath.row)
                 webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
             }
             
@@ -250,10 +271,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     func loadHomeworkData() {
         /* TODO: read database. */
         
-        /* Fake some data */
+        /* Fake some data
         homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13", "x", "y", "z"]
         homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12", "m", "n"]
-        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"]
+        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"] */
         
         updateTableView()
     }
@@ -282,7 +303,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
-        if (homework[self.getDateStr(toDate)]! != []) {
+        let dateStr = self.getDateStr(toDate)
+        if (homework[dateStr] != nil && homework[dateStr]! != []) {
             return
         }
         
@@ -293,7 +315,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             var hw :[String] = [ "" ]
             hw = self.parseHomework(date, homework: homework!)
-            if (hw[0] == "") {
+            if (hw == []) {
                 // This is probably a workaround, because the fushan network is unstable, and some times
                 // the normal read can return empty although there are some homeworks. So we will try it
                 // again by reading homework yesterday.
@@ -316,7 +338,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                         
                         var hw :[String] = [ "" ]
                         hw = self.parseHomework(date, homework: homework!)
-                        if (hw[0] == "") {
+                        if (hw == []) {
                             return
                         } else {
                             self.datasource[id].updateData(hw)
@@ -546,14 +568,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
-                hw.append(b.text! + hw_content.text!)
+                hw.append(b.toHTML! + hw_content.toHTML!)
             }
-            hw.append("测试今日作业")
+            // hw.append("测试今日作业")
             
             self.homework[date] = hw
             print(self.homework)
         }
-        print(hw)
         return hw
     }
 }
