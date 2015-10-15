@@ -101,7 +101,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = screenWidth
         
-        loadHomeworkData()
+        // loadHomeworkData()
         login_and_gethw()
     }
     
@@ -122,15 +122,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             DateLabel.text = getDateStr(currentDate)
             updateTableView()
         }
+        self.scrollView.contentOffset.x = screenWidth
     }
     
     class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
-        var wv: [Bool] = []
         var webview :[UIWebView] = []
         var tableData :[String] = [ ]
         var tableDataHeights : [CGFloat] = [ ]
+        var wv: [Bool] = []    // Indicate if webview has been created
+        var updated :[Bool] = []  // Indicate if html has been loaded into webview
         
         init(id: Int, tv: UITableView) {
             self.id = id
@@ -138,10 +140,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             tableData.append("没有作业")
             tableDataHeights.append(1.0)
             self.wv.append(false)
+            updated.append(false)
             for _ in 1...9 {
                 tableData.append("")
                 tableDataHeights.append(1.0)
-                self.wv.append(false)
+                wv.append(false)
+                updated.append(false)
             }
 
             // tableData.append(String(id))
@@ -150,10 +154,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         
         func updateData(data :[String]) {
+            print("update data now...")
             /* Reset all */
             for i in 0...9 {
                 tableData[i] = ""
                 tableDataHeights[i] = 1.0
+                updated[i] = false
             }
             let l = data.count - 1
             if (l >= 0) {
@@ -193,8 +199,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 webview.append(hw_webview)
                 wv[indexPath.row] = true
             } else {
-                print("webView load html string", id, indexPath.row)
-                webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
+                if (updated[indexPath.row] == false) {
+                    print("webView load html string", id, indexPath.row)
+                    webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
+                    updated[indexPath.row] = true
+                }
             }
             
             // cell.sizeToFit()
@@ -261,6 +270,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func updateTableView() {
+        print("update table view now ...")
         let currentDateHW = homework[self.getDateStr(self.currentDate)]
         if (currentDateHW != nil) {
             self.datasource[1].updateData(currentDateHW!)
