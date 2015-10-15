@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ViewController.HomeWorkData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableDataHeights">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.MyData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -25,13 +36,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.HomeWorkData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
+         contextName = "ViewController.scrollViewDidEndDecelerating(UIScrollView) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableDataHeights">
-            </PersistentString>
-            <PersistentString
-               value = "indexPath.row">
+               value = "currentDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

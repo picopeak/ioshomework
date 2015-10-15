@@ -120,26 +120,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 currentDate = currentDate.dateByAddingTimeInterval(86400.0)
             }
             DateLabel.text = getDateStr(currentDate)
-            let currentDateHW = homework[self.getDateStr(self.currentDate)]
-            if (currentDateHW != nil) {
-                self.datasource[1].updateData(currentDateHW!)
-            } else {
-                self.datasource[1].updateData(["没有作业数据!"])
-            }
-            // updateTableView()
-            self.scrollView.contentOffset.x = screenWidth
-            let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
-            if (yesterdayHW != nil) {
-                self.datasource[0].updateData(yesterdayHW!)
-            } else {
-                self.datasource[0].updateData(["没有作业数据!"])
-            }
-            let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
-            if (tomorrowHW != nil) {
-                self.datasource[2].updateData(tomorrowHW!)
-            } else {
-                self.datasource[2].updateData(["没有作业数据!"])
-            }
+            updateTableView()
         }
     }
     
@@ -284,19 +265,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         if (currentDateHW != nil) {
             self.datasource[1].updateData(currentDateHW!)
         } else {
-            self.datasource[1].updateData(["没有作业数据!"])
+            self.datasource[1].updateData(["没有本地作业数据!"])
         }
         let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
         if (yesterdayHW != nil) {
             self.datasource[0].updateData(yesterdayHW!)
         } else {
-            self.datasource[0].updateData(["没有作业数据!"])
+            self.datasource[0].updateData(["没有本地作业数据!"])
         }
         let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
         if (tomorrowHW != nil) {
             self.datasource[2].updateData(tomorrowHW!)
         } else {
-            self.datasource[2].updateData(["没有作业数据!"])
+            self.datasource[2].updateData(["没有本地作业数据!"])
         }
     }
    
@@ -571,10 +552,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 hw.append(b.toHTML! + hw_content.toHTML!)
             }
             // hw.append("测试今日作业")
-            
-            self.homework[date] = hw
             print(self.homework)
         }
+        
+        if (hw == []) {
+            hw.append("今日没有作业")
+        }
+        self.homework[date] = hw
         return hw
     }
 }
