@@ -113,16 +113,46 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
         print("page =", page)
-        if (page != 1) {
-            if (page == 0) {
-                currentDate = currentDate.dateByAddingTimeInterval(-86400.0)
-            } else if (page == 2) {
-                currentDate = currentDate.dateByAddingTimeInterval(86400.0)
-            }
-            DateLabel.text = getDateStr(currentDate)
-            updateTableView()
+
+        if (page == 0) {
+            currentDate = currentDate.dateByAddingTimeInterval(-86400.0)
+
+            let tempTV :UITableView = subView[2]
+            subView[2] = subView[1]
+            subView[1] = subView[0]
+            subView[0] = tempTV
+        } else if (page == 2) {
+            currentDate = currentDate.dateByAddingTimeInterval(86400.0)
+
+            let tempTV :UITableView = subView[0]
+            subView[0] = subView[1]
+            subView[1] = subView[2]
+            subView[2] = tempTV
         }
+        subView[0].frame = CGRectMake(0, 0, screenWidth, screenHeight)
+        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, screenHeight)
+        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, screenHeight)
         self.scrollView.contentOffset.x = screenWidth
+        
+        if (page == 0) {
+            // Update data for new yesterday
+            let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
+            if (yesterdayHW != nil) {
+                (subView[0].dataSource as! HomeWorkData).updateData(yesterdayHW!)
+            } else {
+                (subView[0].dataSource as! HomeWorkData).updateData(["没有本地作业数据!"])
+            }
+        } else if (page == 2) {
+            // Update data for new tomorrow
+            let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
+            if (tomorrowHW != nil) {
+                (subView[2].dataSource as! HomeWorkData).updateData(tomorrowHW!)
+            } else {
+                (subView[2].dataSource as! HomeWorkData).updateData(["没有本地作业数据!"])
+            }
+        }
+        
+        DateLabel.text = getDateStr(currentDate)
     }
     
     class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
@@ -184,7 +214,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             
             /* Create a web view */
             if (!wv[indexPath.row]) {
-                print("create webView", id, indexPath.row)
+                // print("create webView", id, indexPath.row)
                 let htmlString = tableData[indexPath.row]
                 let htmlHeight = tableDataHeights[indexPath.row]
                 let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
@@ -200,7 +230,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 wv[indexPath.row] = true
             } else {
                 if (updated[indexPath.row] == false) {
-                    print("webView load html string", id, indexPath.row)
+                    // print("webView load html string", id, indexPath.row)
                     webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
                     updated[indexPath.row] = true
                 }
