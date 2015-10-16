@@ -46,8 +46,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var DateLabel: UILabel!
     @IBOutlet weak var left: UILabel!
     @IBOutlet weak var right: UILabel!
-    var subView:[UITableView] = []
-    var datasource:[HomeWorkData] = []
+    var subView :[UITableView] = []
+    var datasource :[HomeWorkData] = []
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
     var currentDate :NSDate = NSDate()
@@ -140,7 +140,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             if (yesterdayHW != nil) {
                 (subView[0].dataSource as! HomeWorkData).updateData(yesterdayHW!)
             } else {
-                (subView[0].dataSource as! HomeWorkData).updateData(["没有本地作业数据!"])
+                gethw(self.currentDate.yesterday(), id: 0)
             }
         } else if (page == 2) {
             // Update data for new tomorrow
@@ -148,7 +148,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             if (tomorrowHW != nil) {
                 (subView[2].dataSource as! HomeWorkData).updateData(tomorrowHW!)
             } else {
-                (subView[2].dataSource as! HomeWorkData).updateData(["没有本地作业数据!"])
+                gethw(self.currentDate.tomorrow(), id: 2)
             }
         }
         
@@ -177,27 +177,21 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 wv.append(false)
                 updated.append(false)
             }
-
-            // tableData.append(String(id))
-            // tableDataHeights.append(1.0)
-            // self.wv.append(false)
         }
         
         func updateData(data :[String]) {
-            print("update data now...")
-            /* Reset all */
+            // print("update data", data)
+            let l = data.count
             for i in 0...9 {
-                tableData[i] = ""
+                if (i < l) {
+                    tableData[i] = data[i]
+                } else {
+                    tableData[i] = ""
+                }
                 tableDataHeights[i] = 1.0
                 updated[i] = false
+                webview[i].loadHTMLString(tableData[i], baseURL: nil)
             }
-            let l = data.count - 1
-            if (l >= 0) {
-                for i in 0...l {
-                    tableData[i] = data[i]
-                }
-            }
-            tv.reloadData()
         }
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -228,15 +222,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 cell.addSubview(hw_webview)
                 webview.append(hw_webview)
                 wv[indexPath.row] = true
-            } else {
-                if (updated[indexPath.row] == false) {
-                    // print("webView load html string", id, indexPath.row)
-                    webview[indexPath.row].loadHTMLString(tableData[indexPath.row], baseURL: nil)
-                    updated[indexPath.row] = true
-                }
             }
-            
-            // cell.sizeToFit()
             return cell
         }
         
@@ -295,32 +281,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13", "x", "y", "z"]
         homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12", "m", "n"]
         homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"] */
-        
-        updateTableView()
     }
     
-    func updateTableView() {
-        print("update table view now ...")
-        let currentDateHW = homework[self.getDateStr(self.currentDate)]
-        if (currentDateHW != nil) {
-            self.datasource[1].updateData(currentDateHW!)
-        } else {
-            self.datasource[1].updateData(["没有本地作业数据!"])
-        }
-        let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
-        if (yesterdayHW != nil) {
-            self.datasource[0].updateData(yesterdayHW!)
-        } else {
-            self.datasource[0].updateData(["没有本地作业数据!"])
-        }
-        let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
-        if (tomorrowHW != nil) {
-            self.datasource[2].updateData(tomorrowHW!)
-        } else {
-            self.datasource[2].updateData(["没有本地作业数据!"])
-        }
-    }
-   
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
@@ -329,6 +291,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             return
         }
         
+        print("download homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
             if (error != nil) {
                 return
@@ -362,14 +325,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                         if (hw == []) {
                             return
                         } else {
-                            self.datasource[id].updateData(hw)
-                            /* TODO: update to table view */
+                            (self.subView[id].dataSource as! HomeWorkData).updateData(hw)
                         }
                     })
                 })
             } else {
-                self.datasource[id].updateData(hw)
-                /* TODO: update to table view */
+                (self.subView[id].dataSource as! HomeWorkData).updateData(hw)
             }
         })
     }
@@ -458,8 +419,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 return
             }
 
-            let res = response as! NSHTTPURLResponse!
-            print("Response code:", res.statusCode)
+            // let res = response as! NSHTTPURLResponse!
+            // print("Response code:", res.statusCode)
 
             if (data != nil) {
                 vs = self.extractViewState(data!)
@@ -507,8 +468,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 return
             }
             
-            let res = response as! NSHTTPURLResponse!
-            print("Response code:", res.statusCode)
+            // let res = response as! NSHTTPURLResponse!
+            // print("Response code:", res.statusCode)
             
             // print("response = \(response)")
             let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
@@ -550,7 +511,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         request.HTTPMethod = "POST"
         
         let session = NSURLSession.sharedSession()
-        print("Trying to get homework data ...")
+        // print("Trying to get homework data ...")
         let task = session.dataTaskWithRequest(request) {
             data, response, error in
             
@@ -559,8 +520,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 return
             }
             
-            let res = response as! NSHTTPURLResponse!
-            print("Response code:", res.statusCode)
+            // let res = response as! NSHTTPURLResponse!
+            // print("Response code:", res.statusCode)
             
             let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let rawdata = NSString(data: data!, encoding: dec)
@@ -572,7 +533,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 completion(vs: new_vs, date: self.getDateStr(toDate), homework: "", error: nil)
             } else {
                 // print("rawdata = \(rawdata)")
-                print("homework obtained!")
+                // print("homework obtained!")
                 completion(vs: new_vs, date: self.getDateStr(toDate), homework: homework, error: nil)
             }
         }
@@ -589,15 +550,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
-                hw.append(b.toHTML! + hw_content.toHTML!)
+                hw.append(b.toHTML! + "<BR><BR>" + hw_content.toHTML!)
             }
             // hw.append("测试今日作业")
-            print(self.homework)
         }
         
         if (hw == []) {
             hw.append("今日没有作业")
         }
+        print("Got homework for", date)
         self.homework[date] = hw
         return hw
     }
