@@ -48,8 +48,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var right: UILabel!
     var subView :[UITableView] = []
     var datasource :[HomeWorkData] = []
-    let screenWidth = UIScreen.mainScreen().bounds.width
-    let screenHeight = UIScreen.mainScreen().bounds.height
+    var screenWidth = UIScreen.mainScreen().bounds.width
+    var screenHeight = UIScreen.mainScreen().bounds.height
     var currentDate :NSDate = NSDate()
     let calendar = NSCalendar.currentCalendar()
     var viewState :String = ""
@@ -111,6 +111,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        // TODO: fix bugs around rotation
+        screenWidth = UIScreen.mainScreen().bounds.width
+        screenHeight = UIScreen.mainScreen().bounds.height
+        subView[0].frame = CGRectMake(0, 0, screenWidth, screenHeight)
+        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, screenHeight)
+        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, screenHeight)
+        scrollView.contentOffset.x = screenWidth
+        subView[0].reloadData()
+        subView[1].reloadData()
+        subView[2].reloadData()
+    }
+    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
         print("page =", page)
