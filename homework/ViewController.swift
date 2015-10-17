@@ -55,6 +55,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     var viewState :String = ""
     // This is a map from DateLabel string to homework.
     var homework = [String:[String]]()
+    var isLoggedIn :Bool = false
 
     func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
@@ -305,7 +306,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             return
         }
         
-        print("download homework", dateStr, "for page", id)
+        if (!isLoggedIn) {
+            return
+        }
+        
+        print("downloading homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
             if (error != nil) {
                 return
@@ -354,43 +359,39 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             if (error != nil) {
                 return
             }
-            print("viewstate is ready 1")
+            // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
                 if (error != nil) {
                     return
                 }
-                if (true /* hellomsg == "" */) {
-                    /* try again */
-                    print("try to login again")
-                    self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                /* try again */
+                print("try again ...")
+                self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                    if (error != nil) {
+                        return
+                    }
+                    // print("viewstate is ready 2")
+                    self.viewState = vs!
+                    self.login() { (hellomsg, error) in
                         if (error != nil) {
                             return
                         }
-                        print("viewstate is ready 2")
-                        self.viewState = vs!
-                        self.login() { (hellomsg, error) in
+                        if (hellomsg == "") {
+                            return
+                        }
+                        self.isLoggedIn = true
+                        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
                             }
-                            if (hellomsg == "") {
-                                return
-                            }
-                            
-                            self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
-                                if (error != nil) {
-                                    return
-                                }
-                                print("get new viewstate")
-                                self.viewState = vs!
-                                self.gethw(self.currentDate, id: 1)
-                                self.gethw(self.currentDate.yesterday(), id: 0)
-                                self.gethw(self.currentDate.tomorrow(), id: 2)
-                            }
+                            print("got useful viewstate")
+                            self.viewState = vs!
+                            self.gethw(self.currentDate, id: 1)
+                            self.gethw(self.currentDate.yesterday(), id: 0)
+                            self.gethw(self.currentDate.tomorrow(), id: 2)
                         }
                     }
-                    
-                    return
                 }
                 // Usually we will never encounter this situation!
             }
@@ -425,7 +426,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.HTTPMethod = "GET"
         let session = NSURLSession.sharedSession()
-        print("Trying to get view state ...")
+        // print("Trying to get view state ...")
         let task = session.dataTaskWithRequest(request) {(data, response, error) in
             if (error != nil) {
                 print("viewstate error=\(error)")
