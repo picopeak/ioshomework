@@ -136,17 +136,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         if (page == 0) {
             // Update data for new yesterday
-            let yesterdayHW = homework[self.getDateStr(self.currentDate.yesterday())]
+            let yesterday :String = self.getDateStr(self.currentDate.yesterday())
+            let yesterdayHW = homework[yesterday]
             if (yesterdayHW != nil) {
-                (subView[0].dataSource as! HomeWorkData).updateData(yesterdayHW!)
+                updateView(yesterday ,hw: yesterdayHW!)
             } else {
                 gethw(self.currentDate.yesterday(), id: 0)
             }
         } else if (page == 2) {
             // Update data for new tomorrow
-            let tomorrowHW = homework[self.getDateStr(self.currentDate.tomorrow())]
+            let tomorrow :String = self.getDateStr(self.currentDate.tomorrow())
+            let tomorrowHW = homework[tomorrow]
             if (tomorrowHW != nil) {
-                (subView[2].dataSource as! HomeWorkData).updateData(tomorrowHW!)
+                updateView(tomorrow ,hw: tomorrowHW!)
             } else {
                 gethw(self.currentDate.tomorrow(), id: 2)
             }
@@ -282,7 +284,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12", "m", "n"]
         homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"] */
     }
-    
+
+    func updateView(date :String, hw :[String]) {
+        if (date == self.getDateStr(self.currentDate)) {
+            (self.subView[1].dataSource as! HomeWorkData).updateData(hw)
+        }
+        if (date == self.getDateStr(self.currentDate.yesterday())) {
+            (self.subView[0].dataSource as! HomeWorkData).updateData(hw)
+        }
+        if (date == self.getDateStr(self.currentDate.tomorrow())) {
+            (self.subView[2].dataSource as! HomeWorkData).updateData(hw)
+        }
+    }
+
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
@@ -324,13 +338,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                         hw = self.parseHomework(date, homework: homework!)
                         if (hw == []) {
                             return
-                        } else {
-                            (self.subView[id].dataSource as! HomeWorkData).updateData(hw)
                         }
+                        self.updateView(date, hw: hw)
                     })
                 })
             } else {
-                (self.subView[id].dataSource as! HomeWorkData).updateData(hw)
+                self.updateView(date, hw: hw)
             }
         })
     }
