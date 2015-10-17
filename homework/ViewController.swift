@@ -79,6 +79,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
             frame.size.height = screenHeight - loc.y
+            // frame.size.height = scrollView.frame.height
             frame.size.width = screenWidth
             frame.origin.x = screenWidth * CGFloat(index)
             
@@ -110,7 +111,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         // TODO: fix bugs around rotation
         screenWidth = UIScreen.mainScreen().bounds.width
@@ -143,9 +144,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             subView[1] = subView[2]
             subView[2] = tempTV
         }
-        subView[0].frame = CGRectMake(0, 0, screenWidth, screenHeight)
-        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, screenHeight)
-        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, screenHeight)
+        subView[0].frame = CGRectMake(0, 0, screenWidth, subView[0].frame.height)
+        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, subView[1].frame.height)
+        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, subView[2].frame.height)
         self.scrollView.contentOffset.x = screenWidth
         
         if (page == 0) {
@@ -239,6 +240,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 webview.append(hw_webview)
                 wv[indexPath.row] = true
             }
+            
             return cell
         }
         
