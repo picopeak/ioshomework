@@ -184,16 +184,24 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         init(id: Int, tv: UITableView) {
             self.id = id
             self.tv = tv
-            tableData.append("没有作业")
-            tableDataHeights.append(1.0)
-            self.wv.append(false)
-            updated.append(false)
-            for _ in 1...9 {
+
+            for i in 0...9 {
                 tableData.append("")
                 tableDataHeights.append(1.0)
                 wv.append(false)
                 updated.append(false)
+
+                // print("create webView", id, indexPath.row)
+                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 1.0)
+                let hw_webview :UIWebView = UIWebView(frame: frame)
+                hw_webview.tag = i
+                hw_webview.scrollView.scrollEnabled = false
+                // hw_webview.scalesPageToFit = true
+                hw_webview.allowsInlineMediaPlayback = true
+                // hw_webview.loadHTMLString("", baseURL: nil)
+                webview.append(hw_webview)
             }
+            tableData[0] = "没有作业"
         }
         
         func updateData(data :[String]) {
@@ -205,6 +213,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 } else {
                     tableData[i] = ""
                 }
+                webview[i].delegate = self
                 tableDataHeights[i] = 1.0
                 updated[i] = false
                 webview[i].loadHTMLString(tableData[i], baseURL: nil)
@@ -220,27 +229,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
         {
             let cell :UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("cell")
+            
+            // Reset cell, because cell is randomly reused from queue, and it may destroied before or reused fromm other cell.
             cell.separatorInset = UIEdgeInsetsZero;
             cell.layoutMargins = UIEdgeInsetsZero;
-            
-            /* Create a web view */
-            if (!wv[indexPath.row]) {
-                // print("create webView", id, indexPath.row)
-                let htmlString = tableData[indexPath.row]
-                let htmlHeight = tableDataHeights[indexPath.row]
-                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, htmlHeight)
-                let hw_webview :UIWebView = UIWebView(frame: frame)
-                hw_webview.delegate = self
-                hw_webview.tag = indexPath.row
-                hw_webview.scrollView.scrollEnabled = false
-                hw_webview.loadHTMLString(htmlString, baseURL: nil)
-                // hw_webview.scalesPageToFit = true
-                hw_webview.allowsInlineMediaPlayback = true
-                cell.addSubview(hw_webview)
-                webview.append(hw_webview)
-                wv[indexPath.row] = true
+            for view in cell.subviews  as [UIView] {
+                if let web = view as? UIWebView {
+                    web.removeFromSuperview()
+                }
             }
-            
+
+            // Add webview back to current cell
+            cell.addSubview(webview[indexPath.row])
             return cell
         }
         
