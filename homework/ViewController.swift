@@ -107,6 +107,20 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         login_and_gethw()
     }
     
+    /* Read homework data from database, and store into homework array */
+    func loadHomeworkData() {
+        /* TODO: read database. */
+        
+        /* Fake some data */
+        homework["2015-10-19 (一)"] = [ "数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学", "x", "y", "z"]
+        homework["2015-10-20 (二)"] = [ "数学", "m", "n"]
+        homework["2015-10-18 (日)"] = [ "数学", "hehehe"]
+        
+        updateView("2015-10-19 (一)", hw: homework["2015-10-19 (一)"]!)
+        updateView("2015-10-20 (二)", hw: homework["2015-10-20 (二)"]!)
+        updateView("2015-10-18 (日)", hw: homework["2015-10-18 (日)"]!)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -178,51 +192,50 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         var webview :[UIWebView] = []
         var tableData :[String] = [ ]
         var tableDataHeights : [CGFloat] = [ ]
-        var wv: [Bool] = []    // Indicate if webview has been created
-        var updated :[Bool] = []  // Indicate if html has been loaded into webview
+        var hwcount :Int = 0
         
         init(id: Int, tv: UITableView) {
             self.id = id
             self.tv = tv
 
+            // print("create all webViews")
             for i in 0...9 {
                 tableData.append("")
-                tableDataHeights.append(1.0)
-                wv.append(false)
-                updated.append(false)
-
-                // print("create webView", id, indexPath.row)
-                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 1.0)
+                tableDataHeights.append(0.0)
+                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
                 let hw_webview :UIWebView = UIWebView(frame: frame)
                 hw_webview.tag = i
                 hw_webview.scrollView.scrollEnabled = false
-                // hw_webview.scalesPageToFit = true
+                hw_webview.scalesPageToFit = false
                 hw_webview.allowsInlineMediaPlayback = true
                 // hw_webview.loadHTMLString("", baseURL: nil)
                 webview.append(hw_webview)
             }
-            tableData[0] = "没有作业"
+            // tableData[0] = "没有作业"
         }
         
         func updateData(data :[String]) {
             // print("update data", data)
             let l = data.count
+            hwcount = 0
             for i in 0...9 {
                 if (i < l) {
                     tableData[i] = data[i]
+                    tableDataHeights[i] = 1.0
+                    webview[i].delegate = self
+                    webview[i].loadHTMLString(tableData[i], baseURL: nil)
                 } else {
                     tableData[i] = ""
+                    tableDataHeights[i] = 0.0
                 }
-                webview[i].delegate = self
-                tableDataHeights[i] = 1.0
-                updated[i] = false
-                webview[i].loadHTMLString(tableData[i], baseURL: nil)
             }
+            hwcount = data.count
         }
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
         {
-            return self.tableData.count
+            // return self.tableData.count
+            return hwcount
         }
         
         func tableView(tableView: UITableView,
@@ -240,6 +253,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             }
 
             // Add webview back to current cell
+            // print("add subview", indexPath.row)
             cell.addSubview(webview[indexPath.row])
             return cell
         }
@@ -291,16 +305,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    /* Read homework data from database, and store into homework array */
-    func loadHomeworkData() {
-        /* TODO: read database. */
-        
-        /* Fake some data
-        homework["2015-10-13 (二)"] = [ "数学 for 2015-10-13", "x", "y", "z"]
-        homework["2015-10-12 (一)"] = [ "数学 for 2015-10-12", "m", "n"]
-        homework["2015-10-14 (三)"] = [ "数学 for 2015-10-14", "hehehe"] */
-    }
-
     func updateView(date :String, hw :[String]) {
         if (date == self.getDateStr(self.currentDate)) {
             (self.subView[1].dataSource as! HomeWorkData).updateData(hw)
@@ -321,6 +325,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             return
         }
         
+        updateView(dateStr ,hw: ["正在下载作业数据..."])
+ 
         if (!isLoggedIn) {
             return
         }
