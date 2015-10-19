@@ -376,6 +376,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     /* Main function to get homework */
     func login_and_gethw() {
+        updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 return
