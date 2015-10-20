@@ -238,6 +238,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             hwcount = 0
             for i in 0...(l-1) {
                 if (i < l) {
+                    let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
+                    webview[i].frame = frame
                     tableDataHeights[i] = 1.0
                     webview[i].delegate = self
                     webview[i].loadHTMLString(tableData[i], baseURL: nil)
