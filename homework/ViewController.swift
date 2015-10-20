@@ -233,20 +233,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         
         func refreshData() {
-            for i in 0...9 {
-                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
-                webview[i].frame = frame
-                webview[i].loadHTMLString(tableData[i], baseURL: nil)
-            }
-        }
-        
-        func updateData(data :[String]) {
             // print("update data", data)
-            let l = data.count
+            let l = tableData.count
             hwcount = 0
-            for i in 0...9 {
+            for i in 0...(l-1) {
                 if (i < l) {
-                    tableData[i] = data[i]
                     tableDataHeights[i] = 1.0
                     webview[i].delegate = self
                     webview[i].loadHTMLString(tableData[i], baseURL: nil)
@@ -255,7 +246,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     tableDataHeights[i] = 0.0
                 }
             }
-            hwcount = data.count
+            hwcount = tableData.count
+        }
+
+        func updateData(data :[String]) {
+            // print("update data", data)
+            tableData = data
+            refreshData()
         }
         
         func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
