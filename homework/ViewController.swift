@@ -95,6 +95,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             tv.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
             tv.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             tv.separatorColor = UIColor.purpleColor()
+            tv.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
             self.scrollView.addSubview(tv)
             
             // Record table views and data sources
@@ -102,6 +103,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             datasource.append(hw)
         }
         
+        self.scrollView.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
+        self.scrollView.superview!.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = screenWidth
         
@@ -219,6 +222,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 hw_webview.scrollView.scrollEnabled = false
                 hw_webview.scalesPageToFit = false
                 hw_webview.allowsInlineMediaPlayback = true
+                hw_webview.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
+                hw_webview.opaque = false
                 // hw_webview.loadHTMLString("", baseURL: nil)
                 webview.append(hw_webview)
             }
@@ -273,6 +278,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             // print("add subview", indexPath.row)
             cell.separatorInset = UIEdgeInsetsZero
             cell.layoutMargins = UIEdgeInsetsZero
+            cell.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
             cell.addSubview(webview[indexPath.row])
             return cell
         }
@@ -295,7 +301,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 tableDataHeights[webView.tag] = 0.0
             }
             // print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
-            
+            // webView.stringByEvaluatingJavaScriptFromString("document[0].style.background='#2E2E2E'")
             tv.reloadData()
             // tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         }
