@@ -130,15 +130,24 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         // TODO: fix bugs around rotation
+        scrollView.pagingEnabled = true
+        
         screenWidth = UIScreen.mainScreen().bounds.width
         screenHeight = UIScreen.mainScreen().bounds.height
-        subView[0].frame = CGRectMake(0, 0, screenWidth, screenHeight)
-        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, screenHeight)
-        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, screenHeight)
+        
+        let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
+        let height = screenHeight - loc.y
+        
+        subView[0].frame = CGRectMake(0, 0, screenWidth, height)
+        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, height)
+        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, height)
         scrollView.contentOffset.x = screenWidth
         subView[0].reloadData()
         subView[1].reloadData()
         subView[2].reloadData()
+        (subView[0].dataSource as! HomeWorkData).refreshData()
+        (subView[1].dataSource as! HomeWorkData).refreshData()
+        (subView[2].dataSource as! HomeWorkData).refreshData()
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
@@ -216,6 +225,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             // tableData[0] = "没有作业"
         }
         
+        func refreshData() {
+            for i in 0...9 {
+                let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
+                webview[i].frame = frame
+                webview[i].loadHTMLString(tableData[i], baseURL: nil)
+            }
+        }
+        
         func updateData(data :[String]) {
             // print("update data", data)
             let l = data.count
@@ -246,8 +263,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let cell :UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("cell")
             
             // Reset cell, because cell is randomly reused from queue, and it may destroied before or reused fromm other cell.
-            cell.separatorInset = UIEdgeInsetsZero
-            cell.layoutMargins = UIEdgeInsetsZero
             for view in cell.subviews  as [UIView] {
                 if let web = view as? UIWebView {
                     web.removeFromSuperview()
@@ -256,12 +271,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
             // Add webview back to current cell
             // print("add subview", indexPath.row)
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.layoutMargins = UIEdgeInsetsZero
             cell.addSubview(webview[indexPath.row])
             return cell
         }
         
         func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
         {
+            // Add an extra budget to show separator line.
             return tableDataHeights[indexPath.row] + 5.0
         }
         
