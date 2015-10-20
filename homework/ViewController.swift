@@ -133,10 +133,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         // TODO: fix bugs around rotation
-        scrollView.pagingEnabled = true
-        
         screenWidth = UIScreen.mainScreen().bounds.width
         screenHeight = UIScreen.mainScreen().bounds.height
+        
+        scrollView.pagingEnabled = true
+        self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
+        self.scrollView.contentOffset.x = screenWidth
         
         let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
         let height = screenHeight - loc.y
