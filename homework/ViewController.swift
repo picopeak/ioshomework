@@ -93,6 +93,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             tv.layoutMargins = UIEdgeInsetsZero
             tv.tableFooterView = UIView()
             tv.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+            tv.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            tv.separatorColor = UIColor.purpleColor()
             self.scrollView.addSubview(tv)
             
             // Record table views and data sources
@@ -244,8 +246,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let cell :UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("cell")
             
             // Reset cell, because cell is randomly reused from queue, and it may destroied before or reused fromm other cell.
-            cell.separatorInset = UIEdgeInsetsZero;
-            cell.layoutMargins = UIEdgeInsetsZero;
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.layoutMargins = UIEdgeInsetsZero
             for view in cell.subviews  as [UIView] {
                 if let web = view as? UIWebView {
                     web.removeFromSuperview()
@@ -260,7 +262,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
         {
-            return tableDataHeights[indexPath.row]
+            return tableDataHeights[indexPath.row] + 5.0
         }
         
         func webViewDidFinishLoad(webView: UIWebView) {
