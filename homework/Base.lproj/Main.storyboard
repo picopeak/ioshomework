@@ -8,7 +8,7 @@
         <!--HomeWork-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="HomeWork" id="BYZ-38-t0r" customClass="ViewController" customModule="homework" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HomeWork" id="BYZ-38-t0r" customClass="ViewController" customModule="福外作业" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -63,6 +63,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jk7-YQ-dfR">
+                                <rect key="frame" x="534" y="24" width="38" height="30"/>
+                                <animations/>
+                                <state key="normal" title=" 设置 ">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -70,6 +77,7 @@
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="top" id="0dt-CQ-slR" userLabel="&gt;&gt;.top = &lt;&lt;.top"/>
                             <constraint firstItem="fUX-MY-fJC" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="2Tj-RQ-FNb" userLabel="Date Label.top = 福外作业.bottom"/>
                             <constraint firstItem="fUX-MY-fJC" firstAttribute="leading" secondItem="MN4-Rm-HPj" secondAttribute="trailing" id="43p-y3-K1f"/>
+                            <constraint firstItem="jk7-YQ-dfR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="4" id="5fg-X7-0i1"/>
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="AyV-Yo-aSJ"/>
                             <constraint firstAttribute="trailing" secondItem="wV6-Y3-uSM" secondAttribute="trailing" id="KNG-pQ-QDe"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="fUX-MY-fJC" secondAttribute="bottom" constant="8" id="KS6-87-urU" userLabel="Scroll View.top = Date Label.bottom"/>
@@ -77,6 +85,7 @@
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="O5k-LM-xCf"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="Osn-TY-zlu" userLabel="&lt;&lt;.top = Data Label.top"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-20" id="OyR-Zr-3xi" userLabel="福外作业.trailing = trailingMargin + 20"/>
+                            <constraint firstItem="jk7-YQ-dfR" firstAttribute="leading" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-66" id="bn1-kD-G9C"/>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="bottom" secondItem="MN4-Rm-HPj" secondAttribute="bottom" id="gce-cb-lDS" userLabel="&gt;&gt;.bottom = Left.bottom"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wV6-Y3-uSM" secondAttribute="bottom" id="iQV-d4-Zyg"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="bottom" constant="8" symbolic="YES" id="lK7-we-kI9"/>
@@ -90,6 +99,7 @@
                         <outlet property="left" destination="MN4-Rm-HPj" id="6El-BQ-GdX"/>
                         <outlet property="right" destination="oQc-IR-O9e" id="meD-rw-nl6"/>
                         <outlet property="scrollView" destination="wV6-Y3-uSM" id="RSV-Xa-ORp"/>
+                        <outlet property="setupBtn" destination="jk7-YQ-dfR" id="QJX-Qt-o1P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -99,7 +109,7 @@
         <!--Login-->
         <scene sceneID="Wzw-QO-7KQ">
             <objects>
-                <viewController storyboardIdentifier="Login" title="Login" id="r81-63-OfA" customClass="LoginViewController" customModule="homework" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" title="Login" id="r81-63-OfA" customClass="LoginViewController" customModule="福外作业" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yFs-dg-Ukb"/>
                         <viewControllerLayoutGuide type="bottom" id="Agg-py-es8"/>

@@ -46,6 +46,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var DateLabel: UILabel!
     @IBOutlet weak var left: UILabel!
     @IBOutlet weak var right: UILabel!
+    @IBOutlet weak var setupBtn: UIButton!
+    
     var subView :[UITableView] = []
     var datasource :[HomeWorkData] = []
     var screenWidth = UIScreen.mainScreen().bounds.width
@@ -120,6 +122,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         left.textColor = UIColor.whiteColor()
         right.backgroundColor = UIColor.purpleColor()
         right.textColor = UIColor.whiteColor()
+        setupBtn.layer.borderColor = UIColor.grayColor().CGColor
+        setupBtn.layer.borderWidth = 1.0
+        setupBtn.layer.cornerRadius = 10; // this value vary as per your desire
         
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
