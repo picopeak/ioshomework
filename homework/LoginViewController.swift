@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var loginView: UIView!
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var loginBtn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,14 @@ class LoginViewController: UIViewController {
         userName.layer.borderColor = UIColor.blackColor().CGColor
         userName.layer.borderWidth = 1.0
         userName.layer.backgroundColor = UIColor.whiteColor().CGColor
+        
         password.layer.borderColor = UIColor.blackColor().CGColor
         password.layer.borderWidth = 1.0
         password.layer.backgroundColor = UIColor.whiteColor().CGColor
+        
+        loginBtn.layer.borderColor = UIColor.grayColor().CGColor
+        loginBtn.layer.borderWidth = 1.0
+        loginBtn.layer.cornerRadius = 10; // this value vary as per your desire
     }
 
     override func didReceiveMemoryWarning() {

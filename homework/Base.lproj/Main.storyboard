@@ -131,12 +131,14 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d24-ry-7OV">
-                                <rect key="frame" x="276" y="338" width="48" height="41"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d24-ry-7OV">
+                                <rect key="frame" x="279.5" y="338.5" width="41" height="32"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
-                                <state key="normal" title="登陆"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="titleShadowOffset" width="2" height="2"/>
+                                <state key="normal" title=" 登陆 "/>
                                 <connections>
                                     <action selector="loginBtn:" destination="r81-63-OfA" eventType="touchUpInside" id="l1D-pB-L4R"/>
                                 </connections>
@@ -149,7 +151,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIE-tf-t51">
-                                <rect key="frame" x="283" y="240" width="34" height="21"/>
+                                <rect key="frame" x="283" y="240" width="34" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -184,6 +186,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loginBtn" destination="d24-ry-7OV" id="eNe-st-ZbF"/>
                         <outlet property="loginView" destination="Us4-sW-lPB" id="Xtv-q4-AhG"/>
                         <outlet property="password" destination="YXg-Ej-Q2E" id="kIm-M8-04C"/>
                         <outlet property="userName" destination="nF2-ic-ebb" id="W7K-gA-FVY"/>

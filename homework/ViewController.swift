@@ -521,7 +521,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
         let username = "&login:tbxUserName=20130825"
-        let password = "&login:tbxPassword=5119642"
+        let password = "&login:tbxPassword=51196421"
         let btnx="&login:btnlogin.x=27"
         let btny="&login:btnlogin.y=12"
         var postString = "__VIEWSTATE=" + viewState + username + password + btnx + btny
