@@ -56,6 +56,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     // This is a map from DateLabel string to homework.
     var homework = [String:[String]]()
     var isLoggedIn :Bool = false
+    var refreshControl :[UIRefreshControl] = []
     
     var username :String = ""
     var password :String = ""
@@ -130,7 +131,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             // Create table view
             let tv :UITableView = UITableView(frame: frame)
-            let hw :HomeWorkData = HomeWorkData(id: index, tv: tv)
+
+            let refresh :UIRefreshControl = UIRefreshControl()
+            refresh.attributedTitle = NSAttributedString(string: "更新作业数据...")
+            refresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+            self.refreshControl.append(refresh)
+            
+            let hw :HomeWorkData = HomeWorkData(id: index, tv: tv, refresh: refresh)
             tv.dataSource = hw
             tv.delegate = hw
             tv.rowHeight = UITableViewAutomaticDimension
@@ -141,6 +148,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             tv.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             tv.separatorColor = UIColor.purpleColor()
             tv.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
+            tv.addSubview(refresh)
             self.scrollView.addSubview(tv)
             
             // Record table views and data sources
@@ -156,6 +164,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         loadUserData()
         // loadHomeworkData()
         login_and_gethw()
+    }
+
+    func refresh(sender:AnyObject)
+    {
+        print("refreshing ...")
+        downloadhw(self.currentDate, id: 1)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -254,14 +268,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
         var id: Int
         var tv: UITableView
+        var refresh: UIRefreshControl
         var webview :[UIWebView] = []
         var tableData :[String] = [ ]
         var tableDataHeights : [CGFloat] = [ ]
         var hwcount :Int = 0
         
-        init(id: Int, tv: UITableView) {
+        init(id: Int, tv: UITableView, refresh :UIRefreshControl) {
             self.id = id
             self.tv = tv
+            self.refresh = refresh
 
             // print("create all webViews")
             for i in 0...9 {
@@ -385,12 +401,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func updateView(date :String, hw :[String]) {
         if (date == self.getDateStr(self.currentDate)) {
             (self.subView[1].dataSource as! HomeWorkData).updateData(hw)
+            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
+            refreshC.endRefreshing()
         }
         if (date == self.getDateStr(self.currentDate.yesterday())) {
             (self.subView[0].dataSource as! HomeWorkData).updateData(hw)
+            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
+            refreshC.endRefreshing()
         }
         if (date == self.getDateStr(self.currentDate.tomorrow())) {
             (self.subView[2].dataSource as! HomeWorkData).updateData(hw)
+            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
+            refreshC.endRefreshing()
         }
     }
 
@@ -402,12 +424,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             return
         }
         
-        updateView(dateStr ,hw: ["正在下载作业数据..."])
- 
         if (!isLoggedIn) {
             return
         }
         
+        downloadhw(toDate, id: id)
+    }
+    
+    func downloadhw(toDate :NSDate, id: Int) {
+        let dateStr = self.getDateStr(toDate)
+        // updateView(dateStr ,hw: ["正在下载作业数据..."])
         print("downloading homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
             if (error != nil) {
