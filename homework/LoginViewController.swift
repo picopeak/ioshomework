@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
         userName.layer.borderColor = UIColor.blackColor().CGColor
         userName.layer.borderWidth = 1.0
         userName.layer.backgroundColor = UIColor.whiteColor().CGColor
+        userName.becomeFirstResponder()
         
         password.layer.borderColor = UIColor.blackColor().CGColor
         password.layer.borderWidth = 1.0
