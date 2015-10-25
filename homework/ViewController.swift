@@ -697,7 +697,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
-                hw.append(b.toHTML! + "<BR><BR>" + hw_content.toHTML!)
+                var hw_html = hw_content.toHTML!
+                hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://www.fushanedu.cn/jxq/UpLoadFolder/")
+                hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://www.fushanedu.cn/")
+                hw.append(b.toHTML! + "<BR><BR>" + hw_html)
             }
             // hw.append("测试今日作业")
         }
@@ -707,6 +710,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
         print("Got homework for", date)
         self.homework[date] = hw
+        
+        print(hw)
         return hw
     }
 }
