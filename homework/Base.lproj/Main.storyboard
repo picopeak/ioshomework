@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--HomeWork-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="homework" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HomeWork" id="BYZ-38-t0r" customClass="ViewController" customModule="homework" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -94,7 +94,104 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="245" y="314"/>
+            <point key="canvasLocation" x="259" y="314"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="Wzw-QO-7KQ">
+            <objects>
+                <viewController storyboardIdentifier="Login" title="Login" id="r81-63-OfA" customClass="LoginViewController" customModule="homework" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yFs-dg-Ukb"/>
+                        <viewControllerLayoutGuide type="bottom" id="Agg-py-es8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Us4-sW-lPB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="福山外国语小学" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zU-JT-jEd">
+                                <rect key="frame" x="20" y="83" width="560" height="29"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YXg-Ej-Q2E">
+                                <rect key="frame" x="220" y="268" width="160" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="QXD-1a-E39"/>
+                                    <constraint firstAttribute="width" constant="160" id="uz8-ar-Ipa"/>
+                                </constraints>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uz8-ar-Ipa"/>
+                                    </mask>
+                                </variation>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d24-ry-7OV">
+                                <rect key="frame" x="276" y="338" width="48" height="41"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
+                                <state key="normal" title="登陆"/>
+                                <connections>
+                                    <action selector="loginBtn:" destination="r81-63-OfA" eventType="touchUpInside" id="l1D-pB-L4R"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="学号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bba-ln-tMf">
+                                <rect key="frame" x="283" y="161" width="34" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIE-tf-t51">
+                                <rect key="frame" x="283" y="240" width="34" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nF2-ic-ebb">
+                                <rect key="frame" x="220" y="190" width="160" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BIE-tf-t51" firstAttribute="centerX" secondItem="4zU-JT-jEd" secondAttribute="centerX" id="23e-m9-0rC"/>
+                            <constraint firstItem="bba-ln-tMf" firstAttribute="top" secondItem="4zU-JT-jEd" secondAttribute="bottom" constant="49" id="36p-HI-c0c"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="4zU-JT-jEd" secondAttribute="leading" id="6R0-5o-TFR"/>
+                            <constraint firstItem="YXg-Ej-Q2E" firstAttribute="top" secondItem="BIE-tf-t51" secondAttribute="bottom" constant="8" id="CbA-33-h9C"/>
+                            <constraint firstItem="nF2-ic-ebb" firstAttribute="leading" secondItem="YXg-Ej-Q2E" secondAttribute="leading" id="Dhy-JX-4ge"/>
+                            <constraint firstItem="nF2-ic-ebb" firstAttribute="top" secondItem="Us4-sW-lPB" secondAttribute="top" constant="190" id="I0M-8g-Rqd"/>
+                            <constraint firstItem="d24-ry-7OV" firstAttribute="top" secondItem="YXg-Ej-Q2E" secondAttribute="bottom" constant="40" id="MgM-r9-ixU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4zU-JT-jEd" secondAttribute="trailing" id="PYl-uf-2A3"/>
+                            <constraint firstItem="bba-ln-tMf" firstAttribute="centerX" secondItem="4zU-JT-jEd" secondAttribute="centerX" id="RDS-C8-PsV"/>
+                            <constraint firstItem="d24-ry-7OV" firstAttribute="centerX" secondItem="4zU-JT-jEd" secondAttribute="centerX" id="ST1-q8-5b7"/>
+                            <constraint firstItem="4zU-JT-jEd" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="63" id="YrO-6q-AQr"/>
+                            <constraint firstItem="BIE-tf-t51" firstAttribute="top" secondItem="nF2-ic-ebb" secondAttribute="bottom" constant="20" id="ZLJ-Qc-Rcq"/>
+                            <constraint firstItem="nF2-ic-ebb" firstAttribute="trailing" secondItem="YXg-Ej-Q2E" secondAttribute="trailing" id="rEN-p8-T9Y"/>
+                            <constraint firstItem="YXg-Ej-Q2E" firstAttribute="centerX" secondItem="4zU-JT-jEd" secondAttribute="centerX" id="s54-Rh-lxh"/>
+                            <constraint firstItem="nF2-ic-ebb" firstAttribute="top" secondItem="bba-ln-tMf" secondAttribute="bottom" constant="8" symbolic="YES" id="tOH-V3-IB9"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="4zU-JT-jEd" secondAttribute="leading" id="zZc-E8-F2b"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="loginView" destination="Us4-sW-lPB" id="Xtv-q4-AhG"/>
+                        <outlet property="password" destination="YXg-Ej-Q2E" id="kIm-M8-04C"/>
+                        <outlet property="userName" destination="nF2-ic-ebb" id="W7K-gA-FVY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jdM-CH-5nM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="917" y="314"/>
         </scene>
     </scenes>
 </document>

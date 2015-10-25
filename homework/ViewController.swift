@@ -56,6 +56,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     // This is a map from DateLabel string to homework.
     var homework = [String:[String]]()
     var isLoggedIn :Bool = false
+    var loginTried :Bool = false {
+        didSet {
+            if (isLoggedIn == false && loginTried == true) {
+                let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                self.presentViewController(vc, animated: true, completion: nil)
+            }
+        }
+    }
 
     func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
@@ -110,6 +118,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         // loadHomeworkData()
         login_and_gethw()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
     }
     
     /* Read homework data from database, and store into homework array */
@@ -406,27 +417,34 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
+                self.loginTried = true
                 return
             }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
                 if (error != nil) {
+                    self.loginTried = true
                     return
                 }
                 /* try again */
                 print("try again ...")
                 self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
+                        self.loginTried = true
                         return
                     }
                     // print("viewstate is ready 2")
                     self.viewState = vs!
                     self.login() { (hellomsg, error) in
                         if (error != nil) {
+                            // Fail to due to issues like network connection
+                            self.loginTried = true
                             return
                         }
                         if (hellomsg == "") {
+                            // Fail due to incorrect username or password
+                            self.loginTried = true
                             return
                         }
                         self.isLoggedIn = true
