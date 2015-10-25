@@ -56,15 +56,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     // This is a map from DateLabel string to homework.
     var homework = [String:[String]]()
     var isLoggedIn :Bool = false
+    
+    var username :String = ""
+    var password :String = ""
     var loginTried :Bool = false {
         didSet {
             if (isLoggedIn == false && loginTried == true) {
-                // TODO: Load persistent data
-                
                 // Pass data into login View Controller
                 let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 vc.delegate = self
-                vc.updateInfo("201308251", password: "5119642")
+                vc.updateInfo(self.username, password: self.password)
                 self.presentViewController(vc, animated: true, completion: nil)
             }
         }
@@ -73,7 +74,32 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func didFinishLogin(controller: LoginViewController, username: String, password: String) {
         // Recieved the info passed from Login View.
         print("username", username, "password", password)
+        self.username = username
+        self.password = password
         controller.dismissViewControllerAnimated(true, completion: nil)
+        
+        // Try to login again
+        login_and_gethw()
+    }
+    
+    func loadUserData() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let usernameObj = defaults.objectForKey("username")
+        let passwordObj = defaults.objectForKey("password")
+        if (usernameObj != nil && passwordObj != nil) {
+            username = defaults.objectForKey("username") as! String
+            password = defaults.objectForKey("password") as! String
+            
+            // Fake data for testing purpose to verify if login system works
+            // username = "201308251"
+            // password = "5119642"
+        }
+    }
+    
+    func storeUserData(username :String, password :String) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(username, forKey: "username")
+        defaults.setObject(password, forKey: "password")
     }
     
     func getDateStr(d :NSDate) -> String {
@@ -127,6 +153,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
         self.scrollView.contentOffset.x = screenWidth
         
+        loadUserData()
         // loadHomeworkData()
         login_and_gethw()
     }
@@ -460,6 +487,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
+                        self.storeUserData(self.username, password: self.password)
                         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
@@ -531,8 +559,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        let username = "&login:tbxUserName=20130825"
-        let password = "&login:tbxPassword=51196421"
+        let username = "&login:tbxUserName="+self.username
+        let password = "&login:tbxPassword="+self.password
         let btnx="&login:btnlogin.x=27"
         let btny="&login:btnlogin.y=12"
         var postString = "__VIEWSTATE=" + viewState + username + password + btnx + btny
