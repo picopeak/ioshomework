@@ -219,6 +219,7 @@
 				TargetAttributes = {
 					A92525F21BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = KCM5KYQ599;
 					};
 					A92526061BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -466,10 +467,13 @@
 			baseConfigurationReference = 44F4D35CBD5BAB89B8F34CC2 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = homework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
 				PRODUCT_NAME = "福外作业";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -478,10 +482,13 @@
 			baseConfigurationReference = 81FD5CA77F4903C99AFB9CC5 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = homework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
 				PRODUCT_NAME = "福外作业";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

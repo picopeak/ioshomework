@@ -163,7 +163,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         self.scrollView.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
         self.scrollView.superview!.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
-        self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), self.scrollView.frame.size.height)
+        self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), 0)
         self.scrollView.contentOffset.x = screenWidth
         
         loadUserData()
@@ -716,7 +716,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         print("Got homework for", date)
         self.homework[date] = hw
         
-        print(hw)
+        // print(hw)
         return hw
     }
 }
