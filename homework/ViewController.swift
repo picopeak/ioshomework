@@ -40,7 +40,7 @@ extension NSDate {
     }
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var DateLabel: UILabel!
@@ -59,12 +59,23 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     var loginTried :Bool = false {
         didSet {
             if (isLoggedIn == false && loginTried == true) {
+                // TODO: Load persistent data
+                
+                // Pass data into login View Controller
                 let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                vc.delegate = self
+                vc.updateInfo("201308251", password: "5119642")
                 self.presentViewController(vc, animated: true, completion: nil)
             }
         }
     }
 
+    func didFinishLogin(controller: LoginViewController, username: String, password: String) {
+        // Recieved the info passed from Login View.
+        print("username", username, "password", password)
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     func getDateStr(d :NSDate) -> String {
         let dateformatter: NSDateFormatter = NSDateFormatter()
         dateformatter.dateFormat = "YYYY-MM-dd"

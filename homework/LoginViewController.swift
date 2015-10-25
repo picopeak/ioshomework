@@ -8,16 +8,28 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate {
+    func didFinishLogin(controller :LoginViewController, username :String, password :String)
+}
+
 class LoginViewController: UIViewController {
 
     @IBOutlet var loginView: UIView!
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
+    
+    var delegate :LoginViewControllerDelegate! = nil
+    
+    private var oldUsername :String = ""
+    private var oldPassword :String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        userName.text = oldUsername
+        password.text = oldPassword
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -41,9 +53,14 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginBtn(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate.didFinishLogin(self, username: userName.text!, password: password.text!)
     }
 
+    func updateInfo(username :String, password :String) {
+        oldUsername = username
+        oldPassword = password
+    }
+    
     /*
     // MARK: - Navigation
 
