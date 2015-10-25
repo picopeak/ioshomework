@@ -292,6 +292,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
             cell.addSubview(webview[indexPath.row])
+            webview[indexPath.row].loadHTMLString(self.tableData[indexPath.row], baseURL: nil)
             return cell
         }
         

@@ -3,13 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ViewController.(gethw(ViewController) -&gt; (NSDate, id : Int) -&gt; ()).(closure #1):ViewController.swift">
+         contextName = "ViewController.scrollViewDidEndDecelerating(UIScrollView) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "subView">
-            </PersistentString>
-            <PersistentString
-               value = "self.subView[id].dataSource">
+               value = "currentDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -55,6 +52,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ViewController.HomeWorkData.refreshData() -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hwcount">
+            </PersistentString>
+            <PersistentString
+               value = "tableData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.loginTried.didset:ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -82,10 +90,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.scrollViewDidEndDecelerating(UIScrollView) -&gt; ():ViewController.swift">
+         contextName = "ViewController.(gethw(ViewController) -&gt; (NSDate, id : Int) -&gt; ()).(closure #1):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "currentDate">
+               value = "subView">
+            </PersistentString>
+            <PersistentString
+               value = "self.subView[id].dataSource">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
