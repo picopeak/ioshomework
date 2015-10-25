@@ -39,7 +39,7 @@
 		5BF6915E10B5B2024B5B4A33 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81FD5CA77F4903C99AFB9CC5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A91A89CE1BDB30230096C7D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		A92525F31BBF806A000B3505 /* homework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = homework.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A92525F31BBF806A000B3505 /* 福外作业.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "福外作业.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92525F61BBF806A000B3505 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A92525F81BBF806A000B3505 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A92525FB1BBF806A000B3505 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		A92525F41BBF806A000B3505 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A92525F31BBF806A000B3505 /* homework.app */,
+				A92525F31BBF806A000B3505 /* 福外作业.app */,
 				A92526071BBF806A000B3505 /* homeworkTests.xctest */,
 				A92526121BBF806A000B3505 /* homeworkUITests.xctest */,
 			);
@@ -169,7 +169,7 @@
 			);
 			name = homework;
 			productName = homework;
-			productReference = A92525F31BBF806A000B3505 /* homework.app */;
+			productReference = A92525F31BBF806A000B3505 /* 福外作业.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A92526061BBF806A000B3505 /* homeworkTests */ = {
@@ -469,7 +469,7 @@
 				INFOPLIST_FILE = homework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "福外作业";
 			};
 			name = Debug;
 		};
@@ -481,7 +481,7 @@
 				INFOPLIST_FILE = homework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "福外作业";
 			};
 			name = Release;
 		};
