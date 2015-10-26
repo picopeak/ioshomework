@@ -1,10 +1,10 @@
 PODS:
-  - Kanna (1.0.0)
+  - Kanna (1.0.2)
 
 DEPENDENCIES:
   - Kanna (~> 1.0.0)
 
 SPEC CHECKSUMS:
-  Kanna: 92799095ecb17b85ac2444bb5c8ce6394a137adb
+  Kanna: 059afb193a9f8ea34f46cb55a8b11bf4257efad8
 
 COCOAPODS: 0.39.0
