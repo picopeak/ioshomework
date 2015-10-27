@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CE9D712F5C9D4C434D5FCAB0'
-               BlueprintName = 'Kanna'
+               BlueprintIdentifier = '38A231A56A664E58666E359A'
+               BlueprintName = 'SQLite.swift'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Kanna.framework'>
+               BuildableName = 'SQLite.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
