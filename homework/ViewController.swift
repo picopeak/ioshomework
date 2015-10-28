@@ -338,6 +338,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         (subView[2].dataSource as! HomeWorkData).refreshData()
     }
     
+    func get_homework(date :String) -> [String]? {
+        if (homework[date] != nil) {
+            return homework[date]
+        } else {
+            let hw = getHWRecords(username, date: date)
+            if (hw != []) {
+                homework[date] = hw
+                return hw
+            }
+        }
+        
+        return nil
+    }
+    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
         print("page =", page)
@@ -365,19 +379,21 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         if (page == 0) {
             // Update data for new yesterday
             let yesterday :String = self.getDateStr(self.currentDate.yesterday())
-            let yesterdayHW = homework[yesterday]
+            let yesterdayHW = get_homework(yesterday)
             if (yesterdayHW != nil) {
                 updateView(yesterday ,hw: yesterdayHW!)
             } else {
+                updateView(yesterday ,hw: ["没有本地作业数据!"])
                 gethw(self.currentDate.yesterday(), id: 0)
             }
         } else if (page == 2) {
             // Update data for new tomorrow
             let tomorrow :String = self.getDateStr(self.currentDate.tomorrow())
-            let tomorrowHW = homework[tomorrow]
+            let tomorrowHW = get_homework(tomorrow)
             if (tomorrowHW != nil) {
                 updateView(tomorrow ,hw: tomorrowHW!)
             } else {
+                updateView(tomorrow ,hw: ["没有本地作业数据!"])
                 gethw(self.currentDate.tomorrow(), id: 2)
             }
         }
@@ -519,7 +535,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func updateView(date :String, hw :[String]) {
-        createHWRecords(username, date: date, HW: hw)
         if (date == self.getDateStr(self.currentDate)) {
             (self.subView[1].dataSource as! HomeWorkData).updateData(hw)
             let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
@@ -541,7 +556,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
         let dateStr = self.getDateStr(toDate)
-        if (homework[dateStr] != nil && homework[dateStr]! != []) {
+
+        if (get_homework(dateStr) != nil) {
             return
         }
         
@@ -830,7 +846,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             hw.append("今日没有作业")
         }
         print("Got homework for", date)
+        
+        // write to both memory and database
         self.homework[date] = hw
+        createHWRecords(username, date: date, HW: hw)
         
         // print(hw)
         return hw

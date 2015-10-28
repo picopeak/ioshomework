@@ -3,13 +3,59 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ViewController.(gethw(ViewController) -&gt; (NSDate, id : Int) -&gt; ()).(closure #1):ViewController.swift">
+         contextName = "ViewController.loginTried.didset:ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "subView">
+               value = "loginTried">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LoginViewController.loginBtn(AnyObject) -&gt; ():LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userName.text">
             </PersistentString>
             <PersistentString
-               value = "self.subView[id].dataSource">
+               value = "password.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.HomeWorkData.updateData([String]) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "webview">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.HomeWorkData.refreshData() -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hwcount">
+            </PersistentString>
+            <PersistentString
+               value = "tableData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.HomeWorkData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableDataHeights">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.scrollViewDidEndDecelerating(UIScrollView) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -18,14 +64,6 @@
          <PersistentStrings>
             <PersistentString
                value = "currentDate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.viewDidLoad() -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "screenHeight">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -44,6 +82,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ViewController.(gethw(ViewController) -&gt; (NSDate, id : Int) -&gt; ()).(closure #1):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "subView">
+            </PersistentString>
+            <PersistentString
+               value = "self.subView[id].dataSource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.HomeWorkData.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -55,59 +104,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LoginViewController.loginBtn(AnyObject) -&gt; ():LoginViewController.swift">
+         contextName = "ViewController.viewDidLoad() -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "userName.text">
-            </PersistentString>
-            <PersistentString
-               value = "password.text">
+               value = "screenHeight">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.HomeWorkData.refreshData() -&gt; ():ViewController.swift">
+         contextName = "ViewController.getHWRecords(String, date : String) -&gt; [String]:ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "hwcount">
-            </PersistentString>
-            <PersistentString
-               value = "tableData">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.loginTried.didset:ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "loginTried">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.scrollViewDidEndDecelerating(UIScrollView) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "currentDate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.HomeWorkData.tableView(UITableView, heightForRowAtIndexPath : NSIndexPath) -&gt; CGFloat:ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "tableDataHeights">
-            </PersistentString>
-            <PersistentString
-               value = "indexPath.row">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.HomeWorkData.updateData([String]) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "webview">
+               value = "hw[content_field]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
