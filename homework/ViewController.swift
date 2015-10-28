@@ -8,6 +8,7 @@
 
 import UIKit
 import Kanna
+import SQLite
 
 extension NSDate {
     func daysSinces2000() -> Int {
@@ -48,6 +49,26 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var right: UILabel!
     @IBOutlet weak var setupBtn: UIButton!
     
+    var db :Connection
+    let hwtable :Table
+    required init?(coder aDecoder: NSCoder) {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        db = try! Connection("\(path)/db.sqlite3.homework")
+        hwtable = Table("homework")
+        super.init(coder: aDecoder)
+    }
+
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        db = try! Connection("\(path)/db.sqlite3.homework")
+        hwtable = Table("homework")
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    convenience init() {
+        self.init(nibName: nil, bundle: nil)
+    }
+    
     var subView :[UITableView] = []
     var datasource :[HomeWorkData] = []
     var screenWidth = UIScreen.mainScreen().bounds.width
@@ -73,7 +94,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             }
         }
     }
-
+    
     func didFinishLogin(controller: LoginViewController, username: String, password: String) {
         // Recieved the info passed from Login View.
         print("username", username, "password", password)
@@ -110,6 +131,85 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         dateformatter.dateFormat = "YYYY-MM-dd"
         
         return dateformatter.stringFromDate(d) + " (" + String(d.dayofWeek()) + ")"
+    }
+
+    func createOneHWRecord(user :String, date :String, course :String, content :String) -> Int64 {
+        let user_field = Expression<String>("user")
+        let date_field = Expression<String>("date")
+        let course_field = Expression<String>("course")
+        let content_field = Expression<String>("content")
+        return try! db.run(hwtable.insert(user_field <- user, date_field <- date, course_field <- course, content_field <- content))
+    }
+    
+    func getCourseName(c :String ) -> String {
+        if (c.rangeOfString("数学作业") != nil) {
+            return "数学作业"
+        }
+        if (c.rangeOfString("英语作业") != nil) {
+            return "英语作业";
+        }
+        if (c.rangeOfString("语文作业") != nil) {
+            return "语文作业";
+        }
+        if (c.rangeOfString("音乐作业") != nil) {
+            return "音乐作业";
+        }
+        if (c.rangeOfString("体育作业") != nil) {
+            return "体育作业";
+        }
+        if (c.rangeOfString("美术作业") != nil) {
+            return "美术作业";
+        }
+        if (c.rangeOfString("自然作业") != nil) {
+            return "自然作业";
+        }
+        if (c.rangeOfString("信息作业") != nil) {
+            return "信息作业";
+        }
+        if (c.rangeOfString("劳技作业") != nil) {
+            return "劳技作业";
+        }
+        if (c.rangeOfString("国际理解作业") != nil) {
+            return "国际理解作业";
+        }
+        return "";
+    }
+
+    func createHWRecords(user :String, date :String, HW :[String]) {
+        // Remove old records from database
+        let user_field = Expression<String>("user")
+        let date_field = Expression<String>("date")
+        let myhw = hwtable.filter(user_field == user && date_field == date)
+        print("deleting old homework record")
+        try? db.run(myhw.delete())
+        
+        // Insert new records into database
+        print("writing new homework record")
+        var HasHomework :Bool = false;
+        for hw in HW {
+            if (hw != "") {
+                createOneHWRecord(user, date: date, course: getCourseName(hw), content: hw);
+                HasHomework = true;
+            }
+        }
+        
+        if (!HasHomework) {
+            createOneHWRecord(user, date: date, course: "", content: "今日没有作业");
+        }
+    }
+    
+    func getHWRecords(user :String, date :String) -> [String] {
+        let user_field = Expression<String>("user")
+        let date_field = Expression<String>("date")
+        let content_field = Expression<String>("content")
+        let query = hwtable.select(content_field).filter(user_field == user && date_field == date)
+        
+        var homework :[String] = []
+        print("querying homework record")
+        for hw in try db.prepare(query) {
+            homework.append(hw[content_field])
+        }
+        return homework
     }
     
     override func viewDidLoad() {
@@ -165,6 +265,21 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         self.scrollView.superview!.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), 0)
         self.scrollView.contentOffset.x = screenWidth
+        
+        // Create database now
+        let id_field = Expression<Int64>("id")
+        let user_field = Expression<String>("user")
+        let date_field = Expression<String>("date")
+        let course_field = Expression<String>("course")
+        let content_field = Expression<String>("content")
+   
+        let res = try? db.run(hwtable.create(ifNotExists: true) { t in
+            t.column(id_field, primaryKey: true)
+            t.column(user_field)
+            t.column(date_field)
+            t.column(course_field)
+            t.column(content_field)
+            })
         
         loadUserData()
         // loadHomeworkData()
@@ -404,6 +519,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func updateView(date :String, hw :[String]) {
+        createHWRecords(username, date: date, HW: hw)
         if (date == self.getDateStr(self.currentDate)) {
             (self.subView[1].dataSource as! HomeWorkData).updateData(hw)
             let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
