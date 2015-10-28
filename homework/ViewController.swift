@@ -282,7 +282,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             })
         
         loadUserData()
-        // loadHomeworkData()
         login_and_gethw()
     }
 
@@ -293,20 +292,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     override func viewDidAppear(animated: Bool) {
-    }
-    
-    /* Read homework data from database, and store into homework array */
-    func loadHomeworkData() {
-        /* TODO: read database. */
-        
-        /* Fake some data */
-        homework["2015-10-19 (一)"] = [ "数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学数学", "x", "y", "z"]
-        homework["2015-10-20 (二)"] = [ "数学", "m", "n"]
-        homework["2015-10-18 (日)"] = [ "数学", "hehehe"]
-        
-        updateView("2015-10-19 (一)", hw: homework["2015-10-19 (一)"]!)
-        updateView("2015-10-20 (二)", hw: homework["2015-10-20 (二)"]!)
-        updateView("2015-10-18 (日)", hw: homework["2015-10-18 (日)"]!)
     }
     
     override func didReceiveMemoryWarning() {
