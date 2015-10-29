@@ -64,7 +64,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jk7-YQ-dfR">
-                                <rect key="frame" x="534" y="24" width="38" height="30"/>
+                                <rect key="frame" x="542" y="24" width="38" height="30"/>
                                 <animations/>
                                 <state key="normal" title=" 设置 ">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -85,13 +85,13 @@
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="O5k-LM-xCf"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="Osn-TY-zlu" userLabel="&lt;&lt;.top = Data Label.top"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-20" id="OyR-Zr-3xi" userLabel="福外作业.trailing = trailingMargin + 20"/>
-                            <constraint firstItem="jk7-YQ-dfR" firstAttribute="leading" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-66" id="bn1-kD-G9C"/>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="bottom" secondItem="MN4-Rm-HPj" secondAttribute="bottom" id="gce-cb-lDS" userLabel="&gt;&gt;.bottom = Left.bottom"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wV6-Y3-uSM" secondAttribute="bottom" id="iQV-d4-Zyg"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="bottom" constant="8" symbolic="YES" id="lK7-we-kI9"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="pV4-Mw-NIP" userLabel="&lt;&lt;.leading = leading"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="q1C-g0-xIE"/>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="leading" secondItem="fUX-MY-fJC" secondAttribute="trailing" id="sqa-8M-WSR" userLabel="&gt;&gt;.leading = Date Label.trailing"/>
+                            <constraint firstItem="jk7-YQ-dfR" firstAttribute="leading" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-58" id="tBU-JD-n08"/>
                         </constraints>
                     </view>
                     <connections>
