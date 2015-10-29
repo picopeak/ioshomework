@@ -282,6 +282,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             })
         
         loadUserData()
+        
+        self.show_homework(self.currentDate, id: 1)
+        self.show_homework(self.currentDate.yesterday() ,id: 0)
+        self.show_homework(self.currentDate.tomorrow(), id: 2)
         login_and_gethw()
     }
 
@@ -341,6 +345,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let page = lroundf(Float(self.scrollView.contentOffset.x / screenWidth))
         print("page =", page)
 
+        // Switch table view to make scroll view can slide forever on one direction
         if (page == 0) {
             currentDate = currentDate.dateByAddingTimeInterval(-86400.0)
 
@@ -363,27 +368,41 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         if (page == 0) {
             // Update data for new yesterday
-            let yesterday :String = self.getDateStr(self.currentDate.yesterday())
-            let yesterdayHW = get_homework(yesterday)
-            if (yesterdayHW != nil) {
-                updateView(yesterday ,hw: yesterdayHW!)
-            } else {
-                updateView(yesterday ,hw: ["没有本地作业数据!"])
-                gethw(self.currentDate.yesterday(), id: 0)
-            }
+            show_and_download(self.currentDate.yesterday(), id: 0)
         } else if (page == 2) {
             // Update data for new tomorrow
-            let tomorrow :String = self.getDateStr(self.currentDate.tomorrow())
-            let tomorrowHW = get_homework(tomorrow)
-            if (tomorrowHW != nil) {
-                updateView(tomorrow ,hw: tomorrowHW!)
-            } else {
-                updateView(tomorrow ,hw: ["没有本地作业数据!"])
-                gethw(self.currentDate.tomorrow(), id: 2)
-            }
+            show_and_download(self.currentDate.tomorrow(), id: 2)
         }
         
         DateLabel.text = getDateStr(currentDate)
+    }
+    
+    func show_homework(date :NSDate, id: Int) {
+        // Update data for new yesterday
+        let day :String = self.getDateStr(date)
+        let HW = get_homework(day)
+        if (HW != nil) {
+            updateView(day ,hw: HW!)
+        } else {
+            updateView(day ,hw: ["没有本地作业数据!"])
+        }
+    }
+    
+    func show_and_download(date :NSDate, id: Int) {
+        // Update data for new yesterday
+        let day :String = self.getDateStr(date)
+        let HW = get_homework(day)
+        if (HW != nil) {
+            updateView(day ,hw: HW!)
+            
+            // Always download for today
+            if (day == self.getDateStr(NSDate())) {
+                gethw(self.currentDate.yesterday(), id: id)
+            }
+        } else {
+            updateView(day ,hw: ["没有本地作业数据!"])
+            gethw(date, id: id)
+        }
     }
     
     class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
@@ -601,7 +620,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     /* Main function to get homework */
     func login_and_gethw() {
-        updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
+        // updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
@@ -642,9 +661,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             }
                             print("got useful viewstate")
                             self.viewState = vs!
-                            self.gethw(self.currentDate, id: 1)
-                            self.gethw(self.currentDate.yesterday(), id: 0)
-                            self.gethw(self.currentDate.tomorrow(), id: 2)
+                            
+                            self.show_and_download(self.currentDate, id: 1)
+                            self.show_and_download(self.currentDate.yesterday() ,id: 0)
+                            self.show_and_download(self.currentDate.tomorrow(), id: 2)
                         }
                     }
                 }
@@ -815,7 +835,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         if let doc = Kanna.HTML(html: homework, encoding: dec) {
             // Search for nodes by XPath
-            // let hw_name :[String] = [ "数学作业", "英语作业", "语文作业", "音乐作业", "体育作业", "美术作业", "自然作业", "信息作业", "劳技作业", "国际理解作业" ]
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
