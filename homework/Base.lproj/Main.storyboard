@@ -146,13 +146,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nF2-ic-ebb">
-                                <rect key="frame" x="77" y="65" width="503" height="30"/>
+                                <rect key="frame" x="79" y="65" width="501" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YXg-Ej-Q2E">
-                                <rect key="frame" x="80" y="103" width="500" height="30"/>
+                                <rect key="frame" x="79" y="103" width="501" height="30"/>
                                 <animations/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -199,11 +199,11 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M2H-Dd-QxY">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M2H-Dd-QxY">
                                 <rect key="frame" x="531" y="222" width="51" height="31"/>
                                 <animations/>
                             </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zde-14-Xdz">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zde-14-Xdz">
                                 <rect key="frame" x="531" y="260" width="51" height="31"/>
                                 <animations/>
                             </switch>
@@ -227,13 +227,13 @@
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="9rS-16-zcf" secondAttribute="leading" id="2D5-VO-Vow"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d24-ry-7OV" secondAttribute="trailing" id="2SN-KF-fGj"/>
+                            <constraint firstItem="YXg-Ej-Q2E" firstAttribute="leading" secondItem="BIE-tf-t51" secondAttribute="trailing" constant="19.5" id="3LW-ti-eEd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7Oq-o8-O0K" secondAttribute="trailing" id="4Ye-BZ-Zku"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ICM-fw-GSm" secondAttribute="trailing" id="581-BE-iih"/>
                             <constraint firstAttribute="leadingMargin" secondItem="5Bd-yO-xRb" secondAttribute="leading" id="6rP-BU-r9u"/>
                             <constraint firstAttribute="leadingMargin" secondItem="4zU-JT-jEd" secondAttribute="leading" id="7AE-5p-ZVe"/>
                             <constraint firstItem="YXg-Ej-Q2E" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="83" id="7tr-uf-4Z7"/>
                             <constraint firstAttribute="leadingMargin" secondItem="bZK-oT-i4f" secondAttribute="leading" id="9sP-5S-cc5"/>
-                            <constraint firstItem="nF2-ic-ebb" firstAttribute="leading" secondItem="bba-ln-tMf" secondAttribute="trailing" constant="18" id="BZa-Gn-lrt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4zU-JT-jEd" secondAttribute="trailing" id="L8k-hL-d6b"/>
                             <constraint firstItem="c2w-Te-MuZ" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="131" id="MfX-69-61f"/>
                             <constraint firstAttribute="leadingMargin" secondItem="c2w-Te-MuZ" secondAttribute="leading" id="QK2-Qz-38z"/>
@@ -245,12 +245,12 @@
                             <constraint firstItem="M2H-Dd-QxY" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="202" id="Vt1-gd-jf4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="M2H-Dd-QxY" secondAttribute="trailing" id="Whb-3u-yX8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bZK-oT-i4f" secondAttribute="trailing" id="Y1m-o8-HMc"/>
+                            <constraint firstItem="nF2-ic-ebb" firstAttribute="leading" secondItem="bba-ln-tMf" secondAttribute="trailing" constant="19.5" id="asY-gI-kmJ"/>
                             <constraint firstItem="ICM-fw-GSm" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="164" id="c5v-KX-dhz"/>
                             <constraint firstItem="Agg-py-es8" firstAttribute="top" secondItem="bZK-oT-i4f" secondAttribute="bottom" constant="20" id="cDF-je-LXb"/>
                             <constraint firstItem="7Oq-o8-O0K" firstAttribute="leading" secondItem="c2w-Te-MuZ" secondAttribute="trailing" constant="18" id="dfA-Ik-cYd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="BIE-tf-t51" secondAttribute="leading" id="f4i-io-nBI"/>
                             <constraint firstItem="4zU-JT-jEd" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="8" id="i24-O5-yAi"/>
-                            <constraint firstItem="YXg-Ej-Q2E" firstAttribute="leading" secondItem="Us4-sW-lPB" secondAttribute="leadingMargin" constant="60" id="lrN-kZ-UUW"/>
                             <constraint firstItem="d24-ry-7OV" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="7" id="m8i-pM-Y9Y"/>
                             <constraint firstItem="MDk-KE-o6A" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="169" id="nk9-86-hSO"/>
                             <constraint firstItem="ICM-fw-GSm" firstAttribute="leading" secondItem="MDk-KE-o6A" secondAttribute="trailing" constant="18" id="oFp-BN-fqO"/>
@@ -265,12 +265,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fontSwitch" destination="zde-14-Xdz" id="ajV-uU-fkI"/>
                         <outlet property="loginBtn" destination="d24-ry-7OV" id="eNe-st-ZbF"/>
                         <outlet property="loginView" destination="Us4-sW-lPB" id="Xtv-q4-AhG"/>
                         <outlet property="password" destination="YXg-Ej-Q2E" id="kIm-M8-04C"/>
                         <outlet property="password2" destination="ICM-fw-GSm" id="0V6-gM-Jye"/>
                         <outlet property="userName" destination="nF2-ic-ebb" id="W7K-gA-FVY"/>
                         <outlet property="userName2" destination="7Oq-o8-O0K" id="8kn-Jl-QU1"/>
+                        <outlet property="userSwitch" destination="M2H-Dd-QxY" id="Onj-aw-uxJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdM-CH-5nM" userLabel="First Responder" sceneMemberID="firstResponder"/>

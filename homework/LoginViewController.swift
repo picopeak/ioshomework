@@ -20,6 +20,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var userName2: UITextField!
     @IBOutlet weak var password2: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var userSwitch: UISwitch!
+    @IBOutlet weak var fontSwitch: UISwitch!
     
     var delegate :LoginViewControllerDelegate! = nil
     
