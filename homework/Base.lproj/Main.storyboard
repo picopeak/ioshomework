@@ -123,7 +123,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="福山外国语小学" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zU-JT-jEd">
-                                <rect key="frame" x="20" y="28" width="560" height="21"/>
+                                <rect key="frame" x="20" y="32" width="560" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -213,7 +213,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d24-ry-7OV">
-                                <rect key="frame" x="542" y="23" width="38" height="30"/>
+                                <rect key="frame" x="542" y="28" width="38" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -236,8 +236,10 @@
                             <constraint firstAttribute="leadingMargin" secondItem="4zU-JT-jEd" secondAttribute="leading" id="7AE-5p-ZVe"/>
                             <constraint firstItem="YXg-Ej-Q2E" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="83" id="7tr-uf-4Z7"/>
                             <constraint firstAttribute="leadingMargin" secondItem="bZK-oT-i4f" secondAttribute="leading" id="9sP-5S-cc5"/>
+                            <constraint firstItem="d24-ry-7OV" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="8" id="A9n-pg-cNx"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="4zU-JT-jEd" secondAttribute="leading" id="CJa-Ro-hkt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="d24-ry-7OV" secondAttribute="trailing" id="E0X-NG-jyK"/>
                             <constraint firstItem="d24-ry-7OV" firstAttribute="trailing" secondItem="4zU-JT-jEd" secondAttribute="trailing" id="EeX-Ai-x4f"/>
-                            <constraint firstItem="d24-ry-7OV" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="3" id="HgN-vK-WkT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4zU-JT-jEd" secondAttribute="trailing" id="L8k-hL-d6b"/>
                             <constraint firstItem="c2w-Te-MuZ" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="131" id="MfX-69-61f"/>
                             <constraint firstAttribute="leadingMargin" secondItem="c2w-Te-MuZ" secondAttribute="leading" id="QK2-Qz-38z"/>
@@ -254,8 +256,7 @@
                             <constraint firstItem="Agg-py-es8" firstAttribute="top" secondItem="bZK-oT-i4f" secondAttribute="bottom" constant="20" id="cDF-je-LXb"/>
                             <constraint firstItem="7Oq-o8-O0K" firstAttribute="leading" secondItem="c2w-Te-MuZ" secondAttribute="trailing" constant="18" id="dfA-Ik-cYd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="BIE-tf-t51" secondAttribute="leading" id="f4i-io-nBI"/>
-                            <constraint firstItem="d24-ry-7OV" firstAttribute="centerY" secondItem="4zU-JT-jEd" secondAttribute="centerY" id="fud-Oa-oJI"/>
-                            <constraint firstItem="4zU-JT-jEd" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="8" id="i24-O5-yAi"/>
+                            <constraint firstItem="4zU-JT-jEd" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="12" id="iGw-3g-9EK"/>
                             <constraint firstItem="MDk-KE-o6A" firstAttribute="top" secondItem="yFs-dg-Ukb" secondAttribute="bottom" constant="169" id="nk9-86-hSO"/>
                             <constraint firstItem="ICM-fw-GSm" firstAttribute="leading" secondItem="MDk-KE-o6A" secondAttribute="trailing" constant="18" id="oFp-BN-fqO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nF2-ic-ebb" secondAttribute="trailing" id="oHf-4C-WKY"/>
