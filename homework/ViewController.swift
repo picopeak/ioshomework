@@ -771,11 +771,33 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 completion(hellomsg: "", error: nil)
             } else {
                 print("login passed!")
+                /*
+                let names = self.matchesForRegexInText(">([^>]*)\\(家长\\)", text: hellomsg)
+                var name = names[0]
+                let s = name.startIndex.advancedBy(1)
+                let e = name.endIndex.advancedBy(-5)
+                name = name.substringFromIndex(s).substringToIndex(e)
+                self.DateLabel.text = self.DateLabel.text! + " - " + name
+                */
                 completion(hellomsg: hellomsg, error: nil)
             }
         }
         task.resume()
         /* No code should be after here. */
+    }
+    
+    func matchesForRegexInText(regex: String!, text: String!) -> [String] {
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex, options: [])
+            let nsString = text as NSString
+            let results = regex.matchesInString(text,
+                options: [], range: NSMakeRange(0, nsString.length))
+            return results.map { nsString.substringWithRange($0.range)}
+        } catch let error as NSError {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
     }
     
     func downloadHomework(toDate: NSDate, completion: (vs: String, date: String, homework: String?, error: NSError?) -> Void) {
