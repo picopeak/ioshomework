@@ -96,6 +96,7 @@
                     </view>
                     <connections>
                         <outlet property="DateLabel" destination="fUX-MY-fJC" id="IQr-KU-yw4"/>
+                        <outlet property="FushanLabel" destination="c77-Sn-qvf" id="hyS-S4-upF"/>
                         <outlet property="left" destination="MN4-Rm-HPj" id="6El-BQ-GdX"/>
                         <outlet property="right" destination="oQc-IR-O9e" id="meD-rw-nl6"/>
                         <outlet property="scrollView" destination="wV6-Y3-uSM" id="RSV-Xa-ORp"/>

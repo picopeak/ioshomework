@@ -44,6 +44,7 @@ extension NSDate {
 class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var FushanLabel: UILabel!
     @IBOutlet weak var DateLabel: UILabel!
     @IBOutlet weak var left: UILabel!
     @IBOutlet weak var right: UILabel!
@@ -292,7 +293,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func refresh(sender:AnyObject)
     {
         print("refreshing ...")
-        downloadhw(self.currentDate, id: 1)
+        
+        login_and_gethw_current_date()
+        // downloadhw(self.currentDate, id: 1)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -673,6 +676,59 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
     }
 
+    /* Main function to get homework */
+    func login_and_gethw_current_date() {
+        // updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
+        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+            if (error != nil) {
+                self.loginTried = true
+                return
+            }
+            // print("viewstate is ready 1")
+            self.viewState = vs!
+            self.login() { (hellomsg, error) in
+                if (error != nil) {
+                    self.loginTried = true
+                    return
+                }
+                /* try again */
+                print("try again ...")
+                self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                    if (error != nil) {
+                        self.loginTried = true
+                        return
+                    }
+                    // print("viewstate is ready 2")
+                    self.viewState = vs!
+                    self.login() { (hellomsg, error) in
+                        if (error != nil) {
+                            // Fail to due to issues like network connection
+                            self.loginTried = true
+                            return
+                        }
+                        if (hellomsg == "") {
+                            // Fail due to incorrect username or password
+                            self.loginTried = true
+                            return
+                        }
+                        self.isLoggedIn = true
+                        self.storeUserData(self.username, password: self.password)
+                        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                            if (error != nil) {
+                                return
+                            }
+                            print("got useful viewstate")
+                            self.viewState = vs!
+                            
+                            self.show_and_download(self.currentDate, id: 1)
+                        }
+                    }
+                }
+                // Usually we will never encounter this situation!
+            }
+        }
+    }
+
     func extractViewState(data :NSData) -> String {
         var vs :String = ""
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
@@ -771,14 +827,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 completion(hellomsg: "", error: nil)
             } else {
                 print("login passed!")
-                /*
                 let names = self.matchesForRegexInText(">([^>]*)\\(家长\\)", text: hellomsg)
                 var name = names[0]
                 let s = name.startIndex.advancedBy(1)
                 let e = name.endIndex.advancedBy(-5)
                 name = name.substringFromIndex(s).substringToIndex(e)
-                self.DateLabel.text = self.DateLabel.text! + " - " + name
-                */
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业 - " + name
+                    self.FushanLabel.setNeedsDisplay();
+                });
                 completion(hellomsg: hellomsg, error: nil)
             }
         }
