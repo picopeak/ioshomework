@@ -268,7 +268,9 @@
                         <outlet property="loginBtn" destination="d24-ry-7OV" id="eNe-st-ZbF"/>
                         <outlet property="loginView" destination="Us4-sW-lPB" id="Xtv-q4-AhG"/>
                         <outlet property="password" destination="YXg-Ej-Q2E" id="kIm-M8-04C"/>
+                        <outlet property="password2" destination="ICM-fw-GSm" id="0V6-gM-Jye"/>
                         <outlet property="userName" destination="nF2-ic-ebb" id="W7K-gA-FVY"/>
+                        <outlet property="userName2" destination="7Oq-o8-O0K" id="8kn-Jl-QU1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdM-CH-5nM" userLabel="First Responder" sceneMemberID="firstResponder"/>

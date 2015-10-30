@@ -17,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var loginView: UIView!
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var userName2: UITextField!
+    @IBOutlet weak var password2: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
     
     var delegate :LoginViewControllerDelegate! = nil
@@ -43,6 +45,15 @@ class LoginViewController: UIViewController {
         password.layer.borderWidth = 1.0
         password.layer.backgroundColor = UIColor.whiteColor().CGColor
         
+        userName2.layer.borderColor = UIColor.blackColor().CGColor
+        userName2.layer.borderWidth = 1.0
+        userName2.layer.backgroundColor = UIColor.whiteColor().CGColor
+        userName2.becomeFirstResponder()
+        
+        password2.layer.borderColor = UIColor.blackColor().CGColor
+        password2.layer.borderWidth = 1.0
+        password2.layer.backgroundColor = UIColor.whiteColor().CGColor
+
         loginBtn.layer.borderColor = UIColor.grayColor().CGColor
         loginBtn.layer.borderWidth = 1.0
         loginBtn.layer.cornerRadius = 10; // this value vary as per your desire
