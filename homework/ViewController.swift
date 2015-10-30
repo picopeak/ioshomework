@@ -96,6 +96,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
     }
     
+    @IBAction func setup(sender: UIButton) {
+        // Pass data into login View Controller
+        let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+        vc.delegate = self
+        vc.updateInfo(self.username, password: self.password)
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
     func didFinishLogin(controller: LoginViewController, username: String, password: String) {
         // Recieved the info passed from Login View.
         print("username", username, "password", password)
