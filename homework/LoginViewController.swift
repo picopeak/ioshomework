@@ -43,6 +43,10 @@ class LoginViewController: UIViewController {
         userName2.text = oldUsername2
         password2.text = oldPassword2
     }
+
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
     
     override func viewWillAppear(animated: Bool) {
         loginView.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
