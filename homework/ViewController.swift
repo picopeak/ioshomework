@@ -177,7 +177,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         defaults.setObject(self.username2, forKey: "username2")
         defaults.setObject(self.password2, forKey: "password2")
         defaults.setObject(self.isUser2, forKey: "isUser2")
-        defaults.setObject(self.isBigFont, forKey: "isBitFont")
+        defaults.setObject(self.isBigFont, forKey: "isBigFont")
     }
     
     func getDateStr(d :NSDate) -> String {
