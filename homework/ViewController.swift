@@ -359,8 +359,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         // Dispose of any resources that can be recreated.
     }
     
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         // TODO: fix bugs around rotation
+        /*
         screenWidth = UIScreen.mainScreen().bounds.width
         screenHeight = UIScreen.mainScreen().bounds.height
         
@@ -381,6 +386,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         (subView[0].dataSource as! HomeWorkData).refreshData()
         (subView[1].dataSource as! HomeWorkData).refreshData()
         (subView[2].dataSource as! HomeWorkData).refreshData()
+        */
     }
     
     func get_homework(date :String) -> [String]? {
