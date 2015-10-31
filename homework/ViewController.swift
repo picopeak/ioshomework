@@ -86,8 +86,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     var password :String = ""
     var username2 :String = ""
     var password2 :String = ""
+    
     var isUser2 :Bool = false
     var isBigFont :Bool = false
+    var currentusername :String = ""
+    var currentpassword :String = ""
+
     var loginTried :Bool = false {
         didSet {
             if (isLoggedIn == false && loginTried == true) {
@@ -119,28 +123,61 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         self.isBigFont = isBigFont
         controller.dismissViewControllerAnimated(true, completion: nil)
         
+        storeUserData()
+        if (isUser2) {
+            currentusername = username2
+            currentpassword = password2
+        } else {
+            currentusername = username
+            currentpassword = password
+        }
         // Try to login again
         login_and_gethw()
     }
     
     func loadUserData() {
+        print("load setup data")
         let defaults = NSUserDefaults.standardUserDefaults()
         let usernameObj = defaults.objectForKey("username")
         let passwordObj = defaults.objectForKey("password")
+        let username2Obj = defaults.objectForKey("username2")
+        let password2Obj = defaults.objectForKey("password2")
         if (usernameObj != nil && passwordObj != nil) {
-            username = defaults.objectForKey("username") as! String
-            password = defaults.objectForKey("password") as! String
-            
-            // Fake data for testing purpose to verify if login system works
-            // username = "201308251"
-            // password = "5119642"
+            username = usernameObj as! String
+            password = passwordObj as! String
         }
+        if (username2Obj != nil && password2Obj != nil) {
+            username2 = username2Obj as! String
+            password2 = password2Obj as! String
+        }
+        
+        let isUser2Obj = defaults.objectForKey("isUser2")
+        if (isUser2Obj != nil && ((isUser2Obj as! Bool) == true)) {
+            isUser2 = true
+            currentusername = username2
+            currentpassword = password2
+        } else {
+            isUser2 = false
+            currentusername = username
+            currentpassword = password
+        }
+        
+        let isBigFontObj = defaults.objectForKey("isBigFont")
+        if (isBigFontObj != nil) {
+            isBigFont = isBigFontObj as! Bool
+        }
+        
     }
     
-    func storeUserData(username :String, password :String) {
+    func storeUserData() {
+        print("store setup data")
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(username, forKey: "username")
-        defaults.setObject(password, forKey: "password")
+        defaults.setObject(self.username, forKey: "username")
+        defaults.setObject(self.password, forKey: "password")
+        defaults.setObject(self.username2, forKey: "username2")
+        defaults.setObject(self.password2, forKey: "password2")
+        defaults.setObject(self.isUser2, forKey: "isUser2")
+        defaults.setObject(self.isBigFont, forKey: "isBitFont")
     }
     
     func getDateStr(d :NSDate) -> String {
@@ -350,7 +387,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         if (homework[date] != nil) {
             return homework[date]
         } else {
-            let hw = getHWRecords(username, date: date)
+            let hw = getHWRecords(currentusername, date: date)
             if (hw != []) {
                 homework[date] = hw
                 return hw
@@ -673,7 +710,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        self.storeUserData(self.username, password: self.password)
                         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
@@ -728,7 +764,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        self.storeUserData(self.username, password: self.password)
                         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
@@ -799,8 +834,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        let username = "&login:tbxUserName="+self.username
-        let password = "&login:tbxPassword="+self.password
+        let username = "&login:tbxUserName="+self.currentusername
+        let password = "&login:tbxPassword="+self.currentpassword
         let btnx="&login:btnlogin.x=27"
         let btny="&login:btnlogin.y=12"
         var postString = "__VIEWSTATE=" + viewState + username + password + btnx + btny
@@ -948,7 +983,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         // write to both memory and database
         self.homework[date] = hw
-        createHWRecords(username, date: date, HW: hw)
+        createHWRecords(currentusername, date: date, HW: hw)
         
         // print(hw)
         return hw

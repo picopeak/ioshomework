@@ -49,7 +49,6 @@ class LoginViewController: UIViewController {
         userName.layer.borderColor = UIColor.blackColor().CGColor
         userName.layer.borderWidth = 1.0
         userName.layer.backgroundColor = UIColor.whiteColor().CGColor
-        userName.becomeFirstResponder()
         
         password.layer.borderColor = UIColor.blackColor().CGColor
         password.layer.borderWidth = 1.0
@@ -70,6 +69,12 @@ class LoginViewController: UIViewController {
         
         userSwitch.setOn(oldisUser2, animated: false)
         fontSwitch.setOn(oldisBigFont, animated: false)
+        
+        if (oldisUser2) {
+            userName2.becomeFirstResponder()
+        } else {
+            userName.becomeFirstResponder()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,6 +99,11 @@ class LoginViewController: UIViewController {
     
     @IBAction func applyUser2(sender: UISwitch) {
         newisUser2 = sender.on
+        if (newisUser2) {
+            userName2.becomeFirstResponder()
+        } else {
+            userName.becomeFirstResponder()
+        }
     }
     
     @IBAction func applyBigFont(sender: UISwitch) {
