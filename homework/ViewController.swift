@@ -336,7 +336,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             })
         
         loadUserData()
-        
+
         self.show_homework(self.currentDate, id: 1)
         self.show_homework(self.currentDate.yesterday() ,id: 0)
         self.show_homework(self.currentDate.tomorrow(), id: 2)
@@ -491,6 +491,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 webview.append(hw_webview)
             }
             // tableData[0] = "没有作业"
+        }
+        
+        func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+            let link :NSString = request.URL!.relativeString!
+            if (link == "about:blank") {
+                return true
+            } else {
+                print(request.URL?.relativeString)
+                UIApplication.sharedApplication().openURL(request.URL!)
+                return false
+            }
         }
         
         func refreshData() {
