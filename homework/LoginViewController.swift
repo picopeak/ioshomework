@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate {
-    func didFinishLogin(controller :LoginViewController, username :String, password :String)
+    func didFinishLogin(controller :LoginViewController, username :String, password :String, username2 :String, password2 :String, isUser2 :Bool, isBigFont :Bool)
 }
 
 class LoginViewController: UIViewController {
@@ -27,13 +27,21 @@ class LoginViewController: UIViewController {
     
     private var oldUsername :String = ""
     private var oldPassword :String = ""
-
+    private var oldUsername2 :String = ""
+    private var oldPassword2 :String = ""
+    private var oldisUser2 :Bool = false
+    private var oldisBigFont :Bool = false
+    private var newisUser2 :Bool = false
+    private var newisBigFont :Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         userName.text = oldUsername
         password.text = oldPassword
+        userName2.text = oldUsername2
+        password2.text = oldPassword2
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -59,6 +67,9 @@ class LoginViewController: UIViewController {
         loginBtn.layer.borderColor = UIColor.grayColor().CGColor
         loginBtn.layer.borderWidth = 1.0
         loginBtn.layer.cornerRadius = 10; // this value vary as per your desire
+        
+        userSwitch.setOn(oldisUser2, animated: false)
+        fontSwitch.setOn(oldisBigFont, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,12 +78,26 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginBtn(sender: AnyObject) {
-        delegate.didFinishLogin(self, username: userName.text!, password: password.text!)
+        delegate.didFinishLogin(self, username: userName.text!, password: password.text!, username2: userName2.text!, password2: password2.text!, isUser2: newisUser2, isBigFont: newisBigFont)
     }
 
-    func updateInfo(username :String, password :String) {
+    func updateInfo(username :String, password :String, username2 :String, password2 :String, isUser2 :Bool, isBigFont :Bool) {
         oldUsername = username
         oldPassword = password
+        oldUsername2 = username2
+        oldPassword2 = password2
+        oldisUser2 = isUser2
+        oldisBigFont = isBigFont
+        newisUser2 = isUser2
+        newisBigFont = isBigFont
+    }
+    
+    @IBAction func applyUser2(sender: UISwitch) {
+        newisUser2 = sender.on
+    }
+    
+    @IBAction func applyBigFont(sender: UISwitch) {
+        newisBigFont = sender.on
     }
     
     /*

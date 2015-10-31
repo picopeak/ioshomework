@@ -200,10 +200,16 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M2H-Dd-QxY">
                                 <rect key="frame" x="531" y="222" width="51" height="31"/>
                                 <animations/>
+                                <connections>
+                                    <action selector="applyUser2:" destination="r81-63-OfA" eventType="valueChanged" id="vwt-vA-AUk"/>
+                                </connections>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zde-14-Xdz">
                                 <rect key="frame" x="531" y="260" width="51" height="31"/>
                                 <animations/>
+                                <connections>
+                                    <action selector="applyBigFont:" destination="r81-63-OfA" eventType="valueChanged" id="h8z-Z1-CLW"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 4.3 (picopeak Copyright 2015)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZK-oT-i4f">
                                 <rect key="frame" x="20" y="565.5" width="560" height="14.5"/>

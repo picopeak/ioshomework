@@ -84,13 +84,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     var username :String = ""
     var password :String = ""
+    var username2 :String = ""
+    var password2 :String = ""
+    var isUser2 :Bool = false
+    var isBigFont :Bool = false
     var loginTried :Bool = false {
         didSet {
             if (isLoggedIn == false && loginTried == true) {
                 // Pass data into login View Controller
                 let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 vc.delegate = self
-                vc.updateInfo(self.username, password: self.password)
+                vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
                 self.presentViewController(vc, animated: true, completion: nil)
             }
         }
@@ -100,15 +104,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         // Pass data into login View Controller
         let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
         vc.delegate = self
-        vc.updateInfo(self.username, password: self.password)
+        vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
-    func didFinishLogin(controller: LoginViewController, username: String, password: String) {
+    func didFinishLogin(controller: LoginViewController, username: String, password: String, username2: String, password2: String, isUser2 :Bool, isBigFont :Bool) {
         // Recieved the info passed from Login View.
-        print("username", username, "password", password)
+        print("username", username, "password", password, "username2", username2, "password2", password2, "isUser2", isUser2, "isBigFont", isBigFont)
         self.username = username
         self.password = password
+        self.username2 = username2
+        self.password2 = password2
+        self.isUser2 = isUser2
+        self.isBigFont = isBigFont
         controller.dismissViewControllerAnimated(true, completion: nil)
         
         // Try to login again
