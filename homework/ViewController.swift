@@ -283,7 +283,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let query = hwtable.select(content_field).filter(user_field == user && date_field == date)
         
         var homework :[String] = []
-        print("querying homework record")
+        print("querying homework record "+date)
         for hw in try db.prepare(query) {
             homework.append(hw[content_field])
         }
@@ -893,6 +893,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        print("user="+self.currentusername+" password="+self.currentpassword)
         let username = "&login:tbxUserName="+self.currentusername
         let password = "&login:tbxPassword="+self.currentpassword
         let btnx="&login:btnlogin.x=27"
