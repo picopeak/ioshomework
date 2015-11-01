@@ -99,7 +99,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 vc.delegate = self
                 vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
-                self.presentViewController(vc, animated: true, completion: nil)
+                self.presentViewController(vc, animated: false, completion: nil)
             }
         }
     }
@@ -109,21 +109,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
         vc.delegate = self
         vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.presentViewController(vc, animated: false, completion: nil)
     }
     
     func didFinishLogin(controller: LoginViewController, username: String, password: String, username2: String, password2: String, isUser2 :Bool, isBigFont :Bool) {
         // Recieved the info passed from Login View.
         print("username", username, "password", password, "username2", username2, "password2", password2, "isUser2", isUser2, "isBigFont", isBigFont)
-        self.username = username
-        self.password = password
-        self.username2 = username2
-        self.password2 = password2
-        self.isUser2 = isUser2
-        self.isBigFont = isBigFont
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismissViewControllerAnimated(false, completion: nil)
         
-        storeUserData()
+        // Update current user
         if (isUser2) {
             currentusername = username2
             currentpassword = password2
@@ -131,6 +125,36 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             currentusername = username
             currentpassword = password
         }
+        
+        if (self.isUser2 == isUser2) {
+            if (isUser2) {
+                if (self.username2 == username2 && self.password2 == password2) {
+                    self.username = username
+                    self.password = password
+                    self.isBigFont = isBigFont
+                    show_homework(self.currentDate, id: 1)
+                    return
+                }
+            } else {
+                if (self.username == username && self.password == password) {
+                    self.username2 = username2
+                    self.password2 = password2
+                    self.isBigFont = isBigFont
+                    show_homework(self.currentDate, id: 1)
+                    return
+                }
+            }
+        }
+        
+        self.username = username
+        self.password = password
+        self.username2 = username2
+        self.password2 = password2
+        self.isBigFont = isBigFont
+        self.isUser2 = isUser2
+        
+        storeUserData()
+
         // Try to login again
         login_and_gethw()
     }
