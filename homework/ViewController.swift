@@ -155,8 +155,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         storeUserData()
 
-        // Try to login again
-        login_and_gethw()
+        // user is changed, so now try to logout and login again
+        logout() {
+            self.login_and_gethw()
+        }
     }
     
     func loadUserData() {
@@ -961,7 +963,65 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         task.resume()
         /* No code should be after here. */
     }
-    
+
+    func logout(completion: () -> Void) {
+        /* %2B + , %2F / , %3D = , %3A : */
+        let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
+        // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+        // let viewstate = vs.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        print("Logout: user="+self.currentusername+" password="+self.currentpassword)
+        let btnx="&login:btnlogout.x=35"
+        let btny="&login:btnlogout.y=13"
+        var postString = "__VIEWSTATE=" + viewState + btnx + btny
+        postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        // print("post string is", postString)
+        
+        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        // let enc :NSStringEncoding = NSUTF8StringEncoding
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
+        let postStringLen = "\(paramsLength)"
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.addValue(postStringLen, forHTTPHeaderField: "Content-Length")
+        
+        let encoded_postString :NSData = postString.dataUsingEncoding(enc)!
+        request.HTTPBody = encoded_postString
+        request.HTTPMethod = "POST"
+        
+        let session = NSURLSession.sharedSession()
+        print("Trying to logout ...")
+        let task = session.dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if (error != nil) {
+                print("post error=\(error)")
+                return
+            }
+            
+            // let res = response as! NSHTTPURLResponse!
+            // print("Response code:", res.statusCode)
+            
+            // print("response = \(response)")
+            let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+            let rawdata = NSString(data: data!, encoding: dec)
+            let hellomsg = rawdata as! String
+            
+            if (hellomsg.rangeOfString("用户名：") == nil) {
+                // print("rawdata = \(rawdata)")
+                print("logout failed!")
+            } else {
+                print("logout passed!")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业"
+                    self.FushanLabel.setNeedsDisplay();
+                });
+                completion()
+            }
+        }
+        task.resume()
+        /* No code should be after here. */
+    }
+
     func matchesForRegexInText(regex: String!, text: String!) -> [String] {
         
         do {
