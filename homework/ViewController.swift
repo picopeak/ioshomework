@@ -156,9 +156,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         storeUserData()
 
         // user is changed, so now try to logout and login again
-        logout() {
-            self.login_and_gethw()
-        }
+        logout_and_login_gethw()
     }
     
     func loadUserData() {
@@ -797,6 +795,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
     }
 
+    func logout_and_login_gethw() {
+        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+            if (error != nil) {
+                self.loginTried = true
+                return
+            }
+            // print("viewstate is ready 1")
+            self.viewState = vs!
+            self.logout() {
+                self.login_and_gethw()
+            }
+        }
+    }
+
     /* Main function to get homework */
     func login_and_gethw_current_date() {
         // updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
@@ -866,6 +878,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             break
         }
         
+        print("view state is extracted.")
+        self.viewState = vs
         return vs;
     }
     
@@ -908,9 +922,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let password = "&login:tbxPassword="+self.currentpassword
         let btnx="&login:btnlogin.x=27"
         let btny="&login:btnlogin.y=12"
-        var postString = "__VIEWSTATE=" + viewState + username + password + btnx + btny
+        let vs_generator="&__VIEWSTATEGENERATOR=AC07AF0C"
+        var postString = "__VIEWSTATE=" + viewState + vs_generator + username + password + btnx + btny
         postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        // print("post string is", postString)
+        print("post string is", postString)
 
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         // let enc :NSStringEncoding = NSUTF8StringEncoding
@@ -947,12 +962,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 print("login failed!")
                 completion(hellomsg: "", error: nil)
             } else {
-                print("login passed!")
                 let names = self.matchesForRegexInText(">([^>]*)\\(家长\\)", text: hellomsg)
                 var name = names[0]
                 let s = name.startIndex.advancedBy(1)
                 let e = name.endIndex.advancedBy(-5)
                 name = name.substringFromIndex(s).substringToIndex(e)
+                print(name + " login passed!")
                 dispatch_async(dispatch_get_main_queue(), {
                     self.FushanLabel.text = "福外作业 - " + name
                     self.FushanLabel.setNeedsDisplay();
