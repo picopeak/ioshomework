@@ -684,8 +684,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func gethw(toDate :NSDate, id: Int) {
         let dateStr = self.getDateStr(toDate)
 
-        if (get_homework(dateStr) != nil) {
-            return
+        if (dateStr != self.getDateStr(NSDate())) {
+            if (get_homework(dateStr) != nil) {
+                return
+            }
         }
         
         if (!isLoggedIn) {
