@@ -491,7 +491,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             // Always download for today
             if (day == self.getDateStr(NSDate())) {
-                gethw(self.currentDate.yesterday(), id: id)
+                gethw(self.currentDate, id: id)
             }
         } else {
             updateView(day ,hw: ["没有本地作业数据!"])
