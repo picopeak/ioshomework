@@ -682,13 +682,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
+        /*
         let dateStr = self.getDateStr(toDate)
 
         if (dateStr != self.getDateStr(NSDate())) {
             if (get_homework(dateStr) != nil) {
                 return
             }
-        }
+        }*/
         
         if (!isLoggedIn) {
             return
