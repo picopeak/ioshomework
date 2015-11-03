@@ -12,12 +12,12 @@ import SQLite
 
 extension NSDate {
     func daysSinces2000() -> Int {
-        let interval = self.timeIntervalSinceReferenceDate
+        let interval = self.timeIntervalSinceReferenceDate + 8*3600
         let days = Int(interval / 86400)
         return days + 366
     }
     func days() -> Int {
-        let interval = self.timeIntervalSince1970
+        let interval = self.timeIntervalSince1970 + 8*3600
         let days = Int(interval / 86400)
         return days
     }
@@ -38,6 +38,14 @@ extension NSDate {
     }
     func tomorrow() -> NSDate {
         return NSDate(timeIntervalSince1970: self.timeIntervalSince1970 + 86400)
+    }
+    func getDateStr() -> String {
+        let dateformatter: NSDateFormatter = NSDateFormatter()
+        dateformatter.timeZone = NSTimeZone(name: "HKT")
+        // dateformatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        // print(dateformatter.stringFromDate(self))
+        dateformatter.dateFormat = "YYYY-MM-dd"
+        return dateformatter.stringFromDate(self) + " (" + String(dayofWeek()) + ")"
     }
 }
 
@@ -203,13 +211,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         defaults.setObject(self.isUser2, forKey: "isUser2")
         defaults.setObject(self.isBigFont, forKey: "isBigFont")
     }
-    
-    func getDateStr(d :NSDate) -> String {
-        let dateformatter: NSDateFormatter = NSDateFormatter()
-        dateformatter.dateFormat = "YYYY-MM-dd"
-        
-        return dateformatter.stringFromDate(d) + " (" + String(d.dayofWeek()) + ")"
-    }
 
     func createOneHWRecord(user :String, date :String, course :String, content :String) -> Int64 {
         let user_field = Expression<String>("user")
@@ -293,7 +294,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DateLabel.text = getDateStr(currentDate)
+        DateLabel.text = currentDate.getDateStr()
         DateLabel.backgroundColor = UIColor.purpleColor()
         DateLabel.textColor = UIColor.whiteColor()
         left.backgroundColor = UIColor.purpleColor()
@@ -468,12 +469,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             show_and_download(self.currentDate.tomorrow(), id: 2)
         }
         
-        DateLabel.text = getDateStr(currentDate)
+        DateLabel.text = currentDate.getDateStr()
     }
     
     func show_homework(date :NSDate, id: Int) {
         // Update data for new yesterday
-        let day :String = self.getDateStr(date)
+        let day :String = date.getDateStr()
         let HW = get_homework(day)
         if (HW != nil) {
             updateView(day ,hw: HW!)
@@ -484,13 +485,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     func show_and_download(date :NSDate, id: Int) {
         // Update data for new yesterday
-        let day :String = self.getDateStr(date)
+        let day :String = date.getDateStr()
         let HW = get_homework(day)
         if (HW != nil) {
             updateView(day ,hw: HW!)
             
             // Always download for today
-            if (day == self.getDateStr(NSDate())) {
+            if (day == NSDate().getDateStr()) {
                 gethw(self.currentDate, id: id)
             }
         } else {
@@ -662,17 +663,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func updateView(date :String, hw :[String]) {
-        if (date == self.getDateStr(self.currentDate)) {
+        if (date == self.currentDate.getDateStr()) {
             (self.subView[1].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
             let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
             refreshC.endRefreshing()
         }
-        if (date == self.getDateStr(self.currentDate.yesterday())) {
+        if (date == self.currentDate.yesterday().getDateStr()) {
             (self.subView[0].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
             let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
             refreshC.endRefreshing()
         }
-        if (date == self.getDateStr(self.currentDate.tomorrow())) {
+        if (date == self.currentDate.tomorrow().getDateStr()) {
             (self.subView[2].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
             let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
             refreshC.endRefreshing()
@@ -682,15 +683,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     /* Assume login is successful and download homework content for current date.
        And then inform all tableviews by updating data sources. */
     func gethw(toDate :NSDate, id: Int) {
-        /*
-        let dateStr = self.getDateStr(toDate)
-
-        if (dateStr != self.getDateStr(NSDate())) {
-            if (get_homework(dateStr) != nil) {
-                return
-            }
-        }*/
-        
         if (!isLoggedIn) {
             return
         }
@@ -699,7 +691,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func downloadhw(toDate :NSDate, id: Int) {
-        let dateStr = self.getDateStr(toDate)
+        let dateStr = toDate.getDateStr()
         // updateView(dateStr ,hw: ["正在下载作业数据..."])
         print("downloading homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
@@ -746,7 +738,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     /* Main function to get homework */
     func login_and_gethw() {
-        // updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
@@ -814,7 +805,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     /* Main function to get homework */
     func login_and_gethw_current_date() {
-        // updateView(getDateStr(self.currentDate) ,hw: ["正在登录系统..."])
         self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
@@ -928,7 +918,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let vs_generator="&__VIEWSTATEGENERATOR=AC07AF0C"
         var postString = "__VIEWSTATE=" + viewState + vs_generator + username + password + btnx + btny
         postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
-        print("post string is", postString)
+        // print("post string is", postString)
 
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         // let enc :NSStringEncoding = NSUTF8StringEncoding
@@ -1095,11 +1085,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             if (homework.rangeOfString("您当前查看的是") == nil) {
                 print("failed to obtain homework!")
-                completion(vs: new_vs, date: self.getDateStr(toDate), homework: "", error: nil)
+                completion(vs: new_vs, date: toDate.getDateStr(), homework: "", error: nil)
             } else {
                 // print("rawdata = \(rawdata)")
                 // print("homework obtained!")
-                completion(vs: new_vs, date: self.getDateStr(toDate), homework: homework, error: nil)
+                completion(vs: new_vs, date: toDate.getDateStr(), homework: homework, error: nil)
             }
         }
         task.resume()
