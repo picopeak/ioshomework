@@ -472,17 +472,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         DateLabel.text = currentDate.getDateStr()
     }
     
+    // show only
     func show_homework(date :NSDate, id: Int) {
-        // Update data for new yesterday
         let day :String = date.getDateStr()
-        let HW = get_homework(day)
-        if (HW != nil) {
-            updateView(day ,hw: HW!)
-        } else {
-            updateView(day ,hw: ["没有本地作业数据!"])
+        var HW = get_homework(day)
+        if (HW == nil) {
+            HW = ["没有本地作业数据!"]
         }
+        updateView(day ,hw: HW!)
     }
     
+    // download only for today or no homework yet, e.g. support sliding left or right.
     func show_and_download(date :NSDate, id: Int) {
         // Update data for new yesterday
         let day :String = date.getDateStr()
@@ -498,6 +498,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             updateView(day ,hw: ["没有本地作业数据!"])
             gethw(date, id: id)
         }
+    }
+
+    // Always download, e.g. supporting refresh
+    func show_and_always_download(date :NSDate, id: Int) {
+        show_homework(date, id: id)
+        gethw(date, id: id)
     }
 
     class HomeWorkData: NSObject, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
@@ -845,7 +851,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             print("got useful viewstate")
                             self.viewState = vs!
                             
-                            self.show_and_download(self.currentDate, id: 1)
+                            self.show_and_always_download(self.currentDate, id: 1)
                         }
                     }
                 }
