@@ -74,6 +74,17 @@
                                     <action selector="setup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="suZ-Fu-IJi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkN-Kj-4tL">
+                                <rect key="frame" x="20" y="24" width="38" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title=" 今日 ">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="showToday:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oCT-ch-XEC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -87,9 +98,11 @@
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="fUX-MY-fJC" secondAttribute="bottom" constant="8" id="KS6-87-urU" userLabel="Scroll View.top = Date Label.bottom"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oQc-IR-O9e" secondAttribute="trailing" constant="-20" id="O0i-bK-DOI" userLabel="trailing = &gt;&gt;.trailing"/>
                             <constraint firstItem="c77-Sn-qvf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="O5k-LM-xCf"/>
+                            <constraint firstItem="bkN-Kj-4tL" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="4" id="OVy-94-1ZB"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="top" secondItem="c77-Sn-qvf" secondAttribute="bottom" constant="9" id="Osn-TY-zlu" userLabel="&lt;&lt;.top = Data Label.top"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c77-Sn-qvf" secondAttribute="trailing" constant="-20" id="OyR-Zr-3xi" userLabel="福外作业.trailing = trailingMargin + 20"/>
                             <constraint firstItem="oQc-IR-O9e" firstAttribute="bottom" secondItem="MN4-Rm-HPj" secondAttribute="bottom" id="gce-cb-lDS" userLabel="&gt;&gt;.bottom = Left.bottom"/>
+                            <constraint firstItem="c77-Sn-qvf" firstAttribute="leading" secondItem="bkN-Kj-4tL" secondAttribute="trailing" constant="-58" id="gnv-k6-Yhe"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wV6-Y3-uSM" secondAttribute="bottom" id="iQV-d4-Zyg"/>
                             <constraint firstItem="wV6-Y3-uSM" firstAttribute="top" secondItem="MN4-Rm-HPj" secondAttribute="bottom" constant="8" symbolic="YES" id="lK7-we-kI9"/>
                             <constraint firstItem="MN4-Rm-HPj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="pV4-Mw-NIP" userLabel="&lt;&lt;.leading = leading"/>
@@ -105,6 +118,7 @@
                         <outlet property="right" destination="oQc-IR-O9e" id="meD-rw-nl6"/>
                         <outlet property="scrollView" destination="wV6-Y3-uSM" id="RSV-Xa-ORp"/>
                         <outlet property="setupBtn" destination="jk7-YQ-dfR" id="QJX-Qt-o1P"/>
+                        <outlet property="todayBtn" destination="bkN-Kj-4tL" id="7wZ-xD-q8l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

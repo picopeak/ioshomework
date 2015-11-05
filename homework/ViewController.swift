@@ -57,6 +57,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var left: UILabel!
     @IBOutlet weak var right: UILabel!
     @IBOutlet weak var setupBtn: UIButton!
+    @IBOutlet weak var todayBtn: UIButton!
     
     var db :Connection
     let hwtable :Table
@@ -110,6 +111,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 self.presentViewController(vc, animated: false, completion: nil)
             }
         }
+    }
+    
+    @IBAction func showToday(sender: UIButton) {
+        self.currentDate = NSDate()
+        DateLabel.text = currentDate.getDateStr()
+        self.show_homework(self.currentDate, id: 1)
+        self.show_homework(self.currentDate.yesterday() ,id: 0)
+        self.show_homework(self.currentDate.tomorrow(), id: 2)
+        // login_and_gethw()
     }
     
     @IBAction func setup(sender: UIButton) {
@@ -304,6 +314,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         setupBtn.layer.borderColor = UIColor.grayColor().CGColor
         setupBtn.layer.borderWidth = 1.0
         setupBtn.layer.cornerRadius = 10; // this value vary as per your desire
+        todayBtn.layer.borderColor = UIColor.grayColor().CGColor
+        todayBtn.layer.borderWidth = 1.0
+        todayBtn.layer.cornerRadius = 10; // this value vary as per your desire
         
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)

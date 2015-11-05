@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
+            startingLineNumber = "459"
+            endingLineNumber = "459"
             landmarkName = "scrollViewDidEndDecelerating(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "775"
-            endingLineNumber = "775"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
             landmarkName = "login_and_gethw()"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,13 +106,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "670"
-            endingLineNumber = "670"
-            landmarkName = "updateView(_:hw:)"
-            landmarkType = "5">
+            startingLineNumber = "683"
+            endingLineNumber = "683"
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "702"
-            endingLineNumber = "702"
+            startingLineNumber = "715"
+            endingLineNumber = "715"
             landmarkName = "downloadhw(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
+            startingLineNumber = "625"
+            endingLineNumber = "625"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "601"
-            endingLineNumber = "601"
+            startingLineNumber = "614"
+            endingLineNumber = "614"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,13 +202,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
-            landmarkName = "updateView(_:hw:)"
-            landmarkType = "5">
+            startingLineNumber = "682"
+            endingLineNumber = "682"
+            landmarkName = "HomeWorkData"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -218,55 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "init(coder:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "init()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "init(nibName:bundle:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -282,11 +234,121 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController.init (&#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController.Type)(nibName : Swift.ImplicitlyUnwrappedOptional&lt;Swift.String&gt;, bundle : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.NSBundle&gt;) -&gt; &#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController"
+                  moduleName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picopeak/ioshomework/homework/ViewController.swift"
+                  timestampString = "468421843.073697"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "482">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController.subView.getter : Swift.Array&lt;__ObjC.UITableView&gt;"
+                  moduleName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picopeak/ioshomework/homework/ViewController.swift"
+                  timestampString = "468421843.074271"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController.subView.setter : Swift.Array&lt;__ObjC.UITableView&gt;"
+                  moduleName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picopeak/ioshomework/homework/ViewController.swift"
+                  timestampString = "468421843.074995"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;.ViewController.subView.materializeForSet : Swift.Array&lt;__ObjC.UITableView&gt;"
+                  moduleName = "&#x798f;&#x5916;&#x4f5c;&#x4e1a;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picopeak/ioshomework/homework/ViewController.swift"
+                  timestampString = "468421843.075466"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "homework/ViewController.swift"
+            timestampString = "468422018.646808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "init(nibName:bundle:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "homework/ViewController.swift"
+            timestampString = "468422018.646808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "init(coder:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "homework/ViewController.swift"
+            timestampString = "468422018.646808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "get_homework(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "getHWRecords(_:date:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "787"
-            endingLineNumber = "787"
+            startingLineNumber = "800"
+            endingLineNumber = "800"
             landmarkName = "login_and_gethw()"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,11 +392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "ViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -378,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "loadUserData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "loadUserData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,13 +472,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "storeUserData()"
-            landmarkType = "5">
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -426,11 +488,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "setup(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -458,11 +520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "544"
-            endingLineNumber = "544"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
             landmarkName = "webView(_:shouldStartLoadWithRequest:navigationType:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "784"
-            endingLineNumber = "784"
+            startingLineNumber = "797"
+            endingLineNumber = "797"
             landmarkName = "login_and_gethw()"
             landmarkType = "5">
          </BreakpointContent>
@@ -490,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "733"
-            endingLineNumber = "733"
+            startingLineNumber = "746"
+            endingLineNumber = "746"
             landmarkName = "downloadhw(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -506,11 +568,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "737"
-            endingLineNumber = "737"
+            startingLineNumber = "750"
+            endingLineNumber = "750"
             landmarkName = "downloadhw(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,11 +584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
             landmarkName = "show_and_download(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -538,11 +600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
+            startingLineNumber = "510"
+            endingLineNumber = "510"
             landmarkName = "show_and_download(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -554,11 +616,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "homework/ViewController.swift"
-            timestampString = "468250112.532891"
+            timestampString = "468422018.646808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
+            startingLineNumber = "506"
+            endingLineNumber = "506"
             landmarkName = "show_and_download(_:id:)"
             landmarkType = "5">
          </BreakpointContent>
