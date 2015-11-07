@@ -357,6 +357,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         self.scrollView.superview!.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
         self.scrollView.contentSize = CGSizeMake(screenWidth * CGFloat(3), 0)
         self.scrollView.contentOffset.x = screenWidth
+        self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         
         // Create database now
         let id_field = Expression<Int64>("id")
