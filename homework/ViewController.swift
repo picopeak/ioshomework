@@ -270,7 +270,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let date_field = Expression<String>("date")
         let myhw = hwtable.filter(user_field == user && date_field == date)
         print("deleting old homework record")
-        try? db.run(myhw.delete())
+        _ = try? db.run(myhw.delete())
         
         // Insert new records into database
         print("writing new homework record")
@@ -295,7 +295,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         var homework :[String] = []
         print("querying homework record "+date)
-        for hw in try db.prepare(query) {
+        for hw in db.prepare(query) {
             homework.append(hw[content_field])
         }
         return homework
@@ -366,7 +366,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let course_field = Expression<String>("course")
         let content_field = Expression<String>("content")
    
-        let res = try? db.run(hwtable.create(ifNotExists: true) { t in
+        _ = try? db.run(hwtable.create(ifNotExists: true) { t in
             t.column(id_field, primaryKey: true)
             t.column(user_field)
             t.column(date_field)
@@ -524,7 +524,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         var id: Int
         var tv: UITableView
         var refresh: UIRefreshControl
-        var webview :[UIWebView] = []
+        var webview :[UIWebView] = [ ]
         var tableData :[String] = [ ]
         var tableDataHeights : [CGFloat] = [ ]
         var hwcount :Int = 0
@@ -586,8 +586,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             hwcount = 0
             for i in 0...(l-1) {
                 if (i < l) {
-                    let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
-                    webview[i].frame = frame
+                    // let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
+                    // webview[i].frame = frame
                     tableDataHeights[i] = 1.0
                     webview[i].delegate = self
                     webview[i].loadHTMLString(enclose_fontsize(tableData[i], isBigFont: isBigFont), baseURL: nil)
