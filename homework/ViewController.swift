@@ -455,6 +455,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         print("page =", page)
 
         // Switch table view to make scroll view can slide forever on one direction
+        let frame0 : CGRect = subView[0].frame
+        let frame1 : CGRect = subView[1].frame
+        let frame2 : CGRect = subView[2].frame
         if (page == 0) {
             currentDate = currentDate.dateByAddingTimeInterval(-86400.0)
 
@@ -470,9 +473,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             subView[1] = subView[2]
             subView[2] = tempTV
         }
-        subView[0].frame = CGRectMake(0, 0, screenWidth, subView[0].frame.height)
-        subView[1].frame = CGRectMake(screenWidth, 0, screenWidth, subView[1].frame.height)
-        subView[2].frame = CGRectMake(screenWidth*2, 0, screenWidth, subView[2].frame.height)
+        subView[0].frame = frame0
+        subView[1].frame = frame1
+        subView[2].frame = frame2
         self.scrollView.contentOffset.x = screenWidth
         
         if (page == 0) {
