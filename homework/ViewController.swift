@@ -566,7 +566,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             }
         }
         
-        func enclose_fontsize(html :String, isBigFont :Bool) -> String {
+        func enhance_html(html :String, isBigFont :Bool) -> String {
+            /* disable user text selection in uiwebview. */
             let new_html = "<style type=\"text/css\"> * { -webkit-touch-callout: none; -webkit-user-select: none; /* Disable selection/copy in UIWebView */ } </style>" + html
             if (isBigFont == true) {
                 var hw_html = new_html
@@ -597,7 +598,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     NSURLCache.sharedURLCache().removeAllCachedResponses()
                     NSURLCache.sharedURLCache().diskCapacity = 0
                     NSURLCache.sharedURLCache().memoryCapacity = 0
-                    webview[i].loadHTMLString(enclose_fontsize(tableData[i], isBigFont: isBigFont), baseURL: nil)
+                    webview[i].loadHTMLString(enhance_html(tableData[i], isBigFont: isBigFont), baseURL: nil)
                 } else {
                     tableData[i] = ""
                     tableDataHeights[i] = 0.0
