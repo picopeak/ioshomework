@@ -567,8 +567,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
         
         func enclose_fontsize(html :String, isBigFont :Bool) -> String {
+            let new_html = "<style type=\"text/css\"> * { -webkit-touch-callout: none; -webkit-user-select: none; /* Disable selection/copy in UIWebView */ } </style>" + html
             if (isBigFont == true) {
-                var hw_html = html
+                var hw_html = new_html
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"8\">", withString: "<font size=\"9\">")
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"7\">", withString: "<font size=\"8\">")
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"6\">", withString: "<font size=\"7\">")
@@ -578,9 +579,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"2\">", withString: "<font size=\"3\">")
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"1\">", withString: "<font size=\"2\">")
                 return "<html><head><style type=\"text/css\">body {font-size: 22.0;}</style></head><body>"+hw_html+"</body></html>"
-            } else {
-                return html
             }
+            
+            return new_html
         }
         
         func refreshData(isBigFont :Bool) {
@@ -593,6 +594,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     // webview[i].frame = frame
                     tableDataHeights[i] = 1.0
                     webview[i].delegate = self
+                    NSURLCache.sharedURLCache().removeAllCachedResponses()
+                    NSURLCache.sharedURLCache().diskCapacity = 0
+                    NSURLCache.sharedURLCache().memoryCapacity = 0
                     webview[i].loadHTMLString(enclose_fontsize(tableData[i], isBigFont: isBigFont), baseURL: nil)
                 } else {
                     tableData[i] = ""
@@ -632,8 +636,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             cell.separatorInset = UIEdgeInsetsZero
             cell.layoutMargins = UIEdgeInsetsZero
             cell.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
+            /*
+            let frame: CGRect = CGRectMake(0, 0, tv.frame.size.width, 0.0)
+            let hw_webview :UIWebView = UIWebView(frame: frame)
+            hw_webview.scrollView.scrollEnabled = false
+            hw_webview.scalesPageToFit = false
+            hw_webview.allowsInlineMediaPlayback = true
+            hw_webview.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
+            hw_webview.opaque = false
+            */
+            
             cell.addSubview(webview[indexPath.row])
-            webview[indexPath.row].loadHTMLString(enclose_fontsize(self.tableData[indexPath.row], isBigFont: isBigFont), baseURL: nil)
+            // webview[indexPath.row].loadHTMLString(enclose_fontsize(self.tableData[indexPath.row], isBigFont: isBigFont), baseURL: nil)
             return cell
         }
         
