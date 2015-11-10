@@ -585,6 +585,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             return new_html
         }
         
+        func removeGuestureFromView(view: UIWebView) {
+            if view.gestureRecognizers != nil {
+                for gesture in view.gestureRecognizers! {
+                    if let recognizer = gesture as? UISwipeGestureRecognizer {
+                        view.removeGestureRecognizer(recognizer)
+                    }
+                }
+            }
+        }
+        
         func refreshData(isBigFont :Bool) {
             // print("update data", data)
             let l = tableData.count
@@ -598,6 +608,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     NSURLCache.sharedURLCache().removeAllCachedResponses()
                     NSURLCache.sharedURLCache().diskCapacity = 0
                     NSURLCache.sharedURLCache().memoryCapacity = 0
+                    self.removeGuestureFromView(webview[i])
                     webview[i].loadHTMLString(enhance_html(tableData[i], isBigFont: isBigFont), baseURL: nil)
                 } else {
                     tableData[i] = ""
