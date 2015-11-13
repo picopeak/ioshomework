@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6F040DFAB9A78254AC2A19F3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF6915E10B5B2024B5B4A33 /* Pods.framework */; };
-		A91A89CF1BDB30230096C7D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91A89CE1BDB30230096C7D1 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		A91A89CF1BDB30230096C7D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91A89CE1BDB30230096C7D1 /* LoginViewController.swift */; };
 		A92525F71BBF806A000B3505 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92525F61BBF806A000B3505 /* AppDelegate.swift */; };
 		A92525F91BBF806A000B3505 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92525F81BBF806A000B3505 /* ViewController.swift */; };
 		A92525FC1BBF806A000B3505 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A92525FA1BBF806A000B3505 /* Main.storyboard */; };
@@ -219,7 +219,7 @@
 				TargetAttributes = {
 					A92525F21BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = KCM5KYQ599;
+						DevelopmentTeam = JMGY6MUGQ4;
 					};
 					A92526061BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -470,10 +470,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = homework/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
 				PRODUCT_NAME = "福外作业";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -485,10 +487,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = homework/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
 				PRODUCT_NAME = "福外作业";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
