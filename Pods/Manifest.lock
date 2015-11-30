@@ -1,8 +1,10 @@
 PODS:
+  - Fuzi (0.3.0)
   - Kanna (1.0.2)
   - SQLite.swift (1.0.0)
 
 DEPENDENCIES:
+  - Fuzi (~> 0.3.0)
   - Kanna (~> 1.0.0)
   - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
 
@@ -16,6 +18,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/stephencelis/SQLite.swift.git
 
 SPEC CHECKSUMS:
+  Fuzi: 4725b8743f0a92100108e013347bf32ca80d93a1
   Kanna: 059afb193a9f8ea34f46cb55a8b11bf4257efad8
   SQLite.swift: 3bb75f5a650f08673276bc6d3fb1de1b542b8f4d
 
