@@ -501,14 +501,21 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     // download only for today or no homework yet, e.g. support sliding left or right.
     func show_and_download(date :NSDate, id: Int) {
-        // Update data for new yesterday
         let day :String = date.getDateStr()
         let HW = get_homework(day)
         if (HW != nil) {
             updateView(day ,hw: HW!)
             
-            // Always download for today
-            if (day == NSDate().getDateStr()) {
+            // Check if we need to update today, and we always update for today!
+            var viewToday :Bool = false
+            if (id == 0) {
+                viewToday = (date.tomorrow().getDateStr() == NSDate().getDateStr())
+            } else if (id == 2) {
+                viewToday = (date.yesterday().getDateStr() == NSDate().getDateStr())
+            } else if (id == 0) {
+                viewToday = (date.getDateStr() == NSDate().getDateStr())
+            }
+            if (viewToday) {
                 gethw(self.currentDate, id: id)
             }
         } else {
