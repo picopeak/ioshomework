@@ -13,7 +13,7 @@ protocol ScrollViewControllerDelegate {
     func didFinishScore(controller: ScoreViewController)
 }
 
-class ScoreViewController: UIViewController {
+class ScoreViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet var scoreUIView: UIView!
     @IBOutlet weak var finishBtn: UIButton!
@@ -28,14 +28,35 @@ class ScoreViewController: UIViewController {
     var scoremark :[String] = []
     var NumOfScore :Int = 0
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
+    let reuseIdentifier = "ScoreCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        GetScore()
+        downloadScore()
+    }
+    
+    // Protocol of UICollectionViewDataSource
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
+        
+        cell.scoreData.text = "TRY"
+        
+        return cell
     }
 
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return NumOfScore
+    }
+    
+    // End of protocol of UICollectionViewDataSource
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -64,12 +85,6 @@ class ScoreViewController: UIViewController {
     }
     */
 
-    func GetScore() {
-        downloadScore("1");
-        downloadScore("2");
-        downloadScore("3");
-    }
-    
     func downloadScoreMark(url :String, completion: (score: String?, error: NSError?) -> Void) {
         let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
         var postString = "__VIEWSTATE=" + viewState
@@ -118,8 +133,10 @@ class ScoreViewController: UIViewController {
         /* No code should be after here. */
     }
     
-    func downloadScore(item: String) {
-        let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+item
+    var items :[String] = [ "1", "2", "3" ]
+    var item_id :Int = 0
+    func downloadScore() {
+        let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+items[item_id]
         ViewController.obtainViewState(url) { (vs, error) in
             if (error != nil) {
                 return
@@ -131,7 +148,14 @@ class ScoreViewController: UIViewController {
                 }
                 
                 self.parseScoreMark(score!)
-                print(self.Score)
+                if (self.item_id >= 2) {
+                    print(self.Score)
+                    print("NumOfScore=", self.NumOfScore)
+                    self.scoreView.reloadData()
+                    return
+                }
+                self.item_id++
+                self.downloadScore()
             })
         }
     }
@@ -232,4 +256,6 @@ class ScoreViewController: UIViewController {
             }
         }
     }
+    
+    
 }
