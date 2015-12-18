@@ -331,6 +331,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         scoreBtn.layer.borderColor = UIColor.grayColor().CGColor
         scoreBtn.layer.borderWidth = 1.0
         scoreBtn.layer.cornerRadius = 10; // this value vary as per your desire
+        scoreBtn.enabled = false
         
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
@@ -733,21 +734,26 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func updateView(date :String, hw :[String]) {
+        var item :Int = -1;
         if (date == self.currentDate.getDateStr()) {
-            (self.subView[1].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
-            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
-            refreshC.endRefreshing()
+            item = 1
         }
-        if (date == self.currentDate.yesterday().getDateStr()) {
-            (self.subView[0].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
-            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
-            refreshC.endRefreshing()
+        else if (date == self.currentDate.yesterday().getDateStr()) {
+            item = 0
         }
-        if (date == self.currentDate.tomorrow().getDateStr()) {
-            (self.subView[2].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
-            let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
-            refreshC.endRefreshing()
+        else if (date == self.currentDate.tomorrow().getDateStr()) {
+            item = 2
+        } else {
+            return
         }
+        
+        (self.subView[item].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
+        let refreshC = (self.subView[item].dataSource as! HomeWorkData).refresh
+        refreshC.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), {
+            print("refreshing data...")
+            self.subView[item].reloadData()
+        });
     }
 
     /* Assume login is successful and download homework content for current date.
@@ -847,7 +853,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             }
                             print("got useful viewstate")
                             self.viewState = vs!
-                            
+                            self.scoreBtn.enabled = true
                             self.show_and_download(self.currentDate, id: 1)
                             self.show_and_download(self.currentDate.yesterday() ,id: 0)
                             self.show_and_download(self.currentDate.tomorrow(), id: 2)

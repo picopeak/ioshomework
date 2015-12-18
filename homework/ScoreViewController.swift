@@ -46,7 +46,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
         
-        cell.scoreData.text = "TRY"
+        cell.scoreData.text = Score[indexPath.row][0]
         
         return cell
     }
@@ -151,7 +151,9 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 if (self.item_id >= 2) {
                     print(self.Score)
                     print("NumOfScore=", self.NumOfScore)
-                    self.scoreView.reloadData()
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.scoreView.reloadData()
+                    });
                     return
                 }
                 self.item_id++
