@@ -49,7 +49,7 @@ extension NSDate {
     }
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate, ScrollViewControllerDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var FushanLabel: UILabel!
@@ -58,6 +58,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var right: UILabel!
     @IBOutlet weak var setupBtn: UIButton!
     @IBOutlet weak var todayBtn: UIButton!
+    @IBOutlet weak var scoreBtn: UIButton!
     
     var db :Connection
     let hwtable :Table
@@ -128,6 +129,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         vc.delegate = self
         vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
         self.presentViewController(vc, animated: false, completion: nil)
+    }
+    
+    @IBAction func showScore(sender: UIButton) {
+        let vc :ScoreViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Score") as! ScoreViewController
+        vc.delegate = self
+        self.presentViewController(vc, animated: false, completion: nil)
+    }
+    
+    func didFinishScore(controller: ScoreViewController) {
+        controller.dismissViewControllerAnimated(false, completion: nil)
     }
     
     func didFinishLogin(controller: LoginViewController, username: String, password: String, username2: String, password2: String, isUser2 :Bool, isBigFont :Bool) {
@@ -317,6 +328,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         todayBtn.layer.borderColor = UIColor.grayColor().CGColor
         todayBtn.layer.borderWidth = 1.0
         todayBtn.layer.cornerRadius = 10; // this value vary as per your desire
+        scoreBtn.layer.borderColor = UIColor.grayColor().CGColor
+        scoreBtn.layer.borderWidth = 1.0
+        scoreBtn.layer.cornerRadius = 10; // this value vary as per your desire
         
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
@@ -794,7 +808,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     /* Main function to get homework */
     func login_and_gethw() {
-        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
                 return
@@ -808,7 +822,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 }
                 /* try again */
                 print("try again ...")
-                self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.loginTried = true
                         return
@@ -827,7 +841,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
                             }
@@ -846,7 +860,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
 
     func logout_and_login_gethw() {
-        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
                 return
@@ -861,7 +875,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     /* Main function to get homework */
     func login_and_gethw_current_date() {
-        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
                 return
@@ -875,7 +889,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 }
                 /* try again */
                 print("try again ...")
-                self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.loginTried = true
                         return
@@ -894,7 +908,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        self.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 return
                             }
@@ -910,7 +924,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
     }
 
-    func extractViewState(data :NSData) -> String {
+    static func extractViewState(data :NSData) -> String {
         var vs :String = ""
         let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         let s = NSString(data: data, encoding: dec)
@@ -928,14 +942,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
         
         print("view state is extracted.")
-        self.viewState = vs
         return vs;
     }
     
-    func obtainViewState(url: String, completion: (vs: String?, error: NSError?) -> Void) {
+    static func obtainViewState(url: String, completion: (vs: String?, error: NSError?) -> Void) {
         /* The example of view state string is as below,
            <input type="hidden" name="__VIEWSTATE" value="dDwtMzI3NTUwMjExO3Q8O2w8aTwxPjs+O2w8dDw7bDxpPDU... " /> */
-        var vs = ""
         let request = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.HTTPMethod = "GET"
@@ -951,7 +963,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // print("Response code:", res.statusCode)
 
             if (data != nil) {
-                vs = self.extractViewState(data!)
+                let vs = ViewController.extractViewState(data!)
                 // print("viewstate:", vs)
                 completion(vs: vs, error: nil)
             }
@@ -1137,15 +1149,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let rawdata = NSString(data: data!, encoding: dec)
             let homework = rawdata as! String
-            let new_vs = self.extractViewState(data!)
+            self.viewState = ViewController.extractViewState(data!)
             
             if (homework.rangeOfString("您当前查看的是") == nil) {
                 print("failed to obtain homework!")
-                completion(vs: new_vs, date: toDate.getDateStr(), homework: "", error: nil)
+                completion(vs: self.viewState, date: toDate.getDateStr(), homework: "", error: nil)
             } else {
                 // print("rawdata = \(rawdata)")
                 // print("homework obtained!")
-                completion(vs: new_vs, date: toDate.getDateStr(), homework: homework, error: nil)
+                completion(vs: self.viewState, date: toDate.getDateStr(), homework: homework, error: nil)
             }
         }
         task.resume()

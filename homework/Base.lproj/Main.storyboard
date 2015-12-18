@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -86,6 +86,18 @@
                                     <action selector="showToday:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oCT-ch-XEC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-lq-T7r">
+                                <rect key="frame" x="66" y="24" width="38" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title=" 成绩 ">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="showScore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ldh-sH-VUr"/>
+                                    <action selector="showToday:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fDJ-kW-jYJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -117,6 +129,7 @@
                         <outlet property="FushanLabel" destination="c77-Sn-qvf" id="hyS-S4-upF"/>
                         <outlet property="left" destination="MN4-Rm-HPj" id="6El-BQ-GdX"/>
                         <outlet property="right" destination="oQc-IR-O9e" id="meD-rw-nl6"/>
+                        <outlet property="scoreBtn" destination="TQG-lq-T7r" id="Tdj-1e-uaW"/>
                         <outlet property="scrollView" destination="wV6-Y3-uSM" id="RSV-Xa-ORp"/>
                         <outlet property="setupBtn" destination="jk7-YQ-dfR" id="QJX-Qt-o1P"/>
                         <outlet property="todayBtn" destination="bkN-Kj-4tL" id="7wZ-xD-q8l"/>
@@ -305,6 +318,95 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdM-CH-5nM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="917" y="314"/>
+        </scene>
+        <!--Score-->
+        <scene sceneID="WgP-CF-r0a">
+            <objects>
+                <viewController storyboardIdentifier="Score" title="Score" id="J64-Jh-gtO" customClass="ScoreViewController" customModule="福外作业" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n60-oU-SvE"/>
+                        <viewControllerLayoutGuide type="bottom" id="cMD-Sn-MdP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6ZW-e8-v9B">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hdi-MI-Pmg">
+                                <rect key="frame" x="20" y="56.5" width="560" height="543.5"/>
+                                <animations/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jdg-r0-Om9">
+                                    <size key="itemSize" width="50" height="25"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ScoreCell" id="bPo-NH-E9C">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-ik-Ams">
+                                                    <rect key="frame" x="4" y="2" width="42" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <animations/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="成绩" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SzA-lT-XRD">
+                                <rect key="frame" x="20" y="28" width="560" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHw-GC-OOr">
+                                <rect key="frame" x="542" y="24" width="38" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="titleShadowOffset" width="2" height="2"/>
+                                <state key="normal" title=" 完成 "/>
+                                <connections>
+                                    <action selector="finishScoreBtn:" destination="J64-Jh-gtO" eventType="touchUpInside" id="3jc-9L-fev"/>
+                                    <action selector="loginBtn:" destination="r81-63-OfA" eventType="touchUpInside" id="7oY-yG-VPi"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hdi-MI-Pmg" firstAttribute="top" secondItem="SzA-lT-XRD" secondAttribute="bottom" constant="8" id="8UW-qq-rQ2"/>
+                            <constraint firstItem="SzA-lT-XRD" firstAttribute="top" secondItem="n60-oU-SvE" secondAttribute="bottom" constant="8" id="9Ry-Kz-1EB"/>
+                            <constraint firstItem="hHw-GC-OOr" firstAttribute="top" secondItem="n60-oU-SvE" secondAttribute="bottom" constant="4" id="ClJ-2O-1cR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hHw-GC-OOr" secondAttribute="trailing" id="cdp-xf-dJw"/>
+                            <constraint firstItem="cMD-Sn-MdP" firstAttribute="top" secondItem="Hdi-MI-Pmg" secondAttribute="bottom" id="mTr-5s-D0h"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Hdi-MI-Pmg" secondAttribute="leading" id="ouf-TE-pQl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Hdi-MI-Pmg" secondAttribute="trailing" id="qeQ-t7-pTJ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="SzA-lT-XRD" secondAttribute="leading" id="soE-7o-5Pk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="SzA-lT-XRD" secondAttribute="trailing" id="z6n-Zp-mng"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="finishBtn" destination="hHw-GC-OOr" id="hLQ-Uc-XDq"/>
+                        <outlet property="scoreUIView" destination="6ZW-e8-v9B" id="DIw-2Q-BUN"/>
+                        <outlet property="scoreView" destination="Hdi-MI-Pmg" id="e0A-QI-PoJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SMa-OB-3Ts" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1571" y="314"/>
         </scene>
     </scenes>
 </document>
