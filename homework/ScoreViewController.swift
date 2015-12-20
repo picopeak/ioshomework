@@ -70,7 +70,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     // Set up 7 cells in a row
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(collectionView.frame.size.width/7, 20)
+        return CGSizeMake(collectionView.frame.size.width/7 - 1, 20)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
