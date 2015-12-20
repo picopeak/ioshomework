@@ -95,6 +95,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     var password :String = ""
     var username2 :String = ""
     var password2 :String = ""
+    var name :String = ""
     
     var isUser2 :Bool = false
     var isBigFont :Bool = false
@@ -107,7 +108,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 // Pass data into login View Controller
                 let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 vc.delegate = self
-                vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
+                vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
                 self.presentViewController(vc, animated: false, completion: nil)
             }
         }
@@ -126,7 +127,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         // Pass data into login View Controller
         let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
         vc.delegate = self
-        vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
+        vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
         self.presentViewController(vc, animated: false, completion: nil)
     }
     
@@ -208,7 +209,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         if (isBigFontObj != nil) {
             isBigFont = isBigFontObj as! Bool
         }
-        
+        let nameObj = defaults.objectForKey("name")
+        if (nameObj != nil) {
+            self.name = nameObj as! String
+        }
     }
     
     func storeUserData() {
@@ -220,6 +224,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         defaults.setObject(self.password2, forKey: "password2")
         defaults.setObject(self.isUser2, forKey: "isUser2")
         defaults.setObject(self.isBigFont, forKey: "isBigFont")
+        defaults.setObject(self.name, forKey: "name")
     }
 
     func createOneHWRecord(user :String, date :String, course :String, content :String) -> Int64 {
@@ -375,7 +380,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             })
         
         loadUserData()
-
+        dispatch_async(dispatch_get_main_queue(), {
+            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+        });
+        
         self.show_homework(self.currentDate, id: 1)
         self.show_homework(self.currentDate.yesterday() ,id: 0)
         self.show_homework(self.currentDate.tomorrow(), id: 2)
@@ -385,7 +393,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func refresh(sender:AnyObject)
     {
         print("refreshing ...")
-        
+        let refreshC = (self.subView[1].dataSource as! HomeWorkData).refresh
+        refreshC.endRefreshing()
         login_and_gethw_current_date()
         // downloadhw(self.currentDate, id: 1)
     }
@@ -737,6 +746,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         refreshC.endRefreshing()
         dispatch_async(dispatch_get_main_queue(), {
             print("refreshing data...")
+            self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
             self.subView[item].reloadData()
         });
     }
@@ -754,6 +764,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func downloadhw(toDate :NSDate, id: Int) {
         let dateStr = toDate.getDateStr()
         // updateView(dateStr ,hw: ["正在下载作业数据..."])
+        dispatch_async(dispatch_get_main_queue(), {
+            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇︎"
+        });
+        
         print("downloading homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
             if (error != nil) {
@@ -802,6 +816,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                });
                 return
             }
             // print("viewstate is ready 1")
@@ -809,6 +826,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             self.login() { (hellomsg, error) in
                 if (error != nil) {
                     self.loginTried = true
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                    });
                     return
                 }
                 /* try again */
@@ -816,6 +836,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.loginTried = true
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                        });
                         return
                     }
                     // print("viewstate is ready 2")
@@ -824,16 +847,25 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                         if (error != nil) {
                             // Fail to due to issues like network connection
                             self.loginTried = true
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                            });
                             return
                         }
                         if (hellomsg == "") {
                             // Fail due to incorrect username or password
                             self.loginTried = true
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                            });
                             return
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                                });
                                 return
                             }
                             print("got useful viewstate")
@@ -853,6 +885,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                });
                 return
             }
             // print("viewstate is ready 1")
@@ -865,9 +900,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     /* Main function to get homework */
     func login_and_gethw_current_date() {
+        dispatch_async(dispatch_get_main_queue(), {
+            print("refreshing data...")
+            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇︎"
+        });
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.loginTried = true
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                });
                 return
             }
             // print("viewstate is ready 1")
@@ -875,6 +917,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             self.login() { (hellomsg, error) in
                 if (error != nil) {
                     self.loginTried = true
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                    });
                     return
                 }
                 /* try again */
@@ -882,6 +927,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.loginTried = true
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                        });
                         return
                     }
                     // print("viewstate is ready 2")
@@ -890,16 +938,25 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                         if (error != nil) {
                             // Fail to due to issues like network connection
                             self.loginTried = true
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                            });
                             return
                         }
                         if (hellomsg == "") {
                             // Fail due to incorrect username or password
                             self.loginTried = true
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                            });
                             return
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                                });
                                 return
                             }
                             print("got useful viewstate")
@@ -1011,16 +1068,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             if (hellomsg.rangeOfString("您好！欢迎使用") == nil) {
                 // print("rawdata = \(rawdata)")
                 print("login failed!")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+                });
                 completion(hellomsg: "", error: nil)
             } else {
                 let names = self.matchesForRegexInText(">([^>]*)\\(家长\\)", text: hellomsg)
-                var name = names[0]
-                let s = name.startIndex.advancedBy(1)
-                let e = name.endIndex.advancedBy(-5)
-                name = name.substringFromIndex(s).substringToIndex(e)
-                print(name + " login passed!")
+                self.name = names[0]
+                let s = self.name.startIndex.advancedBy(1)
+                let e = self.name.endIndex.advancedBy(-5)
+                self.name = self.name.substringFromIndex(s).substringToIndex(e)
+                self.storeUserData()
+                print(self.name + " login passed!")
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.FushanLabel.text = "福外作业 - " + name
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
                     self.FushanLabel.setNeedsDisplay();
                 });
                 completion(hellomsg: hellomsg, error: nil)

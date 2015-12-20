@@ -34,6 +34,7 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
     private var oldisBigFont :Bool = false
     private var newisUser2 :Bool = false
     private var newisBigFont :Bool = false
+    private var name :String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
     @IBAction func showScore(sender: UIButton) {
         let vc :ScoreViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Score") as! ScoreViewController
         vc.delegate = self
+        vc.updateInfo(self.name)
         self.presentViewController(vc, animated: false, completion: nil)
     }
     
@@ -113,7 +115,7 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         delegate.didFinishLogin(self, username: userName.text!, password: password.text!, username2: userName2.text!, password2: password2.text!, isUser2: newisUser2, isBigFont: newisBigFont)
     }
 
-    func updateInfo(username :String, password :String, username2 :String, password2 :String, isUser2 :Bool, isBigFont :Bool) {
+    func updateInfo(username :String, password :String, username2 :String, password2 :String, isUser2 :Bool, isBigFont :Bool, name :String) {
         oldUsername = username
         oldPassword = password
         oldUsername2 = username2
@@ -122,6 +124,7 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         oldisBigFont = isBigFont
         newisUser2 = isUser2
         newisBigFont = isBigFont
+        self.name = name
     }
     
     @IBAction func applyUser2(sender: UISwitch) {

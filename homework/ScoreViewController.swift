@@ -18,6 +18,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBOutlet var scoreUIView: UIView!
     @IBOutlet weak var finishBtn: UIButton!
     @IBOutlet weak var scoreView: UICollectionView!
+    @IBOutlet weak var scoreTitle: UILabel!
     var delegate :ScoreViewControllerDelegate! = nil
     
     let courses :[String] = [ "语文", "数学", "英语" ]
@@ -28,7 +29,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var scoremark :[String] = []
     var NumOfScore :Int = 1
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
-    let reuseIdentifier = "ScoreCell"
+    let reuseIdentifier :String = "ScoreCell"
+    var username :String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         Score[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
         // Do any additional setup after loading the view.
         downloadScore()
+    }
+    
+    func updateInfo(username :String) {
+        self.username = username
     }
     
     // Protocol of UICollectionViewDataSource
@@ -158,6 +164,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var items :[String] = [ "1", "2", "3" ]
     var item_id :Int = 0
     func downloadScore() {
+        scoreTitle.text = self.username + " 成绩 " + "⬇︎"
+        
         let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+items[item_id]
         ViewController.obtainViewState(url) { (vs, error) in
             if (error != nil) {
@@ -174,6 +182,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     print(self.Score)
                     print("NumOfScore=", self.NumOfScore)
                     dispatch_async(dispatch_get_main_queue(), {
+                        self.scoreTitle.text = self.username + " 成绩 🔵"
                         self.scoreView.reloadData()
                     });
                     return
