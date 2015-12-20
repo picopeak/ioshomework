@@ -26,21 +26,14 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     var viewState :String = ""
     var scoremark :[String] = []
-    var NumOfScore :Int = 0
+    var NumOfScore :Int = 1
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
     let reuseIdentifier = "ScoreCell"
-
-    var screenSize: CGRect!
-    var screenWidth: CGFloat!
-    var screenHeight: CGFloat!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        screenSize = UIScreen.mainScreen().bounds
-        screenWidth = screenSize.width
-        screenHeight = screenSize.height
-
+        Score[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
         // Do any additional setup after loading the view.
         downloadScore()
     }
@@ -55,6 +48,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
         
         cell.scoreData.text = Score[indexPath.row / 7][indexPath.row % 7]
+        if (indexPath.row / 7 == 0) {
+            cell.scoreData.backgroundColor = UIColor.purpleColor()
+            cell.scoreData.textColor = UIColor.whiteColor()
+        }
         
         return cell
     }
