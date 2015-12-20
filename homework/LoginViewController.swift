@@ -12,7 +12,7 @@ protocol LoginViewControllerDelegate {
     func didFinishLogin(controller :LoginViewController, username :String, password :String, username2 :String, password2 :String, isUser2 :Bool, isBigFont :Bool)
 }
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, ScoreViewControllerDelegate {
 
     @IBOutlet var loginView: UIView!
     @IBOutlet weak var userName: UITextField!
@@ -22,6 +22,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var userSwitch: UISwitch!
     @IBOutlet weak var fontSwitch: UISwitch!
+    @IBOutlet weak var scoreBtn: UIButton!
     
     var delegate :LoginViewControllerDelegate! = nil
     
@@ -38,10 +39,24 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        scoreBtn.layer.borderColor = UIColor.grayColor().CGColor
+        scoreBtn.layer.borderWidth = 1.0
+        scoreBtn.layer.cornerRadius = 10; // this value vary as per your desire
+        
         userName.text = oldUsername
         password.text = oldPassword
         userName2.text = oldUsername2
         password2.text = oldPassword2
+    }
+
+    @IBAction func showScore(sender: UIButton) {
+        let vc :ScoreViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Score") as! ScoreViewController
+        vc.delegate = self
+        self.presentViewController(vc, animated: false, completion: nil)
+    }
+    
+    func didFinishScore(controller: ScoreViewController) {
+        controller.dismissViewControllerAnimated(false, completion: nil)
     }
 
     override func shouldAutorotate() -> Bool {

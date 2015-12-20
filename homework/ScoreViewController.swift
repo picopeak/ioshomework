@@ -9,7 +9,7 @@
 import UIKit
 import Kanna
 
-protocol ScrollViewControllerDelegate {
+protocol ScoreViewControllerDelegate {
     func didFinishScore(controller: ScoreViewController)
 }
 
@@ -18,7 +18,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBOutlet var scoreUIView: UIView!
     @IBOutlet weak var finishBtn: UIButton!
     @IBOutlet weak var scoreView: UICollectionView!
-    var delegate :ScrollViewControllerDelegate! = nil
+    var delegate :ScoreViewControllerDelegate! = nil
     
     let courses :[String] = [ "语文", "数学", "英语" ]
     let grades :[String] = [ "六下", "六上", "五下", "五上", "四下", "四上", "三下", "三上", "二下", "二上", "一下", "一上" ]

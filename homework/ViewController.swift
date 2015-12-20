@@ -49,7 +49,7 @@ extension NSDate {
     }
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate, ScrollViewControllerDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var FushanLabel: UILabel!
@@ -58,7 +58,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var right: UILabel!
     @IBOutlet weak var setupBtn: UIButton!
     @IBOutlet weak var todayBtn: UIButton!
-    @IBOutlet weak var scoreBtn: UIButton!
     
     var db :Connection
     let hwtable :Table
@@ -129,16 +128,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         vc.delegate = self
         vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont)
         self.presentViewController(vc, animated: false, completion: nil)
-    }
-    
-    @IBAction func showScore(sender: UIButton) {
-        let vc :ScoreViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Score") as! ScoreViewController
-        vc.delegate = self
-        self.presentViewController(vc, animated: false, completion: nil)
-    }
-    
-    func didFinishScore(controller: ScoreViewController) {
-        controller.dismissViewControllerAnimated(false, completion: nil)
     }
     
     func didFinishLogin(controller: LoginViewController, username: String, password: String, username2: String, password2: String, isUser2 :Bool, isBigFont :Bool) {
@@ -328,11 +317,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         todayBtn.layer.borderColor = UIColor.grayColor().CGColor
         todayBtn.layer.borderWidth = 1.0
         todayBtn.layer.cornerRadius = 10; // this value vary as per your desire
-        scoreBtn.layer.borderColor = UIColor.grayColor().CGColor
-        scoreBtn.layer.borderWidth = 1.0
-        scoreBtn.layer.cornerRadius = 10; // this value vary as per your desire
-        scoreBtn.enabled = false
-        
+
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
@@ -853,7 +838,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             }
                             print("got useful viewstate")
                             self.viewState = vs!
-                            self.scoreBtn.enabled = true
                             self.show_and_download(self.currentDate, id: 1)
                             self.show_and_download(self.currentDate.yesterday() ,id: 0)
                             self.show_and_download(self.currentDate.tomorrow(), id: 2)
