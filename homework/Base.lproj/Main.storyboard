@@ -368,9 +368,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-ik-Ams">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cell" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-ik-Ams">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="25"/>
                                                     <animations/>
+                                                    <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -386,6 +387,7 @@
                                             <constraint firstAttribute="bottom" secondItem="LLw-ik-Ams" secondAttribute="bottom" id="jI5-7g-eeO"/>
                                             <constraint firstItem="LLw-ik-Ams" firstAttribute="top" secondItem="bPo-NH-E9C" secondAttribute="top" id="uxj-1P-Ziu"/>
                                         </constraints>
+                                        <size key="customSize" width="50" height="25"/>
                                         <connections>
                                             <outlet property="scoreData" destination="LLw-ik-Ams" id="Rsc-jX-jQD"/>
                                         </connections>

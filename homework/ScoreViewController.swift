@@ -13,7 +13,7 @@ protocol ScrollViewControllerDelegate {
     func didFinishScore(controller: ScoreViewController)
 }
 
-class ScoreViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ScoreViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet var scoreUIView: UIView!
     @IBOutlet weak var finishBtn: UIButton!
@@ -21,7 +21,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var delegate :ScrollViewControllerDelegate! = nil
     
     let courses :[String] = [ "语文", "数学", "英语" ]
-    let grades :[String] = [ "六年下", "六年上", "五年下", "五年上", "四年下", "四年上", "三年下", "三年上", "二年下", "二年上", "一年下", "一年上" ]
+    let grades :[String] = [ "六下", "六上", "五下", "五上", "四下", "四上", "三下", "三上", "二下", "二上", "一下", "一上" ]
     let terms :[String ] = [ "期末", "期中" ]
     
     var viewState :String = ""
@@ -30,8 +30,16 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
     let reuseIdentifier = "ScoreCell"
 
+    var screenSize: CGRect!
+    var screenWidth: CGFloat!
+    var screenHeight: CGFloat!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        screenSize = UIScreen.mainScreen().bounds
+        screenWidth = screenSize.width
+        screenHeight = screenSize.height
 
         // Do any additional setup after loading the view.
         downloadScore()
@@ -46,13 +54,30 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
         
-        cell.scoreData.text = Score[indexPath.row][0]
+        cell.scoreData.text = Score[indexPath.row / 7][indexPath.row % 7]
         
         return cell
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return NumOfScore
+        return NumOfScore * 7
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    // Set up 7 cells in a row
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSizeMake(collectionView.frame.size.width/7, 20)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(0,0,0,0)
     }
     
     // End of protocol of UICollectionViewDataSource
@@ -225,22 +250,22 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     }
                     // check grade
                     if (m.rangeOfString("一年级") != nil) {
-                        Score[NumOfScore][1] = "一年"
+                        Score[NumOfScore][1] = "一"
                     }
                     else if (m.rangeOfString("二年级") != nil) {
-                        Score[NumOfScore][1] = "二年"
+                        Score[NumOfScore][1] = "二"
                     }
                     else if (m.rangeOfString("三年级") != nil) {
-                        Score[NumOfScore][1] = "三年"
+                        Score[NumOfScore][1] = "三"
                     }
                     else if (m.rangeOfString("四年级") != nil) {
-                        Score[NumOfScore][1] = "四年"
+                        Score[NumOfScore][1] = "四"
                     }
                     else if (m.rangeOfString("五年级") != nil) {
-                        Score[NumOfScore][1] = "五年"
+                        Score[NumOfScore][1] = "五"
                     }
                     else if (m.rangeOfString("六年级") != nil) {
-                        Score[NumOfScore][1] = "六年"
+                        Score[NumOfScore][1] = "六"
                     }
                     Score[NumOfScore][1] = Score[NumOfScore][1] + term
                     let index = s.startIndex.advancedBy(0) //swift 2.0+
