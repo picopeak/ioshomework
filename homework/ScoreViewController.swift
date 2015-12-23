@@ -164,7 +164,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var items :[String] = [ "1", "2", "3" ]
     var item_id :Int = 0
     func downloadScore() {
-        scoreTitle.text = self.username + " 成绩 " + "⬇︎"
+        scoreTitle.text = self.username + " 成绩 ⬇️"
         
         let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+items[item_id]
         ViewController.obtainViewState(url) { (vs, error) in

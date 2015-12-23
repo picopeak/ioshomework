@@ -765,7 +765,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let dateStr = toDate.getDateStr()
         // updateView(dateStr ,hw: ["正在下载作业数据..."])
         dispatch_async(dispatch_get_main_queue(), {
-            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇︎"
+            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
         
         print("downloading homework", dateStr, "for page", id)
@@ -902,7 +902,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     func login_and_gethw_current_date() {
         dispatch_async(dispatch_get_main_queue(), {
             print("refreshing data...")
-            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇︎"
+            self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
