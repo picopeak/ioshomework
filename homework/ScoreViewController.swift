@@ -8,6 +8,7 @@
 
 import UIKit
 import Kanna
+import SQLite
 
 protocol ScoreViewControllerDelegate {
     func didFinishScore(controller: ScoreViewController)
@@ -28,18 +29,118 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var viewState :String = ""
     var scoremark :[String] = []
     var NumOfScore :Int = 1
+    var NumOfScoreDisplaied = 1
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
     let reuseIdentifier :String = "ScoreCell"
     var username :String = ""
 
+    var db :Connection
+    let scoretable :Table
+    required init?(coder aDecoder: NSCoder) {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        db = try! Connection("\(path)/db.sqlite3.homework")
+        scoretable = Table("scoremark")
+        super.init(coder: aDecoder)
+    }
+    
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        db = try! Connection("\(path)/db.sqlite3.homework")
+        scoretable = Table("scoremark")
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         Score[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
+        
+        // Create database now
+        let id_field = Expression<Int64>("id")
+        let user_field = Expression<String>("user")
+        let course_field = Expression<String>("course")
+        let grade_field = Expression<String>("grade")
+        let term_field = Expression<String>("term")
+        let score_mark_field = Expression<String>("score_mark")
+        let top_field = Expression<String>("top")
+        let avg_field = Expression<String>("avg")
+        let score_variance_field = Expression<String>("score_variance")
+        
+        _ = try? db.run(scoretable.create(ifNotExists: true) { t in
+            t.column(id_field, primaryKey: true)
+            t.column(user_field)
+            t.column(course_field)
+            t.column(grade_field)
+            t.column(term_field)
+            t.column(score_mark_field)
+            t.column(top_field)
+            t.column(avg_field)
+            t.column(score_variance_field)
+        })
+
+        // Load data from database first
+        print("Reading score mark into database.")
+        getScoreRecords(self.username)
+        dispatch_async(dispatch_get_main_queue(), {
+            self.scoreView.reloadData()
+        });
+        
         // Do any additional setup after loading the view.
+        NumOfScore = 1
         downloadScore()
     }
+
+    func createScoreRecords(user :String) {
+        // Remove old records from database
+        let user_field = Expression<String>("user")
+        let myscore = scoretable.filter(user_field == user)
+        print("deleting old score record")
+        _ = try? db.run(myscore.delete())
+        
+        // Insert new records into database
+        print("writing new score record")
+        for s in Score {
+            if (s != [] && s[0] != "课程") {
+                let user_field = Expression<String>("user")
+                let course_field = Expression<String>("course")
+                let grade_field = Expression<String>("grade")
+                let term_field = Expression<String>("term")
+                let score_mark_field = Expression<String>("score_mark")
+                let top_field = Expression<String>("top")
+                let avg_field = Expression<String>("avg")
+                let score_variance_field = Expression<String>("score_variance")
+                
+                try! db.run(scoretable.insert(user_field <- username, course_field <- s[0], grade_field <- s[1], term_field <- s[2], score_mark_field <- s[3], top_field <- s[4], avg_field <- s[5], score_variance_field <- s[6]))
+            }
+        }
+    }
     
+    func getScoreRecords(user :String) {
+        let user_field = Expression<String>("user")
+        let course_field = Expression<String>("course")
+        let grade_field = Expression<String>("grade")
+        let term_field = Expression<String>("term")
+        let score_mark_field = Expression<String>("score_mark")
+        let top_field = Expression<String>("top")
+        let avg_field = Expression<String>("avg")
+        let score_variance_field = Expression<String>("score_variance")
+        let query = scoretable.select(course_field, grade_field, term_field, score_mark_field, top_field, avg_field, score_variance_field).filter(user_field == user)
+        
+        print("querying score records")
+        var i :Int = 1
+        for s in db.prepare(query) {
+            Score[i].append(s[course_field])
+            Score[i].append(s[grade_field])
+            Score[i].append(s[term_field])
+            Score[i].append(s[score_mark_field])
+            Score[i].append(s[top_field])
+            Score[i].append(s[avg_field])
+            Score[i].append(s[score_variance_field])
+            i++
+        }
+        NumOfScoreDisplaied = i
+    }
+
     func updateInfo(username :String) {
         self.username = username
     }
@@ -57,13 +158,18 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         if (indexPath.row / 7 == 0) {
             cell.scoreData.backgroundColor = UIColor.purpleColor()
             cell.scoreData.textColor = UIColor.whiteColor()
+            // cell.scoreData.layer.borderWidth = 1.0;
+        } else {
+            cell.scoreData.backgroundColor = UIColor(red: (CGFloat)(0xB4)/255.0, green: (CGFloat)(0xD5)/255.0, blue: (CGFloat)(0xE0)/255.0, alpha: 1)
+            cell.scoreData.textColor = UIColor.blackColor()
+            // cell.scoreData.layer.borderWidth = 1.0;
         }
         
         return cell
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return NumOfScore * 7
+        return NumOfScoreDisplaied * 7
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -181,7 +287,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 if (self.item_id >= 2) {
                     print(self.Score)
                     print("NumOfScore=", self.NumOfScore)
+                    print("Writing score mark into database.")
+                    self.createScoreRecords(self.username)
                     dispatch_async(dispatch_get_main_queue(), {
+                        self.NumOfScoreDisplaied = self.NumOfScore
                         self.scoreTitle.text = self.username + " 成绩 🔵"
                         self.scoreView.reloadData()
                     });
