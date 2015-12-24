@@ -25,10 +25,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.HomeWorkData.updateData([String]) -&gt; ():ViewController.swift">
+         contextName = "ScoreViewController.collectionView(UICollectionView, cellForItemAtIndexPath : NSIndexPath) -&gt; UICollectionViewCell:ScoreViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "webview">
+               value = "Score">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScoreViewController.collectionView(UICollectionView, didSelectItemAtIndexPath : NSIndexPath) -&gt; ():ScoreViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Score">
+            </PersistentString>
+            <PersistentString
+               value = "ScoreInGrade">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LoginViewController.viewWillAppear(Bool) -&gt; ():LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "oldisUser2">
+            </PersistentString>
+            <PersistentString
+               value = "oldisBigFont">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -55,13 +77,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LoginViewController.viewWillAppear(Bool) -&gt; ():LoginViewController.swift">
+         contextName = "ViewController.HomeWorkData.updateData([String]) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oldisUser2">
+               value = "webview">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScoreViewController.(collectionView(ScoreViewController) -&gt; (UICollectionView, didSelectItemAtIndexPath : NSIndexPath) -&gt; ()).(closure #1):ScoreViewController.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "oldisBigFont">
+               value = "Score">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScoreViewController.(collectionView(ScoreViewController) -&gt; (UICollectionView, didSelectItemAtIndexPath : NSIndexPath) -&gt; ()).(closure #2):ScoreViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Score">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -31,6 +31,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var NumOfScore :Int = 1
     var NumOfScoreDisplaied = 1
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
+    var ScoreInCourse :[[String]] = [[String]](count:72, repeatedValue: [])
+    var ScoreInGrade :[[String]] = [[String]](count:72, repeatedValue: [])
     let reuseIdentifier :String = "ScoreCell"
     var username :String = ""
     var cellWidth :CGFloat = 0.0
@@ -55,6 +57,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewDidLoad()
 
         Score[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
+        ScoreInCourse[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
+        ScoreInGrade[0] = [ "课程", "年级", "学期", "成绩", "最高", "平均", "方差" ]
         
         // Create database now
         let id_field = Expression<Int64>("id")
@@ -181,6 +185,71 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         return 2.0
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row == 0) {
+            // In grade order
+            var i :Int
+            var j :Int
+            var k :Int
+            var m :Int = 1
+            for (j=0; j<courses.count; j++) {
+                let g :String = courses[j]
+                for (k=0; k<terms.count; k++) {
+                    let t :String = terms[k]
+                    for (i=0; i<NumOfScore; i++) {
+                        let gr :String = Score[i][1];
+                        let te :String = Score[i][2];
+                        if (g != gr || t != te) {
+                            continue
+                        }
+                        var n :Int
+                        ScoreInGrade[m] = []
+                        for (n=0; n<7; n++) {
+                            ScoreInGrade[m].append(Score[i][n])
+                        }
+                        m++
+                    }
+                }
+            }
+            // In course order
+            dispatch_async(dispatch_get_main_queue(), {
+                self.Score = self.ScoreInCourse
+                self.NumOfScoreDisplaied = self.NumOfScore
+                self.scoreView.reloadData()
+            });
+        } else if (indexPath.row == 1) {
+            // In grade order
+            var i :Int
+            var j :Int
+            var k :Int
+            var m :Int = 1
+            for (j=0; j<grades.count; j++) {
+                let g :String = grades[j]
+                for (k=0; k<terms.count; k++) {
+                    let t :String = terms[k]
+                    for (i=0; i<NumOfScore; i++) {
+                        let gr :String = Score[i][1];
+                        let te :String = Score[i][2];
+                        if (g != gr || t != te) {
+                            continue
+                        }
+                        var n :Int
+                        ScoreInGrade[m] = []
+                        for (n=0; n<7; n++) {
+                            ScoreInGrade[m].append(Score[i][n])
+                        }
+                        m++
+                    }
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), {
+                self.Score = self.ScoreInGrade
+                self.NumOfScoreDisplaied = self.NumOfScore
+                self.scoreView.reloadData()
+            });
+        }
+    }
+    
     // Set up 7 cells in a row
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         cellWidth = CGFloat(Int(collectionView.frame.size.width) / 7);
@@ -295,6 +364,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     dispatch_async(dispatch_get_main_queue(), {
                         self.NumOfScoreDisplaied = self.NumOfScore
                         self.scoreTitle.text = self.username + " 成绩 🔵"
+                        self.ScoreInCourse = self.Score
                         self.scoreView.reloadData()
                     });
                     return
