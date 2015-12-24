@@ -161,8 +161,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         cell.scoreData.text = Score[indexPath.row / 7][indexPath.row % 7]
         if (indexPath.row / 7 == 0) {
-            cell.scoreData.backgroundColor = UIColor.purpleColor()
             cell.scoreData.textColor = UIColor.whiteColor()
+            cell.scoreData.backgroundColor = UIColor.purpleColor()
             // cell.scoreData.layer.borderWidth = 1.0;
         } else {
             cell.scoreData.backgroundColor = UIColor(red: (CGFloat)(117.0/255.0), green: (CGFloat)(70.0/255.0), blue: (CGFloat)(146.0/255.0), alpha: 0.4)
