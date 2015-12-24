@@ -102,14 +102,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     var currentusername :String = ""
     var currentpassword :String = ""
 
+    func presentLoginView() {
+        // Pass data into login View Controller
+        let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+        vc.delegate = self
+        vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
+        self.presentViewController(vc, animated: false, completion: nil)
+    }
+    
     var loginTried :Bool = false {
         didSet {
             if (isLoggedIn == false && loginTried == true) {
-                // Pass data into login View Controller
-                let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-                vc.delegate = self
-                vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
-                self.presentViewController(vc, animated: false, completion: nil)
+                presentLoginView()
             }
         }
     }
@@ -124,11 +128,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     @IBAction func setup(sender: UIButton) {
-        // Pass data into login View Controller
-        let vc :LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-        vc.delegate = self
-        vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
-        self.presentViewController(vc, animated: false, completion: nil)
+        presentLoginView()
     }
     
     func didFinishLogin(controller: LoginViewController, username: String, password: String, username2: String, password2: String, isUser2 :Bool, isBigFont :Bool) {
@@ -382,6 +382,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         loadUserData()
         dispatch_async(dispatch_get_main_queue(), {
             self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+            if (self.username == "" && self.username2 == "") {
+                self.presentLoginView()
+                return
+            }
         });
         
         self.show_homework(self.currentDate, id: 1)

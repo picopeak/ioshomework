@@ -86,7 +86,6 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         userName2.layer.borderColor = UIColor.blackColor().CGColor
         userName2.layer.borderWidth = 1.0
         userName2.layer.backgroundColor = UIColor.whiteColor().CGColor
-        userName2.becomeFirstResponder()
         
         password2.layer.borderColor = UIColor.blackColor().CGColor
         password2.layer.borderWidth = 1.0
@@ -95,15 +94,18 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         loginBtn.layer.borderColor = UIColor.grayColor().CGColor
         loginBtn.layer.borderWidth = 1.0
         loginBtn.layer.cornerRadius = 10; // this value vary as per your desire
-        
+
         userSwitch.setOn(oldisUser2, animated: false)
         fontSwitch.setOn(oldisBigFont, animated: false)
         
+        scoreBtn.becomeFirstResponder()
+
+        /*
         if (oldisUser2) {
             userName2.becomeFirstResponder()
         } else {
             userName.becomeFirstResponder()
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
