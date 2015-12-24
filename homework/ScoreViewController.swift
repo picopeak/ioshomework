@@ -33,6 +33,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var Score :[[String]] = [[String]](count:72, repeatedValue: [])
     let reuseIdentifier :String = "ScoreCell"
     var username :String = ""
+    var cellWidth :CGFloat = 0.0
 
     var db :Connection
     let scoretable :Table
@@ -177,12 +178,14 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1.0
+        return 2.0
     }
     
     // Set up 7 cells in a row
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(collectionView.frame.size.width/7 - 1, 20)
+        cellWidth = CGFloat(Int(collectionView.frame.size.width) / 7);
+        // print("collectionView.frame.size.width = ", collectionView.frame.size.width, "cellWidth = ", cellWidth)
+        return CGSizeMake(cellWidth - 1, 20)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

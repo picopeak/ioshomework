@@ -698,7 +698,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             }
             // print("webViewDidfinishLoad", id, webView.tag, tableDataHeights[webView.tag])
             // webView.stringByEvaluatingJavaScriptFromString("document[0].style.background='#2E2E2E'")
-            tv.reloadData()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tv.reloadData()
+            })
             // tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         }
         
@@ -747,7 +749,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         dispatch_async(dispatch_get_main_queue(), {
             print("refreshing data...")
             self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
-            self.subView[item].reloadData()
+            // self.subView[item].reloadData()
         });
     }
 
