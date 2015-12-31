@@ -588,7 +588,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         func enhance_html(html :String, isBigFont :Bool) -> String {
             /* disable user text selection in uiwebview. */
-            let new_html = "<style type=\"text/css\"> * { -webkit-touch-callout: none; -webkit-user-select: none; /* Disable selection/copy in UIWebView */ } </style>" + html
+            // let new_html = "<style type=\"text/css\"> * { -webkit-touch-callout: none; -webkit-user-select: none; /* Disable selection/copy in UIWebView */ } </style>" + html
+            let new_html = html
             if (isBigFont == true) {
                 var hw_html = new_html
                 hw_html = hw_html.stringByReplacingOccurrencesOfString("<font size=\"8\">", withString: "<font size=\"9\">")
