@@ -714,22 +714,26 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             webView.scrollView.scrollEnabled = false
             
             var frame :CGRect = webView.frame
-            // Your desired width here.
-            // frame.size.width = 200;
+
             frame.size.height = 1
+            // This statement is important to reset frame to a smaller one
             webView.frame = frame
             
             /* Solution 1 : */
-            /*
-            let fittingSize :CGSize = webView.sizeThatFits(CGSizeZero);
-            frame.size = fittingSize;
-            */
+            // let fittingSize :CGSize = webView.sizeThatFits(CGSizeZero);
+            // frame.size = fittingSize;
             
             /* Solution 2 : */
-            frame.size.height = webView.scrollView.contentSize.height;
+            // frame.size.height = webView.scrollView.contentSize.height;
             
-            // Set the scrollView contentHeight back to the frame itself.
+            /* Solution 3 : */
+            // print(webView.stringByEvaluatingJavaScriptFromString("document.body.innerHTML"))
+            let heightStr :String = webView.stringByEvaluatingJavaScriptFromString("document.height")!
+            let height :CGFloat = CGFloat(NSNumberFormatter().numberFromString(heightStr)!)
+            frame.size.height = height;
+            
             webView.frame = frame;
+            print("webview height =", frame.size.height)
             return webView.frame.height
         }
     }
