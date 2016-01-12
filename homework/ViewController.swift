@@ -393,6 +393,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         self.show_homework(self.currentDate.tomorrow(), id: 2)
         login_and_gethw()
     }
+    
+    func alertmsg(str :String) {
+        let alert = UIAlertController(title: "Alert", message: str, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 
     func refresh(sender:AnyObject)
     {
@@ -781,10 +787,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         print("downloading homework", dateStr, "for page", id)
         self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
-            if (error != nil) {
-                return
-            }
-            
             var hw :[String] = [ "" ]
             hw = self.parseHomework(date, homework: homework!)
             if (hw == []) {
@@ -797,17 +799,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 
                 self.viewState = vs
                 self.downloadHomework(toDate.yesterday(), completion: { (vs, date, homework, error) -> Void in
-                    if (error != nil) {
-                        return
-                    }
                     print("try current date again")
                     // Try currentDate again
                     self.viewState = vs
                     self.downloadHomework(toDate, completion: { (vs, date, homework, error) -> Void in
-                        if (error != nil) {
-                            return
-                        }
-                        
                         var hw :[String] = [ "" ]
                         hw = self.parseHomework(date, homework: homework!)
                         if (hw == []) {
@@ -825,44 +820,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     /* Main function to get homework */
     func login_and_gethw() {
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
-            if (error != nil) {
-                self.loginTried = true
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                });
-                return
-            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
-                if (error != nil) {
-                    self.loginTried = true
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                    });
-                    return
-                }
                 /* try again */
                 print("try again ...")
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
-                    if (error != nil) {
-                        self.loginTried = true
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                        });
-                        return
-                    }
                     // print("viewstate is ready 2")
                     self.viewState = vs!
                     self.login() { (hellomsg, error) in
-                        if (error != nil) {
-                            // Fail to due to issues like network connection
-                            self.loginTried = true
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                            });
-                            return
-                        }
                         if (hellomsg == "") {
                             // Fail due to incorrect username or password
                             self.loginTried = true
@@ -873,12 +839,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
-                            if (error != nil) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                                });
-                                return
-                            }
                             print("got useful viewstate")
                             self.viewState = vs!
                             self.show_and_download(self.currentDate, id: 1)
@@ -894,13 +854,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     func logout_and_login_gethw() {
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
-            if (error != nil) {
-                self.loginTried = true
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                });
-                return
-            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.logout() {
@@ -916,44 +869,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
-            if (error != nil) {
-                self.loginTried = true
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                });
-                return
-            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
-                if (error != nil) {
-                    self.loginTried = true
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                    });
-                    return
-                }
                 /* try again */
                 print("try again ...")
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
-                    if (error != nil) {
-                        self.loginTried = true
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                        });
-                        return
-                    }
                     // print("viewstate is ready 2")
                     self.viewState = vs!
                     self.login() { (hellomsg, error) in
-                        if (error != nil) {
-                            // Fail to due to issues like network connection
-                            self.loginTried = true
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                            });
-                            return
-                        }
                         if (hellomsg == "") {
                             // Fail due to incorrect username or password
                             self.loginTried = true
@@ -964,12 +888,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
-                            if (error != nil) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                                });
-                                return
-                            }
                             print("got useful viewstate")
                             self.viewState = vs!
                             
@@ -1065,6 +983,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             if (error != nil) {
                 print("post error=\(error)")
+                self.alertmsg("请检查网络连接!")
                 return
             }
             
@@ -1133,6 +1052,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             if (error != nil) {
                 print("post error=\(error)")
+                self.alertmsg("请检查网络连接!")
                 return
             }
             
@@ -1202,6 +1122,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             
             if (error != nil) {
                 print("post error=\(error)")
+                self.alertmsg("请检查网络连接!")
                 return
             }
             
