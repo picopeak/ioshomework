@@ -888,12 +888,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     /* Main function to get homework */
     func login_and_gethw_current_date() {
-        /*
         dispatch_async(dispatch_get_main_queue(), {
             print("refreshing data...")
             self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
-        */
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.alertmsg("请检查网络连接!")
