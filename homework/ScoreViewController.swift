@@ -315,6 +315,9 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             
             if (error != nil) {
                 print("post error=\(error)")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.scoreTitle.text = self.username + " 成绩 🔴"
+                });
                 return
             }
             
@@ -347,14 +350,13 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+items[item_id]
         ViewController.obtainViewState(url) { (vs, error) in
             if (error != nil) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.scoreTitle.text = self.username + " 成绩 🔴"
+                });
                 return
             }
             self.viewState = vs!
             self.downloadScoreMark(url, completion: { (score, error) -> Void in
-                if (error != nil) {
-                    return
-                }
-                
                 self.parseScoreMark(score!)
                 if (self.item_id >= 2) {
                     print(self.Score)
