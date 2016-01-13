@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "379"
             endingLineNumber = "379"
-            landmarkName = "parseScoreMark(_:)"
+            landmarkName = "downloadScore()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

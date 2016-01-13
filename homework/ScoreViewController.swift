@@ -166,11 +166,15 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             if (indexPath.row % 7 == 0 || indexPath.row % 7 == 1) {
                 cell.scoreData.textColor = UIColor.whiteColor()
                 cell.scoreData.backgroundColor = UIColor.orangeColor()
+                cell.scoreData.layer.borderWidth = 1.0
+                cell.scoreData.layer.cornerRadius = 3
             }
             // cell.scoreData.layer.borderWidth = 1.0;
         } else {
             cell.scoreData.backgroundColor = UIColor(red: (CGFloat)(117.0/255.0), green: (CGFloat)(70.0/255.0), blue: (CGFloat)(146.0/255.0), alpha: 0.4)
             cell.scoreData.textColor = UIColor.blackColor()
+            cell.scoreData.layer.borderWidth = 0
+            cell.scoreData.layer.cornerRadius = 0
             // cell.scoreData.layer.borderWidth = 1.0;
         }
         
