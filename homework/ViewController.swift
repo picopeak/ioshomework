@@ -395,6 +395,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func alertmsg(str :String) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+        });
         let alert = UIAlertController(title: "Alert", message: str, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
@@ -761,11 +764,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         (self.subView[item].dataSource as! HomeWorkData).updateData(hw, isBigFont: isBigFont)
         let refreshC = (self.subView[item].dataSource as! HomeWorkData).refresh
         refreshC.endRefreshing()
-        dispatch_async(dispatch_get_main_queue(), {
-            print("refreshing data...")
-            self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
-            // self.subView[item].reloadData()
-        });
     }
 
     /* Assume login is successful and download homework content for current date.
@@ -809,10 +807,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.updateView(date, hw: hw)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            print("refreshing data...")
+                            self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
+                            // self.subView[item].reloadData()
+                        });
                     })
                 })
             } else {
                 self.updateView(date, hw: hw)
+                dispatch_async(dispatch_get_main_queue(), {
+                    print("refreshing data...")
+                    self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
+                    // self.subView[item].reloadData()
+                });
             }
         })
     }
@@ -820,12 +828,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     /* Main function to get homework */
     func login_and_gethw() {
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+            if (error != nil) {
+                self.alertmsg("请检查网络连接!")
+                return
+            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
                 /* try again */
                 print("try again ...")
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                    if (error != nil) {
+                        self.alertmsg("请检查网络连接!")
+                        return
+                    }
                     // print("viewstate is ready 2")
                     self.viewState = vs!
                     self.login() { (hellomsg, error) in
@@ -839,6 +855,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                            if (error != nil) {
+                                self.alertmsg("请检查网络连接!")
+                                return
+                            }
                             print("got useful viewstate")
                             self.viewState = vs!
                             self.show_and_download(self.currentDate, id: 1)
@@ -854,6 +874,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     func logout_and_login_gethw() {
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+            if (error != nil) {
+                self.alertmsg("请检查网络连接!")
+                return
+            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.logout() {
@@ -864,30 +888,42 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     /* Main function to get homework */
     func login_and_gethw_current_date() {
+        /*
         dispatch_async(dispatch_get_main_queue(), {
             print("refreshing data...")
             self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
+        */
         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+            if (error != nil) {
+                self.alertmsg("请检查网络连接!")
+                return
+            }
             // print("viewstate is ready 1")
             self.viewState = vs!
             self.login() { (hellomsg, error) in
                 /* try again */
                 print("try again ...")
                 ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                    if (error != nil) {
+                        self.alertmsg("请检查网络连接!")
+                        return
+                    }
                     // print("viewstate is ready 2")
                     self.viewState = vs!
                     self.login() { (hellomsg, error) in
                         if (hellomsg == "") {
                             // Fail due to incorrect username or password
                             self.loginTried = true
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-                            });
+                            self.alertmsg("请检查用户名或口令!")
                             return
                         }
                         self.isLoggedIn = true
                         ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                            if (error != nil) {
+                                self.alertmsg("请检查网络连接!")
+                                return
+                            }
                             print("got useful viewstate")
                             self.viewState = vs!
                             
@@ -932,6 +968,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let task = session.dataTaskWithRequest(request) {(data, response, error) in
             if (error != nil) {
                 print("viewstate error=\(error)")
+                completion(vs: nil, error: error)
                 return
             }
 
