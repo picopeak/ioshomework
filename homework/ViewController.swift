@@ -62,12 +62,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     var db :Connection
     let hwtable :Table
-    let fushan_web = "www.fushanedu.cn"
+    
+    let fushan_web2 = "www.psfshl.pudong-edu.sh.cn"
+    let fushan_web1 = "www.fushanedu.cn"
+    var fushan_web :String
     
     required init?(coder aDecoder: NSCoder) {
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         db = try! Connection("\(path)/db.sqlite3.homework")
         hwtable = Table("homework")
+        fushan_web = fushan_web1
         super.init(coder: aDecoder)
     }
 
@@ -75,6 +79,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         db = try! Connection("\(path)/db.sqlite3.homework")
         hwtable = Table("homework")
+        fushan_web = fushan_web1
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -891,6 +896,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.alertmsg("请检查网络连接!")
+                self.fushan_web = self.fushan_web2
                 return
             }
             // print("viewstate is ready 1")
