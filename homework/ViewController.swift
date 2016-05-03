@@ -62,6 +62,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
     var db :Connection
     let hwtable :Table
+    let fushan_web = "www.fushanedu.cn"
     
     required init?(coder aDecoder: NSCoder) {
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
@@ -887,7 +888,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     /* Main function to get homework */
     func login_and_gethw() {
-        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.alertmsg("请检查网络连接!")
                 return
@@ -897,7 +898,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             self.login() { (hellomsg, error) in
                 /* try again */
                 print("try again ...")
-                ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.alertmsg("请检查网络连接!")
                         return
@@ -914,7 +915,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                        ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 self.alertmsg("请检查网络连接!")
                                 return
@@ -933,7 +934,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
 
     func logout_and_login_gethw() {
-        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.alertmsg("请检查网络连接!")
                 return
@@ -952,7 +953,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             print("refreshing data...")
             self.FushanLabel.text = "福外作业 - " + self.name + " ⬇️"
         });
-        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+        ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
             if (error != nil) {
                 self.alertmsg("请检查网络连接!")
                 return
@@ -962,7 +963,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             self.login() { (hellomsg, error) in
                 /* try again */
                 print("try again ...")
-                ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User.aspx") { (vs, error) in
+                ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User.aspx") { (vs, error) in
                     if (error != nil) {
                         self.alertmsg("请检查网络连接!")
                         return
@@ -977,7 +978,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                             return
                         }
                         self.isLoggedIn = true
-                        ViewController.obtainViewState("http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
+                        ViewController.obtainViewState("http://"+self.fushan_web+"/jxq/jxq_User_jtzyck.aspx") { (vs, error) in
                             if (error != nil) {
                                 self.alertmsg("请检查网络连接!")
                                 return
@@ -1061,7 +1062,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         // let enc :NSStringEncoding = NSUTF8StringEncoding
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://"+self.fushan_web+"/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
         let postStringLen = "\(paramsLength)"
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -1130,7 +1131,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
         // let enc :NSStringEncoding = NSUTF8StringEncoding
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://"+self.fushan_web+"/jxq/jxq_User.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
         let postStringLen = "\(paramsLength)"
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -1201,7 +1202,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         // print("post string is", postString)
         
         let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.fushanedu.cn/jxq/jxq_User_jtzyck.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://"+self.fushan_web+"/jxq/jxq_User_jtzyck.aspx")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
         let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
         let postStringLen = "\(paramsLength)"
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -1251,8 +1252,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
                 var hw_html = hw_content.toHTML!
-                hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://www.fushanedu.cn/jxq/UpLoadFolder/")
-                hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://www.fushanedu.cn/")
+                hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
+                hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://"+self.fushan_web+"/")
                 hw.append(b.toHTML! + "<BR><BR>" + hw_html)
             }
             // hw.append("测试今日作业")
