@@ -1,0 +1,246 @@
+diff --git a/homework.xcodeproj/project.pbxproj b/homework.xcodeproj/project.pbxproj
+index fd2c704..7e9e91f 100644
+--- a/homework.xcodeproj/project.pbxproj
++++ b/homework.xcodeproj/project.pbxproj
+@@ -15,6 +15,8 @@
+ 		A92525FE1BBF806A000B3505 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A92525FD1BBF806A000B3505 /* Assets.xcassets */; };
+ 		A925260C1BBF806A000B3505 /* homeworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A925260B1BBF806A000B3505 /* homeworkTests.swift */; };
+ 		A92526171BBF806A000B3505 /* homeworkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92526161BBF806A000B3505 /* homeworkUITests.swift */; };
++		A9425E641CD5E98A0055AF0A /* VpadnSDKAdKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9425E631CD5E98A0055AF0A /* VpadnSDKAdKit.framework */; };
++		A9425E661CD5E99A0055AF0A /* VpadnSDKAdKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9425E631CD5E98A0055AF0A /* VpadnSDKAdKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+ 		A94E236A1C2418AD008DEF61 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94E23691C2418AD008DEF61 /* CollectionViewCell.swift */; };
+ 		A9BF17D41C1D0D57005331EB /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF17D31C1D0D57005331EB /* ScoreViewController.swift */; };
+ /* End PBXBuildFile section */
+@@ -36,6 +38,20 @@
+ 		};
+ /* End PBXContainerItemProxy section */
+ 
++/* Begin PBXCopyFilesBuildPhase section */
++		A9425E671CD5E99A0055AF0A /* Embed Frameworks */ = {
++			isa = PBXCopyFilesBuildPhase;
++			buildActionMask = 2147483647;
++			dstPath = "";
++			dstSubfolderSpec = 10;
++			files = (
++				A9425E661CD5E99A0055AF0A /* VpadnSDKAdKit.framework in Embed Frameworks */,
++			);
++			name = "Embed Frameworks";
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXCopyFilesBuildPhase section */
++
+ /* Begin PBXFileReference section */
+ 		44F4D35CBD5BAB89B8F34CC2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+ 		5BF6915E10B5B2024B5B4A33 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+@@ -53,6 +69,8 @@
+ 		A92526121BBF806A000B3505 /* homeworkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = homeworkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		A92526161BBF806A000B3505 /* homeworkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeworkUITests.swift; sourceTree = "<group>"; };
+ 		A92526181BBF806A000B3505 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
++		A9425E631CD5E98A0055AF0A /* VpadnSDKAdKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VpadnSDKAdKit.framework; sourceTree = "<group>"; };
++		A9425E681CD5F1610055AF0A /* homeworkBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = homeworkBridgingHeader.h; sourceTree = "<group>"; };
+ 		A94E23691C2418AD008DEF61 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+ 		A9BF17D31C1D0D57005331EB /* ScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
+ /* End PBXFileReference section */
+@@ -63,6 +81,7 @@
+ 			buildActionMask = 2147483647;
+ 			files = (
+ 				6F040DFAB9A78254AC2A19F3 /* Pods.framework in Frameworks */,
++				A9425E641CD5E98A0055AF0A /* VpadnSDKAdKit.framework in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -95,6 +114,7 @@
+ 		A92525EA1BBF806A000B3505 = {
+ 			isa = PBXGroup;
+ 			children = (
++				A9425E631CD5E98A0055AF0A /* VpadnSDKAdKit.framework */,
+ 				A92525F51BBF806A000B3505 /* homework */,
+ 				A925260A1BBF806A000B3505 /* homeworkTests */,
+ 				A92526151BBF806A000B3505 /* homeworkUITests */,
+@@ -125,6 +145,7 @@
+ 				A92526021BBF806A000B3505 /* Info.plist */,
+ 				A9BF17D31C1D0D57005331EB /* ScoreViewController.swift */,
+ 				A94E23691C2418AD008DEF61 /* CollectionViewCell.swift */,
++				A9425E681CD5F1610055AF0A /* homeworkBridgingHeader.h */,
+ 			);
+ 			path = homework;
+ 			sourceTree = "<group>";
+@@ -168,6 +189,7 @@
+ 				A92525F11BBF806A000B3505 /* Resources */,
+ 				1F8164F1FF7F096E7983DA7E /* Embed Pods Frameworks */,
+ 				1BEEB1A1DA1020E48ABF4F0E /* Copy Pods Resources */,
++				A9425E671CD5E99A0055AF0A /* Embed Frameworks */,
+ 			);
+ 			buildRules = (
+ 			);
+@@ -477,12 +499,21 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CODE_SIGN_IDENTITY = "iPhone Developer";
+ 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					"$(PROJECT_DIR)",
++				);
++				HEADER_SEARCH_PATHS = (
++					"$(SDKROOT)/usr/include/libxml2",
++					VpadnSDKAdKit.framework/Headers,
++				);
+ 				INFOPLIST_FILE = homework/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+ 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
+ 				PRODUCT_NAME = "福外作业";
+ 				PROVISIONING_PROFILE = "";
++				SWIFT_OBJC_BRIDGING_HEADER = homework/homeworkBridgingHeader.h;
+ 				TARGETED_DEVICE_FAMILY = 1;
+ 			};
+ 			name = Debug;
+@@ -494,12 +525,21 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CODE_SIGN_IDENTITY = "iPhone Developer";
+ 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					"$(PROJECT_DIR)",
++				);
++				HEADER_SEARCH_PATHS = (
++					"$(SDKROOT)/usr/include/libxml2",
++					VpadnSDKAdKit.framework/Headers,
++				);
+ 				INFOPLIST_FILE = homework/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+ 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
+ 				PRODUCT_NAME = "福外作业";
+ 				PROVISIONING_PROFILE = "";
++				SWIFT_OBJC_BRIDGING_HEADER = homework/homeworkBridgingHeader.h;
+ 				TARGETED_DEVICE_FAMILY = 1;
+ 			};
+ 			name = Release;
+diff --git a/homework.xcworkspace/xcuserdata/picopeak.xcuserdatad/UserInterfaceState.xcuserstate b/homework.xcworkspace/xcuserdata/picopeak.xcuserdatad/UserInterfaceState.xcuserstate
+index dbad791..921d7e5 100644
+Binary files a/homework.xcworkspace/xcuserdata/picopeak.xcuserdatad/UserInterfaceState.xcuserstate and b/homework.xcworkspace/xcuserdata/picopeak.xcuserdatad/UserInterfaceState.xcuserstate differ
+diff --git a/homework/ViewController.swift b/homework/ViewController.swift
+index 7017b80..de630b4 100644
+--- a/homework/ViewController.swift
++++ b/homework/ViewController.swift
+@@ -9,6 +9,7 @@
+ import UIKit
+ import Kanna
+ import SQLite
++import VpadnSDKAdKit
+ 
+ extension NSDate {
+     func daysSinces2000() -> Int {
+@@ -49,7 +50,7 @@ extension NSDate {
+     }
+ }
+ 
+-class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
++class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate, VpadnBannerDelegate, VpadnInterstitialDelegate {
+ 
+     @IBOutlet weak var scrollView: UIScrollView!
+     @IBOutlet weak var FushanLabel: UILabel!
+@@ -58,9 +59,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
+     @IBOutlet weak var right: UILabel!
+     @IBOutlet weak var setupBtn: UIButton!
+     @IBOutlet weak var todayBtn: UIButton!
+-    
++
+     var db :Connection
+     let hwtable :Table
++    var vpadnAd :VpadnBanner = VpadnBanner.init()
++    
+     required init?(coder aDecoder: NSCoder) {
+         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+         db = try! Connection("\(path)/db.sqlite3.homework")
+@@ -305,10 +308,69 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
+         }
+         return homework
+     }
++
++    func getTestIndentifier()->NSArray
++    {
++        let testIndentifier: NSArray=["F750CDA8-D477-469F-A2C8-6D8010873C25"];
++        return testIndentifier;
++    }
++    
++    //sent when ads has succeeded
++    func onVpadnAdReceived(bannerView: UIView!) {
++    }
++    //sent when ads has failed
++    func onVpadnAdFailed(bannerView: UIView!, didFailToReceiveAdWithError error: NSError!) {
++    }
++    //sent immediately before the user is presented with Vpadn ad
++    func onVpadnPresent(bannerView: UIView!) {
++        
++    }
++    //sent when the Vpadn ad is dismissed
++    func onVpadnDismiss(bannerView: UIView!) {
++        
++    }
++    //sent just before the application gets backgrounded or terminated
++    func onVpadnLeaveApplication(bannerView: UIView!) {
++        
++    }
++    //sent when interstitial ads has succeeded
++    func onVpadnInterstitialAdReceived(bannerView: UIView!) {
++        // interstitial.show()
++    }
++    //sent when interstitial ads has failed
++    func onVpadnInterstitialAdFailed(bannerView: UIView!) {
++        
++    }
++    //sent when interstitial ads has clicked
++    func onVpadnInterstitialAdClicked() {
++    }
++    //sent when the Vpadn ad is dismissed
++    func onVpadnInterstitialAdDismiss(bannerView: UIView!) {
++    }
+     
++    //var bannerView:VpadnBanner!
++    //var interstitial:VpadnInterstitial!
+     override func viewDidLoad() {
+         super.viewDidLoad()
+         
++        // Set up AD
++        /*
++        let ori=CGPointMake((self.view.bounds.width-320)/2, 20.0)
++        VpadnAdSizeSmartBannerPortrait
++        bannerView=VpadnBanner(adSize:VpadnAdSizeSmartBannerPortrait,origin:ori)
++        bannerView.strBannerId="fushanhomework"
++        bannerView.platform="CN"
++        bannerView.setAdAutoRefresh(true)
++        bannerView.rootViewController=self
++        bannerView.delegate=self
++        self.view.addSubview(bannerView.getVpadnAdView())
++        bannerView.startGetAd(getTestIndentifier() as [AnyObject])
++        interstitial=VpadnInterstitial()
++        interstitial.strBannerId="fushanhomework"
++        interstitial.platform="CN"
++        interstitial.delegate=self
++        interstitial.getInterstitial(getTestIndentifier() as [AnyObject])
++        */
+         DateLabel.text = currentDate.getDateStr()
+         DateLabel.backgroundColor = UIColor.purpleColor()
+         DateLabel.textColor = UIColor.whiteColor()
+@@ -338,7 +400,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
+             refresh.attributedTitle = NSAttributedString(string: "更新作业数据...")
+             refresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+             self.refreshControl.append(refresh)
+-            
++
+             let hw :HomeWorkData = HomeWorkData(id: index, tv: tv, refresh: refresh)
+             tv.dataSource = hw
+             tv.delegate = hw
+diff --git a/homework/homeworkBridgingHeader.h b/homework/homeworkBridgingHeader.h
+index 7a71987..366cb72 100644
+--- a/homework/homeworkBridgingHeader.h
++++ b/homework/homeworkBridgingHeader.h
+@@ -9,5 +9,6 @@
+ #ifndef homeworkBridgingHeader_h
+ #define homeworkBridgingHeader_h
+ 
++#import "VpadnBanner.h"
+ 
+ #endif /* homeworkBridgingHeader_h */

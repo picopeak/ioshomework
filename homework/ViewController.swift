@@ -9,6 +9,7 @@
 import UIKit
 import Kanna
 import SQLite
+import VpadnSDKAdKit
 
 extension NSDate {
     func daysSinces2000() -> Int {
@@ -49,7 +50,7 @@ extension NSDate {
     }
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControllerDelegate, VpadnBannerDelegate, VpadnInterstitialDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var FushanLabel: UILabel!
@@ -58,9 +59,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     @IBOutlet weak var right: UILabel!
     @IBOutlet weak var setupBtn: UIButton!
     @IBOutlet weak var todayBtn: UIButton!
-    
+
     var db :Connection
     let hwtable :Table
+    
     required init?(coder aDecoder: NSCoder) {
         let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         db = try! Connection("\(path)/db.sqlite3.homework")
@@ -305,10 +307,68 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         }
         return homework
     }
+
+    func getTestIndentifier()->NSArray
+    {
+        let testIndentifier: NSArray=["F750CDA8-D477-469F-A2C8-6D8010873C25"];
+        return testIndentifier;
+    }
     
+    //sent when ads has succeeded
+    func onVpadnAdReceived(bannerView: UIView!) {
+    }
+    //sent when ads has failed
+    func onVpadnAdFailed(bannerView: UIView!, didFailToReceiveAdWithError error: NSError!) {
+    }
+    //sent immediately before the user is presented with Vpadn ad
+    func onVpadnPresent(bannerView: UIView!) {
+        
+    }
+    //sent when the Vpadn ad is dismissed
+    func onVpadnDismiss(bannerView: UIView!) {
+        
+    }
+    //sent just before the application gets backgrounded or terminated
+    func onVpadnLeaveApplication(bannerView: UIView!) {
+        
+    }
+    //sent when interstitial ads has succeeded
+    func onVpadnInterstitialAdReceived(bannerView: UIView!) {
+        // interstitial.show()
+    }
+    //sent when interstitial ads has failed
+    func onVpadnInterstitialAdFailed(bannerView: UIView!) {
+        
+    }
+    //sent when interstitial ads has clicked
+    func onVpadnInterstitialAdClicked() {
+    }
+    //sent when the Vpadn ad is dismissed
+    func onVpadnInterstitialAdDismiss(bannerView: UIView!) {
+    }
+    
+    var bannerView:VpadnBanner!
+    var interstitial:VpadnInterstitial!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up AD
+        let ori=CGPointMake((self.view.bounds.width-320)/2, 20.0)
+        VpadnAdSizeSmartBannerPortrait
+        bannerView=VpadnBanner(adSize:VpadnAdSizeSmartBannerPortrait,origin:ori)
+        bannerView.strBannerId="fushanhomework"
+        bannerView.platform="CN"
+        bannerView.setAdAutoRefresh(true)
+        bannerView.rootViewController=self
+        bannerView.delegate=self
+        self.view.addSubview(bannerView.getVpadnAdView())
+        bannerView.startGetAd(getTestIndentifier() as [AnyObject])
+        interstitial=VpadnInterstitial()
+        interstitial.strBannerId="fushanhomework"
+        interstitial.platform="CN"
+        interstitial.delegate=self
+        interstitial.getInterstitial(getTestIndentifier() as [AnyObject])
+
         DateLabel.text = currentDate.getDateStr()
         DateLabel.backgroundColor = UIColor.purpleColor()
         DateLabel.textColor = UIColor.whiteColor()
@@ -338,7 +398,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             refresh.attributedTitle = NSAttributedString(string: "更新作业数据...")
             refresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
             self.refreshControl.append(refresh)
-            
+
             let hw :HomeWorkData = HomeWorkData(id: index, tv: tv, refresh: refresh)
             tv.dataSource = hw
             tv.delegate = hw
