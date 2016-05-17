@@ -23,6 +23,7 @@
 //
 
 import Dispatch
+import CSQLite
 
 /// A connection to SQLite.
 public final class Connection {
@@ -140,9 +141,9 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(statement: String, _ bindings: Binding?...) -> Statement {
-        if !bindings.isEmpty { return prepare(statement, bindings) }
-        return Statement(self, statement)
+    @warn_unused_result public func prepare(statement: String, _ bindings: Binding?...) throws -> Statement {
+        if !bindings.isEmpty { return try prepare(statement, bindings) }
+        return try Statement(self, statement)
     }
 
     /// Prepares a single SQL statement and binds parameters to it.
@@ -154,8 +155,8 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(statement: String, _ bindings: [Binding?]) -> Statement {
-        return prepare(statement).bind(bindings)
+    @warn_unused_result public func prepare(statement: String, _ bindings: [Binding?]) throws -> Statement {
+        return try prepare(statement).bind(bindings)
     }
 
     /// Prepares a single SQL statement and binds parameters to it.
@@ -167,8 +168,8 @@ public final class Connection {
     ///   - bindings: A dictionary of named parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(statement: String, _ bindings: [String: Binding?]) -> Statement {
-        return prepare(statement).bind(bindings)
+    @warn_unused_result public func prepare(statement: String, _ bindings: [String: Binding?]) throws -> Statement {
+        return try prepare(statement).bind(bindings)
     }
 
     // MARK: - Run
@@ -245,7 +246,7 @@ public final class Connection {
     ///
     /// - Returns: The first value of the first row returned.
     @warn_unused_result public func scalar(statement: String, _ bindings: [Binding?]) -> Binding? {
-        return prepare(statement).scalar(bindings)
+        return try! prepare(statement).scalar(bindings)
     }
 
     /// Runs a single SQL statement (with optional parameter bindings),
@@ -259,7 +260,7 @@ public final class Connection {
     ///
     /// - Returns: The first value of the first row returned.
     @warn_unused_result public func scalar(statement: String, _ bindings: [String: Binding?]) -> Binding? {
-        return prepare(statement).scalar(bindings)
+        return try! prepare(statement).scalar(bindings)
     }
 
     // MARK: - Transactions

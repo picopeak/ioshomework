@@ -63,8 +63,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     var db :Connection
     let hwtable :Table
     
-    let fushan_web2 = "www.psfshl.pudong-edu.sh.cn"
-    let fushan_web1 = "www.fushanedu.cn"
+    let fushan_web1 = "www.psfshl.pudong-edu.sh.cn"
+    let fushan_web2 = "www.fushanedu.cn"
     var fushan_web :String
     
     required init?(coder aDecoder: NSCoder) {
@@ -187,7 +187,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     func loadUserData() {
-        print("load setup data")
+        print("load user and setup data")
         let defaults = NSUserDefaults.standardUserDefaults()
         let usernameObj = defaults.objectForKey("username")
         let passwordObj = defaults.objectForKey("password")
@@ -308,7 +308,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         var homework :[String] = []
         print("querying homework record "+date)
-        for hw in db.prepare(query) {
+        for hw in try! db.prepare(query) {
             homework.append(hw[content_field])
         }
         return homework
@@ -322,21 +322,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     
     //sent when ads has succeeded
     func onVpadnAdReceived(bannerView: UIView!) {
+        print("广告抓取成功");
     }
     //sent when ads has failed
     func onVpadnAdFailed(bannerView: UIView!, didFailToReceiveAdWithError error: NSError!) {
+        print("广告抓取失败")
     }
     //sent immediately before the user is presented with Vpadn ad
     func onVpadnPresent(bannerView: UIView!) {
-        
+        print("开启vpadn广告页面")
     }
     //sent when the Vpadn ad is dismissed
     func onVpadnDismiss(bannerView: UIView!) {
-        
+        print("关闭vpadn广告页面")
     }
     //sent just before the application gets backgrounded or terminated
     func onVpadnLeaveApplication(bannerView: UIView!) {
-        
+        print("离开publisher application")
     }
     //sent when interstitial ads has succeeded
     func onVpadnInterstitialAdReceived(bannerView: UIView!) {
@@ -359,21 +361,25 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         super.viewDidLoad()
         
         // Set up AD
-        let ori=CGPointMake((self.view.bounds.width-320)/2, 20.0)
+        print("setup AD")
+        let ori=CGPointMake((self.view.bounds.width-320)/2, self.view.bounds.height-CGSizeFromVpadnAdSize(VpadnAdSizeSmartBannerPortrait).height)
         VpadnAdSizeSmartBannerPortrait
-        bannerView=VpadnBanner(adSize:VpadnAdSizeSmartBannerPortrait,origin:ori)
-        bannerView.strBannerId="fushanhomework"
+        bannerView=VpadnBanner(adSize:VpadnAdSizeSmartBannerPortrait, origin:ori)
+        bannerView.strBannerId="8a81818453a711ad0153a7ea62d60009"
+        bannerView.delegate=self
         bannerView.platform="CN"
         bannerView.setAdAutoRefresh(true)
         bannerView.rootViewController=self
-        bannerView.delegate=self
         self.view.addSubview(bannerView.getVpadnAdView())
-        bannerView.startGetAd(getTestIndentifier() as [AnyObject])
+        bannerView.startGetAd(nil)
+        print("start AD")
+        /*
         interstitial=VpadnInterstitial()
-        interstitial.strBannerId="fushanhomework"
-        interstitial.platform="CN"
+        interstitial.strBannerId="8a808182447617bf0144d414ff2a3db1"
+        interstitial.platform="TW"
         interstitial.delegate=self
         interstitial.getInterstitial(getTestIndentifier() as [AnyObject])
+        */
 
         DateLabel.text = currentDate.getDateStr()
         DateLabel.backgroundColor = UIColor.purpleColor()
@@ -402,7 +408,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
             let refresh :UIRefreshControl = UIRefreshControl()
             refresh.attributedTitle = NSAttributedString(string: "更新作业数据...")
-            refresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+            refresh.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
             self.refreshControl.append(refresh)
 
             let hw :HomeWorkData = HomeWorkData(id: index, tv: tv, refresh: refresh)

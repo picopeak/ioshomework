@@ -1,1 +1,1 @@
-../../../SQLite.swift/Source/Core/fts3_tokenizer.h
+../../../SQLite.swift/SQLite/Core/fts3_tokenizer.h

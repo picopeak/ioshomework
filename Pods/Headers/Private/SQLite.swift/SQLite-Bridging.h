@@ -1,1 +1,1 @@
-../../../SQLite.swift/Source/Core/SQLite-Bridging.h
+../../../SQLite.swift/SQLite/Core/SQLite-Bridging.h
