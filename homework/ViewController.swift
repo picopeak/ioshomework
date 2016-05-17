@@ -395,10 +395,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         todayBtn.layer.borderWidth = 1.0
         todayBtn.layer.cornerRadius = 10; // this value vary as per your desire
 
+        // Create 3 UITableViews to implement slide to left or right.
         for index in 0 ..< 3 {
             var frame: CGRect = CGRectMake(0, 0, 0, 0)
             let loc :CGPoint = (self.scrollView.superview?.convertPoint(self.scrollView.frame.origin, toView: nil))!
-            frame.size.height = screenHeight - loc.y
+            // Leave space for Vpon Ad Banner
+            frame.size.height = screenHeight - loc.y - CGSizeFromVpadnAdSize(VpadnAdSizeSmartBannerPortrait).height
             // frame.size.height = scrollView.frame.height
             frame.size.width = screenWidth
             frame.origin.x = screenWidth * CGFloat(index)
