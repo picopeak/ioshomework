@@ -365,7 +365,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let ori=CGPointMake((self.view.bounds.width-320)/2, self.view.bounds.height-CGSizeFromVpadnAdSize(VpadnAdSizeSmartBannerPortrait).height)
         VpadnAdSizeSmartBannerPortrait
         bannerView=VpadnBanner(adSize:VpadnAdSizeSmartBannerPortrait, origin:ori)
-        bannerView.strBannerId="8a81818453a711ad0153a7ea62d60009"
+        // Test Banner
+        // bannerView.strBannerId="8a81818453a711ad0153a7ea62d60009"
+        bannerView.strBannerId="8a81818453a711ad01546c9777820a10"
         bannerView.delegate=self
         bannerView.platform="CN"
         bannerView.setAdAutoRefresh(true)
