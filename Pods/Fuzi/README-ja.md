@@ -1,5 +1,6 @@
 # Fuzi (斧子)
 
+[![Build Status](https://api.travis-ci.org/cezheng/Fuzi.svg)](https://travis-ci.org/cezheng/Fuzi)
 [![Cocoapods Compatible](https://img.shields.io/cocoapods/v/Fuzi.svg)](https://cocoapods.org/pods/Fuzi)
 [![License](https://img.shields.io/cocoapods/l/Fuzi.svg?style=flat&color=gray)](http://opensource.org/licenses/MIT)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -132,8 +133,8 @@ do {
     document.definePrefix("atom", defaultNamespace: "http://www.w3.org/2005/Atom")
     
     // get first child element with given tag in namespace(optional)
-    print(root.firstChild(tag: "title", inNamespace: "atom")
-    
+    print(root.firstChild(tag: "title", inNamespace: "atom"))
+
     // iterate through all children
     for element in root.children {
       print("\(index) \(element.tag): \(element.attributes)")
@@ -166,7 +167,7 @@ do {
   }
   for link in doc.css("a, link") {
       print(link.rawXML)
-      print(link["href"]
+      print(link["href"])
   }
   
   // XPath queries
@@ -174,7 +175,7 @@ do {
     print(firstAnchor["href"])
   }
   for script in doc.xpath("//head/script") {
-    print(script["src"]
+    print(script["src"])
   }
   
   // Evaluate XPath functions

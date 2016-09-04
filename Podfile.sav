@@ -1,0 +1,8 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target "homework" do
+    pod 'Fuzi', '~> 0.3.0'
+    pod 'Kanna', '~> 1.1.0'
+    pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
+end
