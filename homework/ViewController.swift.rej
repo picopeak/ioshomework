@@ -1,0 +1,28 @@
+***************
+*** 63,72 ****
+      var db :Connection
+      let hwtable :Table
+      
+      required init?(coder aDecoder: NSCoder) {
+          let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+          db = try! Connection("\(path)/db.sqlite3.homework")
+          hwtable = Table("homework")
+          super.init(coder: aDecoder)
+      }
+  
+--- 63,77 ----
+      var db :Connection
+      let hwtable :Table
+      
++     let fushan_web2 = "www.psfshl.pudong-edu.sh.cn"
++     let fushan_web1 = "www.fushanedu.cn"
++     var fushan_web :String
++     
+      required init?(coder aDecoder: NSCoder) {
+          let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+          db = try! Connection("\(path)/db.sqlite3.homework")
+          hwtable = Table("homework")
++         fushan_web = fushan_web1
+          super.init(coder: aDecoder)
+      }
+  
