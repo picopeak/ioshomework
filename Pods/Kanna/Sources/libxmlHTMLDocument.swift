@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 import Foundation
+import libxml2
 
 /*
 libxmlHTMLDocument
@@ -37,28 +38,8 @@ internal final class libxmlHTMLDocument: HTMLDocument {
     var text: String? {
         return rootNode?.text
     }
-
+    
     var toHTML: String? {
-        let buf = xmlBufferCreate()
-        defer {
-            xmlBufferFree(buf)
-        }
-
-        let outputBuf = xmlOutputBufferCreateBuffer(buf, nil)
-        htmlDocContentDumpOutput(outputBuf, docPtr, nil)
-        let html = String.fromCString(UnsafePointer(xmlOutputBufferGetContent(outputBuf)))
-        return html
-    }
-
-    var toXML: String? {
-        var buf: UnsafeMutablePointer<xmlChar> = nil
-        let size: UnsafeMutablePointer<Int32> = nil
-        defer {
-            xmlFree(buf)
-        }
-
-        xmlDocDumpMemory(docPtr, &buf, size)
-        let html = String.fromCString(UnsafePointer(buf))
         return html
     }
     
@@ -71,23 +52,7 @@ internal final class libxmlHTMLDocument: HTMLDocument {
     }
     
     var tagName:   String? {
-        get {
-            return nil
-        }
-
-        set {
-
-        }
-    }
-
-    var content: String? {
-        get {
-            return text
-        }
-
-        set {
-            rootNode?.content = newValue
-        }
+        return nil
     }
     
     init?(html: String, url: String?, encoding: UInt, option: UInt) {
@@ -118,11 +83,11 @@ internal final class libxmlHTMLDocument: HTMLDocument {
     var head: XMLElement? { return at_xpath("//head") }
     var body: XMLElement? { return at_xpath("//body") }
     
-    func xpath(xpath: String, namespaces: [String:String]?) -> XPathObject {
-        return rootNode?.xpath(xpath, namespaces: namespaces) ?? XPathObject.None
+    func xpath(xpath: String, namespaces: [String:String]?) -> XMLNodeSet {
+        return rootNode?.xpath(xpath, namespaces: namespaces) ?? XMLNodeSet()
     }
     
-    func xpath(xpath: String) -> XPathObject {
+    func xpath(xpath: String) -> XMLNodeSet {
         return self.xpath(xpath, namespaces: nil)
     }
     
@@ -134,11 +99,11 @@ internal final class libxmlHTMLDocument: HTMLDocument {
         return self.at_xpath(xpath, namespaces: nil)
     }
     
-    func css(selector: String, namespaces: [String:String]?) -> XPathObject {
-        return rootNode?.css(selector, namespaces: namespaces) ?? XPathObject.None
+    func css(selector: String, namespaces: [String:String]?) -> XMLNodeSet {
+        return rootNode?.css(selector, namespaces: namespaces) ?? XMLNodeSet()
     }
     
-    func css(selector: String) -> XPathObject {
+    func css(selector: String) -> XMLNodeSet {
         return self.css(selector, namespaces: nil)
     }
     
@@ -166,27 +131,7 @@ internal final class libxmlXMLDocument: XMLDocument {
     }
     
     var toHTML: String? {
-        let buf = xmlBufferCreate()
-        defer {
-            xmlBufferFree(buf)
-        }
-
-        let outputBuf = xmlOutputBufferCreateBuffer(buf, nil)
-        htmlDocContentDumpOutput(outputBuf, docPtr, nil)
-        let html = String.fromCString(UnsafePointer(xmlOutputBufferGetContent(outputBuf)))
-        return html
-    }
-
-    var toXML: String? {
-        var buf: UnsafeMutablePointer<xmlChar> = nil
-        let size: UnsafeMutablePointer<Int32> = nil
-        defer {
-            xmlFree(buf)
-        }
-
-        xmlDocDumpMemory(docPtr, &buf, size)
-        let html = String.fromCString(UnsafePointer(buf))
-        return html
+        return xml
     }
     
     var innerHTML: String? {
@@ -198,23 +143,7 @@ internal final class libxmlXMLDocument: XMLDocument {
     }
     
     var tagName:   String? {
-        get {
-            return nil
-        }
-
-        set {
-            
-        }
-    }
-
-    var content: String? {
-        get {
-            return text
-        }
-
-        set {
-            rootNode?.content = newValue
-        }
+        return nil
     }
     
     init?(xml: String, url: String?, encoding: UInt, option: UInt) {
@@ -236,16 +165,12 @@ internal final class libxmlXMLDocument: XMLDocument {
             return nil
         }
     }
-
-    deinit {
-        xmlFreeDoc(self.docPtr)
+    
+    func xpath(xpath: String, namespaces: [String:String]?) -> XMLNodeSet {
+        return rootNode?.xpath(xpath, namespaces: namespaces) ?? XMLNodeSet()
     }
     
-    func xpath(xpath: String, namespaces: [String:String]?) -> XPathObject {
-        return rootNode?.xpath(xpath, namespaces: namespaces) ?? XPathObject.None
-    }
-    
-    func xpath(xpath: String) -> XPathObject {
+    func xpath(xpath: String) -> XMLNodeSet {
         return self.xpath(xpath, namespaces: nil)
     }
     
@@ -257,11 +182,11 @@ internal final class libxmlXMLDocument: XMLDocument {
         return self.at_xpath(xpath, namespaces: nil)
     }
     
-    func css(selector: String, namespaces: [String:String]?) -> XPathObject {
-        return rootNode?.css(selector, namespaces: namespaces) ?? XPathObject.None
+    func css(selector: String, namespaces: [String:String]?) -> XMLNodeSet {
+        return rootNode?.css(selector, namespaces: namespaces) ?? XMLNodeSet()
     }
     
-    func css(selector: String) -> XPathObject {
+    func css(selector: String) -> XMLNodeSet {
         return self.css(selector, namespaces: nil)
     }
     

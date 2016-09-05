@@ -1,18 +1,18 @@
 PODS:
   - Fuzi (0.3.1)
-  - Kanna (1.1.1)
+  - Kanna (1.0.6)
   - SQLite.swift (0.10.1)
 
 DEPENDENCIES:
   - Fuzi (~> 0.3.0)
-  - Kanna (~> 1.1.0)
+  - Kanna (~> 1.0.0)
   - SQLite.swift (~> 0.10.1)
 
 SPEC CHECKSUMS:
   Fuzi: 25118b725a1637f1676f63ae1acbba1f30a5dd6c
-  Kanna: 9d3118cff609bd21eb374be5be590b544941160f
+  Kanna: 9f30945bbd293a609f698ea164687ccc0990ff60
   SQLite.swift: 6a6e4b034efc317ce4e203b6af2d3024fee2b570
 
-PODFILE CHECKSUM: 6c386fbe5bc320b255371aaa6f301f1e44e936e9
+PODFILE CHECKSUM: 9fb0c3654d684679f5a0bdc71033f2231ac0937a
 
 COCOAPODS: 1.1.0.beta.2

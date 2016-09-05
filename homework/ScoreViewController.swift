@@ -133,7 +133,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         print("querying score records")
         var i :Int = 1
-        for s in db.prepare(query) {
+        for s in try! db.prepare(query) {
             Score[i].append(s[course_field])
             Score[i].append(s[grade_field])
             Score[i].append(s[term_field])

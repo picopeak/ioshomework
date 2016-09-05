@@ -307,7 +307,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         var homework :[String] = []
         print("querying homework record "+date)
-        for hw in db.prepare(query) {
+        for hw in try! db.prepare(query) {
             homework.append(hw[content_field])
         }
         return homework

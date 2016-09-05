@@ -38,9 +38,8 @@ public struct CSS {
     public static func toXPath(selector: String) -> String? {
         var xpath = "//"
         var str = selector
-        var prev = str
-
-        while str.utf16.count > 0 {
+        
+        while str.utf8.count > 0 {
             var attributes: [String] = []
             var combinator: String = ""
             
@@ -73,12 +72,6 @@ public struct CSS {
             } else {
                 xpath += "\(element)[\(attr)]\(combinator)"
             }
-
-            if str == prev {
-                print("CSS Syntax Error: Unsupport syntax '\(selector)'")
-                return nil
-            }
-            prev = str
         }
         return xpath
     }
@@ -86,7 +79,7 @@ public struct CSS {
 
 private func firstMatch(pattern: String) -> (String) -> NSTextCheckingResult? {
     return { str in
-        let length = str.utf16.count
+        let length = str.utf8.count
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
             if let result = regex.firstMatchInString(str, options: .ReportProgress, range: NSRange(location: 0, length: length)) {
