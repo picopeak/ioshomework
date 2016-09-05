@@ -343,7 +343,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
             let refresh :UIRefreshControl = UIRefreshControl()
             refresh.attributedTitle = NSAttributedString(string: "更新作业数据...")
-            refresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+            refresh.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
             self.refreshControl.append(refresh)
             
             let hw :HomeWorkData = HomeWorkData(id: index, tv: tv, refresh: refresh)

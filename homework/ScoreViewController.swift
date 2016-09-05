@@ -196,23 +196,19 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0) {
             // In grade order
-            var i :Int
-            var j :Int
-            var k :Int
             var m :Int = 1
-            for (j=0; j<courses.count; j += 1) {
+            for j in 0..<courses.count {
                 let g :String = courses[j]
-                for (k=0; k<terms.count; k += 1) {
+                for k in 0..<terms.count {
                     let t :String = terms[k]
-                    for (i=0; i<NumOfScore; i += 1) {
+                    for i in 0..<NumOfScore {
                         let gr :String = Score[i][1];
                         let te :String = Score[i][2];
                         if (g != gr || t != te) {
                             continue
                         }
-                        var n :Int
                         ScoreInGrade[m] = []
-                        for (n=0; n<7; n += 1) {
+                        for n in 0..<7 {
                             ScoreInGrade[m].append(Score[i][n])
                         }
                         m += 1
@@ -227,23 +223,19 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             });
         } else if (indexPath.row == 1) {
             // In grade order
-            var i :Int
-            var j :Int
-            var k :Int
             var m :Int = 1
-            for (j=0; j<grades.count; j += 1) {
+            for j in 0..<grades.count {
                 let g :String = grades[j]
-                for (k=0; k<terms.count; k += 1) {
+                for k in 0..<terms.count {
                     let t :String = terms[k]
-                    for (i=0; i<NumOfScore; i += 1) {
+                    for i in 0..<NumOfScore {
                         let gr :String = Score[i][1];
                         let te :String = Score[i][2];
                         if (g != gr || t != te) {
                             continue
                         }
-                        var n :Int
                         ScoreInGrade[m] = []
-                        for (n=0; n<7; n += 1) {
+                        for n in 0..<7 {
                             ScoreInGrade[m].append(Score[i][n])
                         }
                         m += 1
@@ -379,7 +371,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     });
                     return
                 }
-                self.item_id++
+                self.item_id = self.item_id + 1
                 self.downloadScore()
             })
         }
@@ -468,7 +460,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     Score[NumOfScore][1] = Score[NumOfScore][1] + term
                     let index = s.startIndex.advancedBy(0) //swift 2.0+
                     let index2 = s.startIndex.advancedBy(2) //swift 2.0+
-                    let range = Range<String.Index>(start: index, end: index2)
+                    let range = Range<String.Index>(index..<index2)
                     Score[NumOfScore][2] = ScoreMark[1].substringWithRange(range)
                     Score[NumOfScore][3] = ScoreMark[2];
                     Score[NumOfScore][4] = ScoreMark[8];
@@ -481,6 +473,4 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             }
         }
     }
-    
-    
 }
