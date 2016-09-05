@@ -141,7 +141,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             Score[i].append(s[top_field])
             Score[i].append(s[avg_field])
             Score[i].append(s[score_variance_field])
-            i++
+            i += 1
         }
         NumOfScoreDisplaied = i
     }
@@ -200,11 +200,11 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             var j :Int
             var k :Int
             var m :Int = 1
-            for (j=0; j<courses.count; j++) {
+            for (j=0; j<courses.count; j += 1) {
                 let g :String = courses[j]
-                for (k=0; k<terms.count; k++) {
+                for (k=0; k<terms.count; k += 1) {
                     let t :String = terms[k]
-                    for (i=0; i<NumOfScore; i++) {
+                    for (i=0; i<NumOfScore; i += 1) {
                         let gr :String = Score[i][1];
                         let te :String = Score[i][2];
                         if (g != gr || t != te) {
@@ -212,10 +212,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                         }
                         var n :Int
                         ScoreInGrade[m] = []
-                        for (n=0; n<7; n++) {
+                        for (n=0; n<7; n += 1) {
                             ScoreInGrade[m].append(Score[i][n])
                         }
-                        m++
+                        m += 1
                     }
                 }
             }
@@ -231,11 +231,11 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             var j :Int
             var k :Int
             var m :Int = 1
-            for (j=0; j<grades.count; j++) {
+            for (j=0; j<grades.count; j += 1) {
                 let g :String = grades[j]
-                for (k=0; k<terms.count; k++) {
+                for (k=0; k<terms.count; k += 1) {
                     let t :String = terms[k]
-                    for (i=0; i<NumOfScore; i++) {
+                    for (i=0; i<NumOfScore; i += 1) {
                         let gr :String = Score[i][1];
                         let te :String = Score[i][2];
                         if (g != gr || t != te) {
@@ -243,10 +243,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                         }
                         var n :Int
                         ScoreInGrade[m] = []
-                        for (n=0; n<7; n++) {
+                        for (n=0; n<7; n += 1) {
                             ScoreInGrade[m].append(Score[i][n])
                         }
-                        m++
+                        m += 1
                     }
                 }
             }
@@ -419,7 +419,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 }
 
                 ScoreMark[i] = s
-                i++
+                i += 1
     
                 // pass 考试名称 考试类型 成 绩 距均值 附加分 AB卷 满分 及格分 班最高分 班平均分 班标准差
                 if (i>10) {
@@ -476,7 +476,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     Score[NumOfScore][6] = ScoreMark[10];
                     
                     // Next Item
-                    NumOfScore++;
+                    NumOfScore += 1;
                 }
             }
         }
