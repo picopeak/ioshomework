@@ -1214,8 +1214,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
                 var hw_html = hw_content.toHTML!
-                hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
-                hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://"+self.fushan_web+"/")
+                if hw_html.lowercaseString.rangeOfString("http://") == nil {
+                    hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
+                    hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://"+self.fushan_web+"/")
+                }
                 hw.append(b.toHTML! + "<BR><BR>" + hw_html)
             }
             // hw.append("测试今日作业")
