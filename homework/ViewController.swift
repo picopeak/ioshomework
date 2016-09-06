@@ -428,14 +428,29 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     override func shouldAutorotate() -> Bool {
-        return false
+        if (screenHeight < screenWidth) {
+            let tmp = screenHeight
+            screenHeight = screenWidth
+            screenWidth = tmp
+        }
+       return false
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if (screenHeight < screenWidth) {
+            let tmp = screenHeight
+            screenHeight = screenWidth
+            screenWidth = tmp
+        }
         return UIInterfaceOrientationMask.Portrait
     }
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        if (screenHeight < screenWidth) {
+            let tmp = screenHeight
+            screenHeight = screenWidth
+            screenWidth = tmp
+        }
         return UIInterfaceOrientation.Portrait
     }
     
