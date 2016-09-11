@@ -212,7 +212,7 @@
                                     <action selector="applyBigFont:" destination="r81-63-OfA" eventType="valueChanged" id="h8z-Z1-CLW"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.5 ( zuoyazuo.com Copyright © 2015 )" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZK-oT-i4f">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 2.0 ( zuoyazuo.com Copyright © 2015 )" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZK-oT-i4f">
                                 <rect key="frame" x="20" y="566" width="560" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="IxE-Jr-fKj"/>
@@ -227,7 +227,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="titleShadowOffset" width="2" height="2"/>
-                                <state key="normal" title=" 返回 "/>
+                                <state key="normal" title=" 确定 "/>
                                 <connections>
                                     <action selector="loginBtn:" destination="r81-63-OfA" eventType="touchUpInside" id="l1D-pB-L4R"/>
                                 </connections>
