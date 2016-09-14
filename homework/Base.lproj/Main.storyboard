@@ -212,7 +212,7 @@
                                     <action selector="applyBigFont:" destination="r81-63-OfA" eventType="valueChanged" id="h8z-Z1-CLW"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 2.0 ( zuoyazuo.com Copyright © 2015 )" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZK-oT-i4f">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 2.1 ( zuoyazuo.com Copyright © 2015 )" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZK-oT-i4f">
                                 <rect key="frame" x="20" y="566" width="560" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="IxE-Jr-fKj"/>

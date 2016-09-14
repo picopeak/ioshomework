@@ -316,6 +316,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let value = UIInterfaceOrientation.LandscapeLeft.rawValue
+        UIDevice.currentDevice().setValue(value, forKey: "orientation")
+        
         DateLabel.text = currentDate.getDateStr()
         DateLabel.backgroundColor = UIColor.purpleColor()
         DateLabel.textColor = UIColor.whiteColor()
@@ -433,7 +436,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             screenHeight = screenWidth
             screenWidth = tmp
         }
-       return false
+        return true
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
