@@ -458,10 +458,10 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                         Score[NumOfScore][1] = "六"
                     }
                     Score[NumOfScore][1] = Score[NumOfScore][1] + term
-                    let index = s.startIndex.advancedBy(0) //swift 2.0+
-                    let index2 = s.startIndex.advancedBy(2) //swift 2.0+
+                    let index = s.index(s.startIndex, offsetBy:0) //swift 2.0+
+                    let index2 = s.index(s.startIndex, offsetBy:2) //swift 2.0+
                     let range = Range<String.Index>(index..<index2)
-                    Score[NumOfScore][2] = ScoreMark[1].substringWithRange(range)
+                    Score[NumOfScore][2] = ScoreMark[1][range];
                     Score[NumOfScore][3] = ScoreMark[2];
                     Score[NumOfScore][4] = ScoreMark[8];
                     Score[NumOfScore][5] = ScoreMark[9];
