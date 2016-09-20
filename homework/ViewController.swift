@@ -1215,11 +1215,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // Search for nodes by XPath
             let hw_index = doc.xpath("//b[contains(text(),'作业')]")
             for b in hw_index {
-                let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
-                var hw_html = hw_content.toHTML!
-                if hw_html.lowercaseString.range(of: "http://") == nil {
-                    hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
-                    hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://"+self.fushan_web+"/")
+                let hw_content = doc.at_xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
+                var hw_html = hw_content!.toHTML!
+                if hw_html.lowercased().range(of: "http://") == nil {
+                    hw_html = hw_html.replacingOccurrences(of: "/jxq/UpLoadFolder/", with: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
+                    hw_html = hw_html.replacingOccurrences(of: "/WEBADMIN/", with: "http://"+self.fushan_web+"/")
                 }
                 hw.append(b.toHTML! + "<BR><BR>" + hw_html)
             }
