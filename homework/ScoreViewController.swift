@@ -115,7 +115,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 let avg_field = Expression<String>("avg")
                 let score_variance_field = Expression<String>("score_variance")
                 
-                try! db.run(scoretable.insert(user_field <- username, course_field <- s[0], grade_field <- s[1], term_field <- s[2], score_mark_field <- s[3], top_field <- s[4], avg_field <- s[5], score_variance_field <- s[6]))
+                try! _ = db.run(scoretable.insert(user_field <- username, course_field <- s[0], grade_field <- s[1], term_field <- s[2], score_mark_field <- s[3], top_field <- s[4], avg_field <- s[5], score_variance_field <- s[6]))
             }
         }
     }
@@ -389,7 +389,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             let span_index = doc.xpath("//span")
             for b in span_index {
                 let s :String = b.text!
-                if (s.rangeOfString("欢迎使用") != nil) {
+                if (s.range(of: "欢迎使用") != nil) {
                     FindScore = true
                     continue
                 }
@@ -400,11 +400,11 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 }
     
                 // Skip the case like "2013学年第二学期", and keep the case like "2014学年第一学期二年级数学期中练习"
-                if (s.rangeOfString("学年第") != nil && s.rangeOfString("年级") == nil) {
-                    if (s.rangeOfString("第一") != nil) {
+                if (s.range(of: "学年第") != nil && s.range(of: "年级") == nil) {
+                    if (s.range(of: "第一") != nil) {
                         term="上"
                     }
-                    else if (s.rangeOfString("第二") != nil) {
+                    else if (s.range(of: "第二") != nil) {
                         term="下"
                     }
                     continue
@@ -418,43 +418,43 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     // Reset back to next score item
                     i = 0
     
-                    Score[NumOfScore] = [String](count:7, repeatedValue: "")
+                    Score[NumOfScore] = [String](repeating: "", count:7)
     
                     let m :String = ScoreMark[0];
                     // check term
-                    if (m.rangeOfString("第一") != nil) {
+                    if (m.range(of: "第一") != nil) {
                         term="上"
                     }
-                    else if (m.rangeOfString("第二") != nil) {
+                    else if (m.range(of: "第二") != nil) {
                         term="下"
                     }
                     // check course
-                    if (m.rangeOfString("数学") != nil) {
+                    if (m.range(of: "数学") != nil) {
                         Score[NumOfScore][0] = "数学"
                     }
-                    else if (m.rangeOfString("语文") != nil) {
+                    else if (m.range(of: "语文") != nil) {
                         Score[NumOfScore][0] = "语文"
                     }
-                    else if (m.rangeOfString("英语") != nil) {
+                    else if (m.range(of: "英语") != nil) {
                         Score[NumOfScore][0] = "英语"
                     }
                     // check grade
-                    if (m.rangeOfString("一年级") != nil) {
+                    if (m.range(of: "一年级") != nil) {
                         Score[NumOfScore][1] = "一"
                     }
-                    else if (m.rangeOfString("二年级") != nil) {
+                    else if (m.range(of: "二年级") != nil) {
                         Score[NumOfScore][1] = "二"
                     }
-                    else if (m.rangeOfString("三年级") != nil) {
+                    else if (m.range(of: "三年级") != nil) {
                         Score[NumOfScore][1] = "三"
                     }
-                    else if (m.rangeOfString("四年级") != nil) {
+                    else if (m.range(of: "四年级") != nil) {
                         Score[NumOfScore][1] = "四"
                     }
-                    else if (m.rangeOfString("五年级") != nil) {
+                    else if (m.range(of: "五年级") != nil) {
                         Score[NumOfScore][1] = "五"
                     }
-                    else if (m.rangeOfString("六年级") != nil) {
+                    else if (m.range(of: "六年级") != nil) {
                         Score[NumOfScore][1] = "六"
                     }
                     Score[NumOfScore][1] = Score[NumOfScore][1] + term

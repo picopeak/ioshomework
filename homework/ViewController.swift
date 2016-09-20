@@ -289,13 +289,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         var HasHomework :Bool = false;
         for hw in HW {
             if (hw != "") {
-                createOneHWRecord(user, date: date, course: getCourseName(hw), content: hw);
+                _ = createOneHWRecord(user, date: date, course: getCourseName(hw), content: hw);
                 HasHomework = true;
             }
         }
         
         if (!HasHomework) {
-            createOneHWRecord(user, date: date, course: "", content: "今日没有作业");
+            _ = createOneHWRecord(user, date: date, course: "", content: "今日没有作业");
         }
     }
     
@@ -1217,7 +1217,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             for b in hw_index {
                 let hw_content = doc.xpath("//b[contains(text(),'" + b.text! + "')]/../../following-sibling::tr[1]")
                 var hw_html = hw_content.toHTML!
-                if hw_html.lowercaseString.rangeOfString("http://") == nil {
+                if hw_html.lowercaseString.range(of: "http://") == nil {
                     hw_html = hw_html.stringByReplacingOccurrencesOfString("/jxq/UpLoadFolder/", withString: "http://"+self.fushan_web+"/jxq/UpLoadFolder/")
                     hw_html = hw_html.stringByReplacingOccurrencesOfString("/WEBADMIN/", withString: "http://"+self.fushan_web+"/")
                 }
