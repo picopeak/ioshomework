@@ -29,6 +29,27 @@ Features:
 Installation:
 =================
 
+### Swift 3.x
+
+#####CocoaPods
+**:warning: CocoaPods (`0.39 or later`) is required.**
+
+Adding it to your `Podfile`:
+```
+use_frameworks!
+pod 'Kanna', '~> 2.0.0'
+```
+
+#####Carthage
+Adding it to your `Cartfile`:
+
+```
+github "tid-kijyun/Kanna" ~> 2.0.0
+```
+
+1. In the project settings add `$(SDKROOT)/usr/include/libxml2` to the "header search paths" field
+
+
 ### Swift 2.x
 
 Three means of installation are supported:

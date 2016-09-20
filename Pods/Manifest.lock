@@ -1,18 +1,36 @@
 PODS:
-  - Fuzi (0.3.1)
-  - Kanna (1.0.6)
-  - SQLite.swift (0.10.1)
+  - Fuzi (1.0.0)
+  - Kanna (2.0.0)
+  - SQLite.swift (0.10.1):
+    - SQLite.swift/standard (= 0.10.1)
+  - SQLite.swift/standard (0.10.1)
 
 DEPENDENCIES:
-  - Fuzi (~> 0.3.0)
-  - Kanna (~> 1.0.0)
-  - SQLite.swift (~> 0.10.1)
+  - Fuzi (~> 1.0.0)
+  - Kanna (from `https://github.com/tid-kijyun/Kanna.git`, branch `swift3.0`)
+  - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`, branch `swift3-mariotaku`)
+
+EXTERNAL SOURCES:
+  Kanna:
+    :branch: swift3.0
+    :git: https://github.com/tid-kijyun/Kanna.git
+  SQLite.swift:
+    :branch: swift3-mariotaku
+    :git: https://github.com/stephencelis/SQLite.swift.git
+
+CHECKOUT OPTIONS:
+  Kanna:
+    :commit: 109249451c32e14dac541bfbfeaa91b4dcb47a87
+    :git: https://github.com/tid-kijyun/Kanna.git
+  SQLite.swift:
+    :commit: 1ae7acbcb1b59877cf2e034f72f3d411287a4119
+    :git: https://github.com/stephencelis/SQLite.swift.git
 
 SPEC CHECKSUMS:
-  Fuzi: 25118b725a1637f1676f63ae1acbba1f30a5dd6c
-  Kanna: 9f30945bbd293a609f698ea164687ccc0990ff60
-  SQLite.swift: 6a6e4b034efc317ce4e203b6af2d3024fee2b570
+  Fuzi: e88177b7cfdf3aa2b828c096c73551232a7f5c72
+  Kanna: 8d60d86a3580f7dee732811e5163a5e3e41a32a7
+  SQLite.swift: c54b2cb32c2ec77cd52bc7442d05dd51b0623861
 
-PODFILE CHECKSUM: 9fb0c3654d684679f5a0bdc71033f2231ac0937a
+PODFILE CHECKSUM: 40fb143e092de2e0b49b7ed19fdbccdd494d0999
 
 COCOAPODS: 1.1.0.rc.2

@@ -228,13 +228,16 @@
 					A92525F21BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = JMGY6MUGQ4;
+						LastSwiftMigration = 0800;
 					};
 					A92526061BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A92525F21BBF806A000B3505;
 					};
 					A92526111BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A92525F21BBF806A000B3505;
 					};
 				};
@@ -486,6 +489,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
 				PRODUCT_NAME = "福外作业";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -504,6 +508,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.fshomework;
 				PRODUCT_NAME = "福外作业";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -516,6 +521,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "";
 			};
 			name = Debug;
@@ -528,6 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "";
 			};
 			name = Release;
@@ -539,6 +546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = homework;
 				USES_XCTRUNNER = YES;
 			};
@@ -551,6 +559,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = homework;
 				USES_XCTRUNNER = YES;
 			};

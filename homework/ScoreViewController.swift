@@ -11,7 +11,7 @@ import Kanna
 import SQLite
 
 protocol ScoreViewControllerDelegate {
-    func didFinishScore(controller: ScoreViewController)
+    func didFinishScore(_ controller: ScoreViewController)
 }
 
 class ScoreViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -30,9 +30,9 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var scoremark :[String] = []
     var NumOfScore :Int = 1
     var NumOfScoreDisplaied = 1
-    var Score :[[String]] = [[String]](count:72, repeatedValue: [])
-    var ScoreInCourse :[[String]] = [[String]](count:72, repeatedValue: [])
-    var ScoreInGrade :[[String]] = [[String]](count:72, repeatedValue: [])
+    var Score :[[String]] = [[String]](repeating: [], count: 72)
+    var ScoreInCourse :[[String]] = [[String]](repeating: [], count: 72)
+    var ScoreInGrade :[[String]] = [[String]](repeating: [], count: 72)
     let reuseIdentifier :String = "ScoreCell"
     var username :String = ""
     var cellWidth :CGFloat = 0.0
@@ -40,14 +40,14 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     var db :Connection
     let scoretable :Table
     required init?(coder aDecoder: NSCoder) {
-        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         db = try! Connection("\(path)/db.sqlite3.homework")
         scoretable = Table("scoremark")
         super.init(coder: aDecoder)
     }
     
-    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
-        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: Bundle!) {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         db = try! Connection("\(path)/db.sqlite3.homework")
         scoretable = Table("scoremark")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -86,7 +86,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         // Load data from database first
         print("Reading score mark into database.")
         getScoreRecords(self.username)
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.scoreView.reloadData()
         });
         
@@ -95,7 +95,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         downloadScore()
     }
 
-    func createScoreRecords(user :String) {
+    func createScoreRecords(_ user :String) {
         // Remove old records from database
         let user_field = Expression<String>("user")
         let myscore = scoretable.filter(user_field == user)
@@ -120,7 +120,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
     
-    func getScoreRecords(user :String) {
+    func getScoreRecords(_ user :String) {
         let user_field = Expression<String>("user")
         let course_field = Expression<String>("course")
         let grade_field = Expression<String>("grade")
@@ -146,33 +146,33 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         NumOfScoreDisplaied = i
     }
 
-    func updateInfo(username :String) {
+    func updateInfo(_ username :String) {
         self.username = username
     }
     
     // Protocol of UICollectionViewDataSource
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewCell
         
-        cell.scoreData.text = Score[indexPath.row / 7][indexPath.row % 7]
-        if (indexPath.row / 7 == 0) {
-            cell.scoreData.textColor = UIColor.whiteColor()
-            cell.scoreData.backgroundColor = UIColor.purpleColor()
-            if (indexPath.row % 7 == 0 || indexPath.row % 7 == 1) {
-                cell.scoreData.textColor = UIColor.blackColor()
-                cell.scoreData.backgroundColor = UIColor.whiteColor()
+        cell.scoreData.text = Score[(indexPath as NSIndexPath).row / 7][(indexPath as NSIndexPath).row % 7]
+        if ((indexPath as NSIndexPath).row / 7 == 0) {
+            cell.scoreData.textColor = UIColor.white
+            cell.scoreData.backgroundColor = UIColor.purple
+            if ((indexPath as NSIndexPath).row % 7 == 0 || (indexPath as NSIndexPath).row % 7 == 1) {
+                cell.scoreData.textColor = UIColor.black
+                cell.scoreData.backgroundColor = UIColor.white
                 cell.scoreData.layer.borderWidth = 1.0
                 cell.scoreData.layer.cornerRadius = 5
             }
             // cell.scoreData.layer.borderWidth = 1.0;
         } else {
             cell.scoreData.backgroundColor = UIColor(red: (CGFloat)(117.0/255.0), green: (CGFloat)(70.0/255.0), blue: (CGFloat)(146.0/255.0), alpha: 0.4)
-            cell.scoreData.textColor = UIColor.blackColor()
+            cell.scoreData.textColor = UIColor.black
             cell.scoreData.layer.borderWidth = 0
             cell.scoreData.layer.cornerRadius = 0
             // cell.scoreData.layer.borderWidth = 1.0;
@@ -181,20 +181,20 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return NumOfScoreDisplaied * 7
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 2.0
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (indexPath.row == 0) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if ((indexPath as NSIndexPath).row == 0) {
             // In grade order
             var m :Int = 1
             for j in 0..<courses.count {
@@ -216,12 +216,12 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                 }
             }
             // In course order
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.Score = self.ScoreInCourse
                 self.NumOfScoreDisplaied = self.NumOfScore
                 self.scoreView.reloadData()
             });
-        } else if (indexPath.row == 1) {
+        } else if ((indexPath as NSIndexPath).row == 1) {
             // In grade order
             var m :Int = 1
             for j in 0..<grades.count {
@@ -242,7 +242,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     }
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.Score = self.ScoreInGrade
                 self.NumOfScoreDisplaied = self.NumOfScore
                 self.scoreView.reloadData()
@@ -251,13 +251,13 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     // Set up 7 cells in a row
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         cellWidth = CGFloat(Int(collectionView.frame.size.width) / 7);
         // print("collectionView.frame.size.width = ", collectionView.frame.size.width, "cellWidth = ", cellWidth)
-        return CGSizeMake(cellWidth - 1, 20)
+        return CGSize(width: cellWidth - 1, height: 20)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(0,0,0,0)
     }
     
@@ -268,15 +268,15 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func finishScoreBtn(sender: UIButton) {
+    @IBAction func finishScoreBtn(_ sender: UIButton) {
         delegate.didFinishScore(self)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         scoreUIView.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
         scoreView.backgroundColor = UIColor(red: (CGFloat)(0xF5)/255.0, green: (CGFloat)(0xF5)/255.0, blue: (CGFloat)(0xDC)/255.0, alpha: 1)
 
-        finishBtn.layer.borderColor = UIColor.grayColor().CGColor
+        finishBtn.layer.borderColor = UIColor.gray.cgColor
         finishBtn.layer.borderWidth = 1.0
         finishBtn.layer.cornerRadius = 10; // this value vary as per your desire
     }
@@ -291,31 +291,31 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     */
 
-    func downloadScoreMark(url :String, completion: (score: String?, error: NSError?) -> Void) {
-        let urlBase64CharacterSet :NSCharacterSet = NSCharacterSet(charactersInString: "/:+").invertedSet
+    func downloadScoreMark(_ url :String, completion: @escaping (_ score: String?, _ error: NSError?) -> Void) {
+        let urlBase64CharacterSet :CharacterSet = CharacterSet(charactersIn: "/:+").inverted
         var postString = "__VIEWSTATE=" + viewState
             + "&ShowOtherTermScores=%CF%D4%CA%BE%CB%F9%D3%D0%B2%E2%CA%D4%B3%C9%BC%A8%BC%C7%C2%BC%A3%A8%B0%FC%C0%A8%C6%E4%CB%FB%D1%A7%C6%DA%A3%A9"
-        postString = postString.stringByAddingPercentEncodingWithAllowedCharacters(urlBase64CharacterSet)!
+        postString = postString.addingPercentEncoding(withAllowedCharacters: urlBase64CharacterSet)!
         // print("post string is", postString)
         
-        let enc: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
-        let paramsLength = postString.lengthOfBytesUsingEncoding(enc)
+        let enc: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+        let request = NSMutableURLRequest(url: URL(string: url)!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData /* UseProtocolCachePolicy */, timeoutInterval:60.0)
+        let paramsLength = postString.lengthOfBytes(using: enc)
         let postStringLen = "\(paramsLength)"
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.addValue(postStringLen, forHTTPHeaderField: "Content-Length")
-        let encoded_postString :NSData = postString.dataUsingEncoding(enc)!
-        request.HTTPBody = encoded_postString
-        request.HTTPMethod = "POST"
+        let encoded_postString :Data = postString.data(using: enc)!
+        request.httpBody = encoded_postString
+        request.httpMethod = "POST"
         
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
         // print("Trying to get homework data ...")
-        let task = session.dataTaskWithRequest(request) {
+        let task = session.dataTask(with: request, completionHandler: {
             data, response, error in
             
             if (error != nil) {
                 print("post error=\(error)")
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.scoreTitle.text = self.username + " 成绩 🔴"
                 });
                 return
@@ -324,20 +324,20 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             // let res = response as! NSHTTPURLResponse!
             // print("Response code:", res.statusCode)
             
-            let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+            let dec: String.Encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let rawdata = NSString(data: data!, encoding: dec)
             let score = rawdata as! String
             self.viewState = ViewController.extractViewState(data!)
             
             // print(score)
-            if (score.rangeOfString("欢迎使用") == nil) {
+            if (score.range(of: "欢迎使用") == nil) {
                 print("failed to obtain homework!")
             } else {
                 // print("rawdata = \(rawdata)")
                 // print("homework obtained!")
                 completion(score: score, error: nil)
             }
-        }
+        }) 
         task.resume()
         /* No code should be after here. */
     }
@@ -350,7 +350,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         let url :String = "http://www.fushanedu.cn/jxq/jxq_User_xscjcx_Sh.aspx?SubjectID="+items[item_id]
         ViewController.obtainViewState(url) { (vs, error) in
             if (error != nil) {
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.scoreTitle.text = self.username + " 成绩 🔴"
                 });
                 return
@@ -363,7 +363,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
                     print("NumOfScore=", self.NumOfScore)
                     print("Writing score mark into database.")
                     self.createScoreRecords(self.username)
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         self.NumOfScoreDisplaied = self.NumOfScore
                         self.scoreTitle.text = self.username + " 成绩 🔵"
                         self.ScoreInCourse = self.Score
@@ -377,12 +377,12 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
     
-    func parseScoreMark(score :String) {
-        var ScoreMark :[String] = [String](count:11, repeatedValue: "")
+    func parseScoreMark(_ score :String) {
+        var ScoreMark :[String] = [String](repeating: "", count: 11)
         var FindScore :Bool = false
         var term :String = "";
     
-        let dec: NSStringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
+        let dec: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
         if let doc = Kanna.HTML(html: score, encoding: dec) {
             // Search for nodes by XPath
             var i = 0

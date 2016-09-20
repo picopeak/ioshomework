@@ -149,7 +149,7 @@ SQLite.swift with CocoaPods:
     ``` sh
     # Using the default Ruby install will require you to use sudo when
     # installing and updating gems.
-    sudo gem install --pre cocoapods
+    [sudo] gem install cocoapods
     ```
 
  2. Update your Podfile to include the following:
@@ -230,7 +230,7 @@ These projects enhance or use SQLite.swift:
 Looking for something else? Try another Swift wrapper (or [FMDB][]):
 
  - [Camembert](https://github.com/remirobert/Camembert)
- - [EonilSQLite3](https://github.com/Eonil/SQLite3)
+ - [GRDB](https://github.com/groue/GRDB.swift)
  - [SQLiteDB](https://github.com/FahimF/SQLiteDB)
  - [Squeal](https://github.com/nerdyc/Squeal)
  - [SwiftData](https://github.com/ryanfowler/SwiftData)
