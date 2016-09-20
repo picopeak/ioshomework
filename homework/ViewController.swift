@@ -989,10 +989,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         request.httpMethod = "GET"
         let session = URLSession.shared
         // print("Trying to get view state ...")
-        let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) in
             if (error != nil) {
                 print("viewstate error=\(error)")
-                completion(vs: nil, error: error)
+                completion(nil, error as NSError?)
                 return
             }
 
@@ -1002,7 +1002,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             if (data != nil) {
                 let vs = ViewController.extractViewState(data!)
                 // print("viewstate:", vs)
-                completion(vs: vs, error: nil)
+                completion(vs, nil)
             }
         }) 
         
@@ -1039,7 +1039,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
 
         let session = URLSession.shared
         print("Trying to login ...")
-        let task = session.dataTask(with: request, completionHandler: {
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
             data, response, error in
             
             if (error != nil) {
@@ -1052,8 +1052,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // print("Response code:", res.statusCode)
             
             // print("response = \(response)")
-            let dec: String.Encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let rawdata = NSString(data: data!, encoding: dec)
+            let dec: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+            let rawdata = NSString(data: data!, encoding: dec.rawValue)
             let hellomsg = rawdata as! String
             
             if (hellomsg.range(of: "您好！欢迎使用") == nil) {
@@ -1062,7 +1062,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                 DispatchQueue.main.async(execute: {
                     self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
                 });
-                completion(hellomsg: "", error: nil)
+                completion("", nil)
             } else {
                 let names = self.matchesForRegexInText(">([^>]*)\\(家长\\)", text: hellomsg)
                 self.name = names[0]
@@ -1075,7 +1075,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     self.FushanLabel.text = "福外作业 - " + self.name + " 🔵"
                     self.FushanLabel.setNeedsDisplay();
                 });
-                completion(hellomsg: hellomsg, error: nil)
+                completion(hellomsg, nil)
             }
         }) 
         task.resume()
@@ -1108,7 +1108,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         let session = URLSession.shared
         print("Trying to logout ...")
-        let task = session.dataTask(with: request, completionHandler: {
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
             data, response, error in
             
             if (error != nil) {
@@ -1121,8 +1121,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // print("Response code:", res.statusCode)
             
             // print("response = \(response)")
-            let dec: String.Encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let rawdata = NSString(data: data!, encoding: dec)
+            let dec: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+            let rawdata = NSString(data: data!, encoding: dec.rawValue)
             let hellomsg = rawdata as! String
             
             if (hellomsg.range(of: "用户名：") == nil) {
@@ -1178,7 +1178,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         
         let session = URLSession.shared
         // print("Trying to get homework data ...")
-        let task = session.dataTask(with: request, completionHandler: {
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
             data, response, error in
             
             if (error != nil) {
@@ -1190,18 +1190,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // let res = response as! NSHTTPURLResponse!
             // print("Response code:", res.statusCode)
             
-            let dec: String.Encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let rawdata = NSString(data: data!, encoding: dec)
+            let dec: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+            let rawdata = NSString(data: data!, encoding: dec.rawValue)
             let homework = rawdata as! String
             self.viewState = ViewController.extractViewState(data!)
             
             if (homework.range(of: "您当前查看的是") == nil) {
                 print("failed to obtain homework!")
-                completion(vs: self.viewState, date: toDate.getDateStr(), homework: "", error: nil)
+                completion(self.viewState, toDate.getDateStr(), "", nil)
             } else {
                 // print("rawdata = \(rawdata)")
                 // print("homework obtained!")
-                completion(vs: self.viewState, date: toDate.getDateStr(), homework: homework, error: nil)
+                completion(self.viewState, toDate.getDateStr(), homework, nil)
             }
         }) 
         task.resume()

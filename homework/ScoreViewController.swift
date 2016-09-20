@@ -310,7 +310,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         let session = URLSession.shared
         // print("Trying to get homework data ...")
-        let task = session.dataTask(with: request, completionHandler: {
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
             data, response, error in
             
             if (error != nil) {
@@ -324,8 +324,8 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             // let res = response as! NSHTTPURLResponse!
             // print("Response code:", res.statusCode)
             
-            let dec: String.Encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let rawdata = NSString(data: data!, encoding: dec)
+            let dec: String.Encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+            let rawdata = NSString(data: data!, encoding: dec.rawValue)
             let score = rawdata as! String
             self.viewState = ViewController.extractViewState(data!)
             
@@ -335,7 +335,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             } else {
                 // print("rawdata = \(rawdata)")
                 // print("homework obtained!")
-                completion(score: score, error: nil)
+                completion(score, nil)
             }
         }) 
         task.resume()
