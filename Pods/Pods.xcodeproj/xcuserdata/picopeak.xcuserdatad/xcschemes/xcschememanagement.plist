@@ -17,7 +17,7 @@
 		<key>Pods-homework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>SQLite.swift.xcscheme</key>
 		<dict>
