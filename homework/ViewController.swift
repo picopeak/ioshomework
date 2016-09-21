@@ -380,28 +380,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         let date_field = Expression<String>("date")
         let course_field = Expression<String>("course")
         let content_field = Expression<String>("content")
-   
         _ = try? db.run(hwtable.create(ifNotExists: true) { t in
             t.column(id_field, primaryKey: true)
             t.column(user_field)
             t.column(date_field)
             t.column(course_field)
             t.column(content_field)
-            })
-        
-        loadUserData()
-        DispatchQueue.main.async(execute: {
-            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
-            if (self.username == "" && self.username2 == "") {
-                self.presentLoginView()
-                return
-            }
-        });
-        
-        self.show_homework(self.currentDate, id: 1)
-        self.show_homework(self.currentDate.yesterday() ,id: 0)
-        self.show_homework(self.currentDate.tomorrow(), id: 2)
-        login_and_gethw()
+        })
     }
     
     func alertmsg(_ str :String) {
@@ -423,6 +408,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        loadUserData()
+        DispatchQueue.main.async(execute: {
+            self.FushanLabel.text = "福外作业 - " + self.name + " 🔴"
+            if (self.username == "" && self.username2 == "") {
+                self.presentLoginView()
+                return
+            }
+        });
+        
+        self.show_homework(self.currentDate, id: 1)
+        self.show_homework(self.currentDate.yesterday() ,id: 0)
+        self.show_homework(self.currentDate.tomorrow(), id: 2)
+        login_and_gethw()
     }
     
     override func didReceiveMemoryWarning() {
@@ -758,13 +756,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // frame.size = fittingSize;
             
             /* Solution 2 : */
-            // frame.size.height = webView.scrollView.contentSize.height;
+            frame.size.height = webView.scrollView.contentSize.height;
             
             /* Solution 3 : */
             // print(webView.stringByEvaluatingJavaScriptFromString("document.body.innerHTML"))
-            let heightStr :String = webView.stringByEvaluatingJavaScript(from: "document.height")!
-            let height :CGFloat = CGFloat(NumberFormatter().number(from: heightStr)!)
-            frame.size.height = height;
+            // let heightStr :String = webView.stringByEvaluatingJavaScript(from: "document.height")!
+            // let height :CGFloat = CGFloat(NumberFormatter().number(from: heightStr)!)
+            // frame.size.height = height;
             
             webView.frame = frame;
             print("webview height =", frame.size.height)

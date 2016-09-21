@@ -232,6 +232,7 @@
 					};
 					A92526061BBF806A000B3505 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = JMGY6MUGQ4;
 						LastSwiftMigration = 0800;
 						TestTargetID = A92525F21BBF806A000B3505;
 					};
@@ -517,6 +518,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JMGY6MUGQ4;
 				INFOPLIST_FILE = homeworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkTests;
@@ -530,6 +532,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JMGY6MUGQ4;
 				INFOPLIST_FILE = homeworkTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fushan.homeworkTests;
