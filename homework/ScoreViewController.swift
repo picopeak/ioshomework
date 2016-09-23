@@ -172,7 +172,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
             // cell.scoreData.layer.borderWidth = 1.0;
         } else {
             cell.scoreData.backgroundColor = UIColor(red: (CGFloat)(118.0/255.0), green: (CGFloat)(162.0/255.0), blue: (CGFloat)(201.0/255.0), alpha: 1.0)
-            cell.scoreData.textColor = UIColor.white
+            cell.scoreData.textColor = UIColor.black
             cell.scoreData.layer.borderWidth = 0
             cell.scoreData.layer.cornerRadius = 0
             // cell.scoreData.layer.borderWidth = 1.0;
