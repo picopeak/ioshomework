@@ -100,12 +100,11 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         
         scoreBtn.becomeFirstResponder()
 
-        /*
         if (oldisUser2) {
             userName2.becomeFirstResponder()
         } else {
             userName.becomeFirstResponder()
-        }*/
+        }
     }
 
     override func didReceiveMemoryWarning() {
