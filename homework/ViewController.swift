@@ -113,6 +113,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
         // Pass data into login View Controller
         let vc :LoginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login") as! LoginViewController
         vc.delegate = self
+        loadUserData()
         vc.updateInfo(self.username, password: self.password, username2: self.username2, password2: self.password2, isUser2: self.isUser2, isBigFont: self.isBigFont, name: self.name)
         self.present(vc, animated: false, completion: nil)
     }
@@ -158,6 +159,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     self.username = username
                     self.password = password
                     self.isBigFont = isBigFont
+                    storeUserData()
                     show_homework(self.currentDate, id: 1)
                     return
                 }
@@ -166,6 +168,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     self.username2 = username2
                     self.password2 = password2
                     self.isBigFont = isBigFont
+                    storeUserData()
                     show_homework(self.currentDate, id: 1)
                     return
                 }
