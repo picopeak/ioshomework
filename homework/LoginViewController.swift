@@ -99,12 +99,13 @@ class LoginViewController: UIViewController, ScoreViewControllerDelegate {
         fontSwitch.setOn(oldisBigFont, animated: false)
         
         scoreBtn.becomeFirstResponder()
-
+        
+        /*
         if (oldisUser2) {
             userName2.becomeFirstResponder()
         } else {
             userName.becomeFirstResponder()
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
