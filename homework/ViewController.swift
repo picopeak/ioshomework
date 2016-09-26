@@ -666,6 +666,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
                     URLCache.shared.memoryCapacity = 0
                     self.removeGuestureFromView(webview[i])
                     webview[i].loadHTMLString(enhance_html(tableData[i], isBigFont: isBigFont), baseURL: nil)
+                    webview[i].setNeedsLayout()
                 } else {
                     tableData[i] = ""
                     tableDataHeights[i] = 0.0
@@ -744,6 +745,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             // tv.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         }
         
+        func getJSval(_ webView :UIWebView, s: String) -> CGFloat {
+            let h_str :String = webView.stringByEvaluatingJavaScript(from: s)!
+            var h :CGFloat  = 0;
+            if (h_str != "") {
+                h = CGFloat(NumberFormatter().number(from: h_str)!);
+            }
+            return h;
+        }
+
         // Get the height of a webview. This is a very tricky implementation, but it works!
         func getWebviewHeight(_ webView: UIWebView) -> CGFloat {
             webView.scrollView.isScrollEnabled = false
@@ -755,17 +765,30 @@ class ViewController: UIViewController, UIScrollViewDelegate, LoginViewControlle
             webView.frame = frame
             
             /* Solution 1 : */
+            // This solution doesn't work at all!
             // let fittingSize :CGSize = webView.sizeThatFits(CGSizeZero);
             // frame.size = fittingSize;
             
             /* Solution 2 : */
-            frame.size.height = webView.scrollView.contentSize.height;
+            // This solution can't always work!
+            // frame.size.height = webView.scrollView.contentSize.height;
             
             /* Solution 3 : */
-            // print(webView.stringByEvaluatingJavaScriptFromString("document.body.innerHTML"))
+            // print(webView.stringByEvaluatingJavaScript(from: "document.body.innerHTML"))
+            // This solution crahses on ios10
             // let heightStr :String = webView.stringByEvaluatingJavaScript(from: "document.height")!
             // let height :CGFloat = CGFloat(NumberFormatter().number(from: heightStr)!)
-            // frame.size.height = height;
+            
+            /* Solution 4 : */
+            // This solution works on ios10
+            let height :CGFloat = max(
+                getJSval(webView, s: "document.height"),
+                getJSval(webView, s: "document.body.scrollHeight"),
+                getJSval(webView, s: "document.body.offsetHeight"),
+                getJSval(webView, s: "document.documentElement.clientHeight"),
+                getJSval(webView, s: "document.documentElement.scrollHeight"),
+                getJSval(webView, s: "document.documentElement.offsetHeight"));
+            frame.size.height = height;
             
             webView.frame = frame;
             print("webview height =", frame.size.height)
