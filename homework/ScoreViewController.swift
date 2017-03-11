@@ -92,7 +92,7 @@ class ScoreViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         // Do any additional setup after loading the view.
         NumOfScore = 1
-        downloadScore()
+        // downloadScore()
     }
 
     func createScoreRecords(_ user :String) {
